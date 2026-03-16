@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OlyLife 產品訂購單</title>
+  <title>OlyLife 訂單系統</title>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -15,33 +15,8 @@
       background: linear-gradient(135deg, #fdf6ec 0%, #fef9f2 50%, #fdf0e0 100%);
       min-height: 100vh;
     }
-    .product-card { transition: all 0.2s ease; cursor: pointer; }
-    .product-card:hover { transform: translateY(-2px); }
-    .product-card.selected {
-      background: linear-gradient(135deg, #92400e, #b45309) !important;
-      color: white !important;
-      box-shadow: 0 8px 24px rgba(146,64,14,0.25);
-      border-color: transparent !important;
-    }
-    .product-card.selected .prod-price,
-    .product-card.selected .prod-note { color: rgba(255,255,255,0.85) !important; }
-    .step-btn { transition: all 0.2s; font-family: 'Noto Serif TC', serif; }
-    .step-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(146,64,14,0.3); }
-    .pos-section { border-left: 3px solid #d97706; padding-left: 16px; margin-bottom: 24px; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
     .fade-in { animation: fadeIn 0.35s ease; }
-    .line-output {
-      font-family: monospace;
-      background: #1c1c1c;
-      color: #e8d5b0;
-      border-radius: 16px;
-      padding: 20px;
-      white-space: pre-wrap;
-      font-size: 13px;
-      line-height: 1.8;
-      max-height: 380px;
-      overflow-y: auto;
-    }
     input, textarea {
       width: 100%;
       border: 1px solid #e8d5b0;
@@ -54,10 +29,7 @@
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    input:focus, textarea:focus {
-      border-color: #d97706;
-      box-shadow: 0 0 0 3px rgba(217,119,6,0.15);
-    }
+    input:focus, textarea:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
     textarea { resize: none; }
     label {
       display: block;
@@ -68,82 +40,239 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+    .product-card { transition: all 0.2s ease; cursor: pointer; }
+    .product-card:hover { transform: translateY(-2px); }
+    .product-card.selected {
+      background: linear-gradient(135deg, #92400e, #b45309) !important;
+      color: white !important;
+      box-shadow: 0 8px 24px rgba(146,64,14,0.25);
+      border-color: transparent !important;
+    }
+    .product-card.selected .prod-price,
+    .product-card.selected .prod-note { color: rgba(255,255,255,0.85) !important; }
+    .pos-section { border-left: 3px solid #d97706; padding-left: 16px; margin-bottom: 24px; }
+    .step-btn { transition: all 0.2s; font-family: 'Noto Serif TC', serif; }
+    .step-btn:hover:not(:disabled) { transform: translateY(-1px); }
+    .line-output {
+      font-family: monospace;
+      background: #1c1c1c;
+      color: #e8d5b0;
+      border-radius: 16px;
+      padding: 20px;
+      white-space: pre-wrap;
+      font-size: 13px;
+      line-height: 1.8;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+    .home-card {
+      cursor: pointer;
+      border-radius: 20px;
+      padding: 22px 20px;
+      border: 1.5px solid #e8d5b0;
+      background: rgba(255,255,255,0.9);
+      transition: all 0.22s ease;
+    }
+    .home-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(146,64,14,0.14);
+      border-color: #d97706;
+    }
   </style>
 </head>
 <body>
-  <div id="root"></div>
+<div id="root"></div>
 
-  <script type="text/babel">
-    const { useState } = React;
+<script type="text/babel">
+  const { useState } = React;
 
-    const PRODUCTS = [
-      { id: "p90",      name: "P90",            price: 1000, emoji: "⚡" },
-      { id: "p90plus",  name: "P90 Plus",        price: 2000, emoji: "✨" },
-      { id: "shaken",   name: "甩脂儀 Shaken",   price: 1000, emoji: "🔥" },
-      { id: "g1",       name: "護眼儀 G1",        price: 500,  emoji: "👁️", note: "兩組，送葉黃素" },
-      { id: "hydro",    name: "氫霸杯",           price: 600,  emoji: "💧" },
-      { id: "a9",       name: "A9 空氣淨化儀",    price: 600,  emoji: "🌿" },
-      { id: "slyline",  name: "雲感衛生棉 SlyLine", price: 500, emoji: "🌸" },
-      { id: "miniblow", name: "小神吹",           price: 600,  emoji: "💨" },
-    ];
+  /* ─────────────────────────────────────────
+     CONSTANTS
+  ───────────────────────────────────────── */
+  const PRODUCTS = [
+    { id:"p90",      name:"P90",               price:1000, emoji:"⚡" },
+    { id:"p90plus",  name:"P90 Plus",           price:2000, emoji:"✨" },
+    { id:"shaken",   name:"甩脂儀 Shaken",      price:1000, emoji:"🔥" },
+    { id:"g1",       name:"護眼儀 G1",           price:500,  emoji:"👁️", note:"兩組，送葉黃素" },
+    { id:"hydro",    name:"氫霸杯",              price:600,  emoji:"💧" },
+    { id:"a9",       name:"A9 空氣淨化儀",       price:600,  emoji:"🌿" },
+    { id:"slyline",  name:"雲感衛生棉 SlyLine",  price:500,  emoji:"🌸" },
+    { id:"miniblow", name:"小神吹",              price:600,  emoji:"💨" },
+  ];
+  const POSITIONS = [
+    { key:"main",  label:"主球", icon:"⬆️", desc:"您的主要入單位置" },
+    { key:"left",  label:"左球", icon:"↙️", desc:"主球左側下線" },
+    { key:"right", label:"右球", icon:"↘️", desc:"主球右側下線" },
+  ];
+  const MIN = 1000;
 
-    const POSITIONS = [
-      { key: "main",  label: "主球", icon: "⬆️", desc: "您的主要入單位置" },
-      { key: "left",  label: "左球", icon: "↙️", desc: "主球左側下線" },
-      { key: "right", label: "右球", icon: "↘️", desc: "主球右側下線" },
-    ];
+  /* ─────────────────────────────────────────
+     SHARED UI COMPONENTS
+  ───────────────────────────────────────── */
+  const Card = ({children}) => (
+    <div style={{
+      maxWidth:520, margin:"0 auto",
+      background:"rgba(255,255,255,0.88)", borderRadius:24,
+      boxShadow:"0 20px 60px rgba(146,64,14,0.12)",
+      padding:"28px 24px", border:"1px solid rgba(217,119,6,0.15)",
+    }}>{children}</div>
+  );
 
-    const STEPS = ["產品選擇", "個人資料", "付款方式", "收貨資訊", "確認訂單"];
+  const PrimaryBtn = ({onClick, disabled, children, green}) => (
+    <button onClick={onClick} disabled={disabled} className="step-btn" style={{
+      flex:2, padding:"15px", borderRadius:14, border:"none",
+      background: disabled ? "#e8d5b0"
+        : green ? "linear-gradient(135deg,#15803d,#16a34a)"
+        : "linear-gradient(135deg,#92400e,#b45309)",
+      color: disabled ? "#a16207" : "white",
+      fontWeight:700, fontSize:"0.95rem",
+      cursor: disabled ? "not-allowed" : "pointer",
+      boxShadow: disabled ? "none" : "0 6px 20px rgba(146,64,14,0.22)",
+      fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s",
+    }}>{children}</button>
+  );
 
-    const emptyForm = {
-      positions: { main: null, left: null, right: null },
-      name: "", idNumber: "", email: "", phone: "", postalCode: "", address: "",
-      payMethod: "transfer",
-      cardNumber: "", cardName: "", cardExpiry: "", cardCVV: "",
-      sameAsPersonal: true,
-      shipName: "", shipId: "", shipPhone: "", shipAddress: "",
-      ezway: "",
-      remarks: "",
+  const SecondaryBtn = ({onClick, children}) => (
+    <button onClick={onClick} className="step-btn" style={{
+      flex:1, padding:"15px", borderRadius:14,
+      border:"1px solid #e8d5b0", background:"white",
+      color:"#78350f", fontWeight:600, fontSize:"0.9rem", cursor:"pointer",
+      fontFamily:"'Noto Serif TC',serif",
+    }}>{children}</button>
+  );
+
+  const CopyBtn = ({getText}) => {
+    const [copied, setCopied] = useState(false);
+    return (
+      <button onClick={() => {
+        navigator.clipboard.writeText(getText()).then(() => {
+          setCopied(true); setTimeout(()=>setCopied(false),2500);
+        });
+      }} style={{
+        width:"100%", marginTop:16, padding:"15px", borderRadius:14, border:"none",
+        background: copied
+          ? "linear-gradient(135deg,#15803d,#16a34a)"
+          : "linear-gradient(135deg,#92400e,#b45309)",
+        color:"white", fontWeight:700, fontSize:"1rem", cursor:"pointer",
+        boxShadow:"0 6px 20px rgba(146,64,14,0.28)", transition:"all 0.3s",
+        fontFamily:"'Noto Serif TC',serif",
+      }}>
+        {copied ? "✅ 已複製！貼到 LINE 吧" : "📋 一鍵複製 LINE 格式"}
+      </button>
+    );
+  };
+
+  const ResetBtn = ({onClick}) => (
+    <button onClick={onClick} style={{
+      width:"100%", marginTop:10, padding:"12px", borderRadius:14,
+      border:"1px solid #e8d5b0", background:"white",
+      color:"#78350f", fontWeight:600, fontSize:"0.9rem", cursor:"pointer",
+      fontFamily:"'Noto Serif TC',serif",
+    }}>🔄 重新操作</button>
+  );
+
+  const StepBar = ({steps, current}) => (
+    <>
+      <div style={{maxWidth:520, margin:"0 auto 8px", display:"flex", alignItems:"center"}}>
+        {steps.map((s,i) => (
+          <React.Fragment key={i}>
+            <div style={{
+              width:32, height:32, borderRadius:"50%",
+              display:"flex", alignItems:"center", justifyContent:"center",
+              fontSize:"0.72rem", fontWeight:700, flexShrink:0,
+              background: i<current ? "#b45309" : i===current ? "#92400e" : "#e8d5b0",
+              color: i<=current ? "white" : "#a16207",
+              boxShadow: i===current ? "0 0 0 4px rgba(146,64,14,0.18)" : "none",
+              transition:"all 0.3s",
+            }}>{i<current ? "✓" : i+1}</div>
+            {i<steps.length-1 && (
+              <div style={{
+                flex:1, height:2, margin:"0 3px",
+                background: i<current ? "#b45309" : "#e8d5b0",
+                transition:"background 0.3s",
+              }}/>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+      <div style={{maxWidth:520, margin:"0 auto 20px", textAlign:"center"}}>
+        <span style={{color:"#92400e", fontWeight:600, fontSize:"0.88rem"}}>{steps[current]}</span>
+      </div>
+    </>
+  );
+
+  const InfoBox = ({color, children}) => {
+    const colors = {
+      yellow: {bg:"#fef3c7", border:"#fcd34d", text:"#92400e"},
+      red:    {bg:"#fee2e2", border:"#fca5a5", text:"#dc2626"},
+      green:  {bg:"#f0fdf4", border:"#86efac", text:"#15803d"},
     };
+    const c = colors[color] || colors.yellow;
+    return (
+      <div style={{
+        padding:"12px 16px", borderRadius:12, marginBottom:18,
+        background:c.bg, border:`1px solid ${c.border}`,
+        fontSize:"0.82rem", color:c.text, lineHeight:1.7,
+      }}>{children}</div>
+    );
+  };
 
-    function App() {
-      const [step, setStep] = useState(0);
-      const [form, setForm] = useState(emptyForm);
-      const [copied, setCopied] = useState(false);
+  /* ─────────────────────────────────────────
+     MODE 1 — 新訂單
+  ───────────────────────────────────────── */
+  const emptyNew = {
+    positions:{main:[],left:[],right:[]},
+    name:"", idNumber:"", email:"", phone:"", postalCode:"", address:"",
+    payMethod:"transfer",
+    cardNumber:"", cardName:"", cardExpiry:"", cardCVV:"",
+    sameAsPersonal:true,
+    shipName:"", shipId:"", shipPhone:"", shipAddress:"",
+    ezway:"", remarks:"",
+  };
 
-      const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
-      const setPos = (pos, productId) =>
-        setForm(f => ({
-          ...f,
-          positions: {
-            ...f.positions,
-            [pos]: f.positions[pos] === productId ? null : productId
-          },
-        }));
+  function NewOrder({onBack}) {
+    const [step, setStep] = useState(0);
+    const [form, setForm] = useState(emptyNew);
+    const set = (k,v) => setForm(f=>({...f,[k]:v}));
 
-      const selectedProducts = POSITIONS.map(p => ({
-        pos: p,
-        product: PRODUCTS.find(pr => pr.id === form.positions[p.key]),
-      })).filter(x => x.product);
+    const togglePos = (pos, id) => setForm(f => {
+      const cur = f.positions[pos];
+      return {...f, positions:{...f.positions,
+        [pos]: cur.includes(id) ? cur.filter(x=>x!==id) : [...cur,id]
+      }};
+    });
 
-      const total = selectedProducts.reduce((s, x) => s + x.product.price, 0);
+    const posTotal = pk => form.positions[pk].reduce((s,id)=>{
+      const p = PRODUCTS.find(pr=>pr.id===id); return s+(p?p.price:0);
+    },0);
 
-      const generateLine = () => {
-        const posLine = POSITIONS.map(p => {
-          const prod = PRODUCTS.find(pr => pr.id === form.positions[p.key]);
-          return `${p.label}：${prod ? `${prod.name}（$${prod.price}）` : "（未選擇）"}`;
-        }).join("\n");
+    const total = POSITIONS.reduce((s,p)=>s+posTotal(p.key),0);
 
-        const paySection = form.payMethod === "transfer"
-          ? `▶️ 匯款信息\n中國信託(822) 台中南屯分行\n匯款帳號：045540435682\n戶名：鄒震宇\n（備註欄空白，方便對帳）`
-          : `▶️ 刷卡資訊\n信用卡號：${form.cardNumber}\n持卡人英文姓名：${form.cardName}\n有效期限（mm/yy）：${form.cardExpiry}\n安全碼：${form.cardCVV}`;
+    const posOk = () =>
+      form.positions.main.length>0 &&
+      POSITIONS.every(p => form.positions[p.key].length===0 || posTotal(p.key)>=MIN);
 
-        const shipName    = form.sameAsPersonal ? form.name      : form.shipName;
-        const shipId      = form.sameAsPersonal ? form.idNumber  : form.shipId;
-        const shipPhone   = form.sameAsPersonal ? form.phone     : form.shipPhone;
-        const shipAddress = form.sameAsPersonal ? form.address   : form.shipAddress;
+    const generateLine = () => {
+      const posLine = POSITIONS.map(p=>{
+        const ids = form.positions[p.key];
+        if(!ids.length) return `${p.label}：（未選擇）`;
+        const items = ids.map(id=>{
+          const pr=PRODUCTS.find(r=>r.id===id);
+          return `${pr.name}（$${pr.price}）`;
+        }).join("、");
+        return `${p.label}：${items}  小計 $${posTotal(p.key).toLocaleString()}`;
+      }).join("\n");
 
-        return `🌟 OlyLife 訂購資料
+      const pay = form.payMethod==="transfer"
+        ? `▶️ 匯款信息\n中國信託(822) 台中南屯分行\n匯款帳號：045540435682\n戶名：鄒震宇\n（備註欄空白，方便對帳）`
+        : `▶️ 刷卡資訊\n信用卡號：${form.cardNumber}\n持卡人英文姓名：${form.cardName}\n有效期限（mm/yy）：${form.cardExpiry}\n安全碼：${form.cardCVV}`;
+
+      const sn = form.sameAsPersonal?form.name:form.shipName;
+      const si = form.sameAsPersonal?form.idNumber:form.shipId;
+      const sp = form.sameAsPersonal?form.phone:form.shipPhone;
+      const sa = form.sameAsPersonal?form.address:form.shipAddress;
+
+      return `🌟 OlyLife 訂購資料
 
 ▶️ 中文姓名：${form.name}
 ▶️ 身分證字號：${form.idNumber}
@@ -155,396 +284,522 @@
 ▶️ 產品選擇（合計 $${total.toLocaleString()}）
 ${posLine}
 
-${paySection}
+${pay}
 
 ▶️ 收貨資訊
-姓名：${shipName}
-身分證號：${shipId}
-電話：${shipPhone}
-地址：${shipAddress}
+姓名：${sn}
+身分證號：${si}
+電話：${sp}
+地址：${sa}
 
-▶️ 有無申請 EZway：${form.ezway || "未填"}
+▶️ 有無申請 EZway：${form.ezway||"未填"}
 （申請 EZway 資料，務必和收貨資訊相同）
-${form.remarks ? `\n▶️ 備註：${form.remarks}` : ""}
-${form.payMethod === "transfer" ? "\n匯款帳號末五碼：__________" : ""}
+${form.remarks?`\n▶️ 備註：${form.remarks}`:""}
+${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n▶️ 匯款時間：（待填）":"\n▶️ 刷卡金額：（待填）"}
+
 以下客戶免填
 ▶️ 推薦人 + 編號：
 ▶️ 安置人 + 編號：`;
-      };
+    };
 
-      const copyLine = () => {
-        navigator.clipboard.writeText(generateLine()).then(() => {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 2500);
-        });
-      };
+    const canNext = () => {
+      if(step===0) return posOk();
+      if(step===1) return form.name&&form.idNumber&&form.email&&form.phone&&form.address;
+      if(step===2) return form.payMethod==="transfer" ||
+        (form.cardNumber&&form.cardName&&form.cardExpiry&&form.cardCVV);
+      if(step===3) return form.sameAsPersonal ||
+        (form.shipName&&form.shipId&&form.shipPhone&&form.shipAddress);
+      return true;
+    };
 
-      const canNext = () => {
-        if (step === 0) return selectedProducts.length > 0;
-        if (step === 1) return form.name && form.idNumber && form.email && form.phone && form.address;
-        if (step === 2) {
-          if (form.payMethod === "card")
-            return form.cardNumber && form.cardName && form.cardExpiry && form.cardCVV;
-          return true;
-        }
-        if (step === 3) {
-          if (!form.sameAsPersonal)
-            return form.shipName && form.shipId && form.shipPhone && form.shipAddress;
-          return true;
-        }
-        return true;
-      };
+    return (
+      <div className="fade-in">
+        <StepBar steps={["產品選擇","個人資料","付款方式","收貨資訊","確認訂單"]} current={step}/>
+        <Card>
 
-      // ── Styles ──────────────────────────────────────
-      const card = {
-        maxWidth: 520,
-        margin: "0 auto",
-        background: "rgba(255,255,255,0.88)",
-        borderRadius: 24,
-        boxShadow: "0 20px 60px rgba(146,64,14,0.12)",
-        padding: "28px 24px",
-        backdropFilter: "blur(10px)",
-        border: "1px solid rgba(217,119,6,0.15)",
-      };
-
-      const primaryBtn = (active) => ({
-        flex: 2, padding: "15px", borderRadius: 14, border: "none",
-        background: active ? "linear-gradient(135deg, #92400e, #b45309)" : "#e8d5b0",
-        color: active ? "white" : "#a16207",
-        fontWeight: 700, fontSize: "0.95rem",
-        cursor: active ? "pointer" : "not-allowed",
-        boxShadow: active ? "0 6px 20px rgba(146,64,14,0.25)" : "none",
-        fontFamily: "'Noto Serif TC', serif", transition: "all 0.2s",
-      });
-
-      return (
-        <div style={{ padding: "32px 16px 60px" }}>
-
-          {/* Header */}
-          <div style={{ maxWidth: 520, margin: "0 auto 28px", textAlign: "center" }}>
-            <div style={{ fontSize: 40, marginBottom: 6 }}>🌟</div>
-            <h1 style={{ fontSize: "1.55rem", fontWeight: 700, color: "#78350f", letterSpacing: "0.05em" }}>
-              OlyLife 產品訂購單
-            </h1>
-            <p style={{ color: "#a16207", fontSize: "0.83rem", marginTop: 4 }}>
-              填寫完成後一鍵生成 LINE 格式
-            </p>
-          </div>
-
-          {/* Step Indicator */}
-          <div style={{ maxWidth: 520, margin: "0 auto 8px", display: "flex", alignItems: "center" }}>
-            {STEPS.map((s, i) => (
-              <React.Fragment key={i}>
-                <div style={{
-                  width: 32, height: 32, borderRadius: "50%",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "0.72rem", fontWeight: 700, flexShrink: 0,
-                  background: i < step ? "#b45309" : i === step ? "#92400e" : "#e8d5b0",
-                  color: i <= step ? "white" : "#a16207",
-                  boxShadow: i === step ? "0 0 0 4px rgba(146,64,14,0.18)" : "none",
-                  transition: "all 0.3s",
-                }}>
-                  {i < step ? "✓" : i + 1}
-                </div>
-                {i < STEPS.length - 1 && (
-                  <div style={{
-                    flex: 1, height: 2,
-                    background: i < step ? "#b45309" : "#e8d5b0",
-                    transition: "background 0.3s", margin: "0 3px",
-                  }} />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-          <div style={{ maxWidth: 520, margin: "0 auto 20px", textAlign: "center" }}>
-            <span style={{ color: "#92400e", fontWeight: 600, fontSize: "0.88rem" }}>{STEPS[step]}</span>
-          </div>
-
-          {/* Main Card */}
-          <div className="fade-in" style={card}>
-
-            {/* ── STEP 0: Product Selection ── */}
-            {step === 0 && (
-              <div>
-                <p style={{ color: "#78350f", fontSize: "0.84rem", marginBottom: 20, lineHeight: 1.7 }}>
-                  請為每個位置選擇一項產品。主球為必選，左球和右球可視情況選填。
-                </p>
-                {POSITIONS.map(pos => (
-                  <div key={pos.key} className="pos-section">
-                    <div style={{ marginBottom: 10 }}>
-                      <span style={{ fontSize: "1rem", fontWeight: 700, color: "#78350f" }}>
-                        {pos.icon} {pos.label}
-                      </span>
-                      <span style={{ fontSize: "0.73rem", color: "#a16207", marginLeft: 8 }}>{pos.desc}</span>
+          {/* STEP 0 — Products */}
+          {step===0 && (
+            <div>
+              <p style={{color:"#78350f",fontSize:"0.84rem",marginBottom:20,lineHeight:1.7}}>
+                每個位置可選多項產品，金額自動加總。主球必填，左右球可視情況選填。
+                <strong style={{color:"#b45309"}}> 每個球位最低 $1,000。</strong>
+              </p>
+              {POSITIONS.map(pos=>{
+                const sub=posTotal(pos.key);
+                const hasSel=form.positions[pos.key].length>0;
+                const low=hasSel&&sub<MIN;
+                return (
+                  <div key={pos.key} className="pos-section"
+                    style={{borderLeftColor:low?"#ef4444":"#d97706"}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                      <div>
+                        <span style={{fontSize:"1rem",fontWeight:700,color:"#78350f"}}>{pos.icon} {pos.label}</span>
+                        <span style={{fontSize:"0.73rem",color:"#a16207",marginLeft:8}}>{pos.desc}</span>
+                      </div>
+                      {hasSel&&(
+                        <div style={{
+                          fontSize:"0.79rem",fontWeight:700,padding:"3px 10px",borderRadius:20,whiteSpace:"nowrap",
+                          background:low?"#fee2e2":"#fef3c7",
+                          color:low?"#dc2626":"#92400e",
+                          border:`1px solid ${low?"#fca5a5":"#fcd34d"}`,
+                        }}>
+                          {low?`⚠️ $${sub.toLocaleString()} / 未達$1,000`:`✓ $${sub.toLocaleString()}`}
+                        </div>
+                      )}
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                      {PRODUCTS.map(prod => {
-                        const sel = form.positions[pos.key] === prod.id;
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+                      {PRODUCTS.map(prod=>{
+                        const sel=form.positions[pos.key].includes(prod.id);
                         return (
-                          <div
-                            key={prod.id}
-                            onClick={() => setPos(pos.key, prod.id)}
-                            className={`product-card${sel ? " selected" : ""}`}
-                            style={{
-                              border: "1px solid #e8d5b0",
-                              borderRadius: 12, padding: "10px 12px",
-                              background: "white", color: "#78350f",
-                            }}
-                          >
-                            <div style={{ fontSize: "1.1rem", marginBottom: 2 }}>{prod.emoji}</div>
-                            <div style={{ fontSize: "0.78rem", fontWeight: 600, lineHeight: 1.35 }}>{prod.name}</div>
-                            {prod.note && (
-                              <div className="prod-note" style={{ fontSize: "0.65rem", color: "#a16207", marginTop: 2 }}>
-                                {prod.note}
-                              </div>
-                            )}
-                            <div className="prod-price" style={{ fontSize: "0.85rem", fontWeight: 700, marginTop: 5, color: "#92400e" }}>
-                              ${prod.price.toLocaleString()}
-                            </div>
+                          <div key={prod.id} onClick={()=>togglePos(pos.key,prod.id)}
+                            className={`product-card${sel?" selected":""}`}
+                            style={{border:"1px solid #e8d5b0",borderRadius:12,padding:"10px 12px",
+                              background:"white",color:"#78350f",position:"relative"}}>
+                            {sel&&<div style={{
+                              position:"absolute",top:6,right:6,width:18,height:18,borderRadius:"50%",
+                              background:"rgba(255,255,255,0.3)",display:"flex",
+                              alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,
+                            }}>✓</div>}
+                            <div style={{fontSize:"1.1rem",marginBottom:2}}>{prod.emoji}</div>
+                            <div style={{fontSize:"0.78rem",fontWeight:600,lineHeight:1.35}}>{prod.name}</div>
+                            {prod.note&&<div className="prod-note" style={{fontSize:"0.65rem",color:"#a16207",marginTop:2}}>{prod.note}</div>}
+                            <div className="prod-price" style={{fontSize:"0.85rem",fontWeight:700,marginTop:5,color:"#92400e"}}>${prod.price.toLocaleString()}</div>
                           </div>
                         );
                       })}
                     </div>
+                    {low&&<p style={{marginTop:8,fontSize:"0.75rem",color:"#dc2626"}}>⚠️ 此球位不足 $1,000，請再加選產品。</p>}
                   </div>
-                ))}
-                {selectedProducts.length > 0 && (
-                  <div style={{ marginTop: 8, padding: "14px 16px", background: "#fef3c7", borderRadius: 14, border: "1px solid #fcd34d" }}>
-                    <div style={{ fontSize: "0.78rem", color: "#92400e", fontWeight: 700, marginBottom: 6 }}>已選產品</div>
-                    {selectedProducts.map(x => (
-                      <div key={x.pos.key} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", color: "#78350f", marginBottom: 3 }}>
-                        <span>{x.pos.label}：{x.product.name}</span>
-                        <span>${x.product.price.toLocaleString()}</span>
+                );
+              })}
+              {POSITIONS.some(p=>form.positions[p.key].length>0)&&(
+                <div style={{padding:"14px 16px",background:"#fef3c7",borderRadius:14,border:"1px solid #fcd34d"}}>
+                  <div style={{fontSize:"0.78rem",color:"#92400e",fontWeight:700,marginBottom:8}}>訂單總覽</div>
+                  {POSITIONS.map(p=>{
+                    const ids=form.positions[p.key];
+                    if(!ids.length) return null;
+                    return (
+                      <div key={p.key} style={{marginBottom:6}}>
+                        <div style={{fontSize:"0.78rem",color:"#78350f",fontWeight:600,marginBottom:2}}>{p.icon} {p.label}</div>
+                        {ids.map(id=>{
+                          const pr=PRODUCTS.find(r=>r.id===id);
+                          return <div key={id} style={{display:"flex",justifyContent:"space-between",fontSize:"0.78rem",color:"#92400e",paddingLeft:12}}>
+                            <span>{pr.name}</span><span>${pr.price.toLocaleString()}</span>
+                          </div>;
+                        })}
+                        <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.78rem",fontWeight:600,color:"#78350f",paddingLeft:12,marginTop:2}}>
+                          <span>小計</span><span>${posTotal(p.key).toLocaleString()}</span>
+                        </div>
                       </div>
-                    ))}
-                    <div style={{ borderTop: "1px solid #fcd34d", marginTop: 8, paddingTop: 8, display: "flex", justifyContent: "space-between", fontWeight: 700, color: "#78350f" }}>
-                      <span>合計</span><span>${total.toLocaleString()}</span>
-                    </div>
+                    );
+                  })}
+                  <div style={{borderTop:"1px solid #fcd34d",marginTop:8,paddingTop:8,display:"flex",justifyContent:"space-between",fontWeight:700,color:"#78350f",fontSize:"0.9rem"}}>
+                    <span>訂單合計</span><span>${total.toLocaleString()}</span>
                   </div>
-                )}
-              </div>
-            )}
-
-            {/* ── STEP 1: Personal Info ── */}
-            {step === 1 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {[
-                  { key: "name",       label: "中文姓名",   placeholder: "請輸入真實姓名" },
-                  { key: "idNumber",   label: "身分證字號", placeholder: "A123456789" },
-                  { key: "email",      label: "電子郵箱",   placeholder: "example@email.com", type: "email" },
-                  { key: "phone",      label: "手機號碼",   placeholder: "09xxxxxxxx",         type: "tel" },
-                  { key: "postalCode", label: "郵遞區號",   placeholder: "例：407" },
-                  { key: "address",    label: "地址",       placeholder: "縣市 / 區 / 街道門號" },
-                ].map(f => (
-                  <div key={f.key}>
-                    <label>{f.label}</label>
-                    <input
-                      type={f.type || "text"}
-                      placeholder={f.placeholder}
-                      value={form[f.key]}
-                      onChange={e => set(f.key, e.target.value)}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* ── STEP 2: Payment ── */}
-            {step === 2 && (
-              <div>
-                <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
-                  {[{ val: "transfer", label: "🏦 匯款" }, { val: "card", label: "💳 刷卡" }].map(opt => (
-                    <button
-                      key={opt.val}
-                      onClick={() => set("payMethod", opt.val)}
-                      style={{
-                        flex: 1, padding: "14px", borderRadius: 14, fontWeight: 600, fontSize: "0.9rem",
-                        border: form.payMethod === opt.val ? "none" : "2px solid #e8d5b0",
-                        background: form.payMethod === opt.val
-                          ? "linear-gradient(135deg, #92400e, #b45309)"
-                          : "white",
-                        color: form.payMethod === opt.val ? "white" : "#78350f",
-                        cursor: "pointer", transition: "all 0.2s",
-                        boxShadow: form.payMethod === opt.val ? "0 6px 20px rgba(146,64,14,0.25)" : "none",
-                        fontFamily: "'Noto Serif TC', serif",
-                      }}
-                    >{opt.label}</button>
-                  ))}
                 </div>
-
-                {form.payMethod === "transfer" && (
-                  <div style={{ padding: "16px 20px", background: "#fef3c7", borderRadius: 14, border: "1px solid #fcd34d" }}>
-                    <div style={{ fontWeight: 700, color: "#78350f", marginBottom: 10 }}>匯款帳戶資訊</div>
-                    <div style={{ fontSize: "0.85rem", color: "#92400e", lineHeight: 2.1 }}>
-                      中國信託 (822) 台中南屯分行<br />
-                      帳號：045540435682<br />
-                      戶名：鄒震宇<br />
-                      <span style={{ fontSize: "0.75rem", color: "#a16207" }}>⚠️ 備註欄請空白，方便對帳</span>
-                    </div>
-                  </div>
-                )}
-
-                {form.payMethod === "card" && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                    <div style={{ fontSize: "0.75rem", color: "#a16207", padding: "10px 14px", background: "#fef3c7", borderRadius: 10, lineHeight: 1.6 }}>
-                      💡 匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。
-                    </div>
-                    {[
-                      { key: "cardNumber", label: "信用卡號",          placeholder: "XXXX XXXX XXXX XXXX" },
-                      { key: "cardName",   label: "持卡人英文姓名",    placeholder: "如信用卡上所示" },
-                      { key: "cardExpiry", label: "有效期限 (mm/yy)", placeholder: "MM/YY" },
-                      { key: "cardCVV",    label: "安全碼（卡背三位數）", placeholder: "CVV" },
-                    ].map(f => (
-                      <div key={f.key}>
-                        <label>{f.label}</label>
-                        <input placeholder={f.placeholder} value={form[f.key]} onChange={e => set(f.key, e.target.value)} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ── STEP 3: Shipping ── */}
-            {step === 3 && (
-              <div>
-                <div
-                  onClick={() => set("sameAsPersonal", !form.sameAsPersonal)}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 10, cursor: "pointer",
-                    padding: "14px 16px",
-                    background: form.sameAsPersonal ? "#fef3c7" : "white",
-                    borderRadius: 14, border: "1px solid #e8d5b0", marginBottom: 20,
-                    transition: "all 0.2s",
-                  }}
-                >
-                  <div style={{
-                    width: 22, height: 22, borderRadius: 6,
-                    border: "2px solid #b45309",
-                    background: form.sameAsPersonal ? "#b45309" : "white",
-                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                  }}>
-                    {form.sameAsPersonal && <span style={{ color: "white", fontSize: 13, lineHeight: 1 }}>✓</span>}
-                  </div>
-                  <span style={{ fontSize: "0.85rem", color: "#78350f", fontWeight: 600 }}>
-                    收貨資訊與個人資料相同
-                  </span>
-                </div>
-
-                {!form.sameAsPersonal && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 20 }}>
-                    {[
-                      { key: "shipName",    label: "收件人姓名",     placeholder: "" },
-                      { key: "shipId",      label: "收件人身分證號", placeholder: "" },
-                      { key: "shipPhone",   label: "收件人電話",     placeholder: "" },
-                      { key: "shipAddress", label: "收件地址",       placeholder: "" },
-                    ].map(f => (
-                      <div key={f.key}>
-                        <label>{f.label}</label>
-                        <input placeholder={f.placeholder} value={form[f.key]} onChange={e => set(f.key, e.target.value)} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div style={{ marginBottom: 16 }}>
-                  <label>有無申請 EZway</label>
-                  <div style={{ display: "flex", gap: 10 }}>
-                    {["有", "無", "申請中"].map(v => (
-                      <button key={v} onClick={() => set("ezway", v)} style={{
-                        flex: 1, padding: "10px", borderRadius: 10, fontSize: "0.85rem", fontWeight: 600,
-                        border: form.ezway === v ? "none" : "1px solid #e8d5b0",
-                        background: form.ezway === v
-                          ? "linear-gradient(135deg, #92400e, #b45309)"
-                          : "white",
-                        color: form.ezway === v ? "white" : "#78350f",
-                        cursor: "pointer", transition: "all 0.2s",
-                        fontFamily: "'Noto Serif TC', serif",
-                      }}>{v}</button>
-                    ))}
-                  </div>
-                  <p style={{ fontSize: "0.7rem", color: "#a16207", marginTop: 6 }}>
-                    申請 EZway 資料務必與收貨資訊相同
-                  </p>
-                </div>
-
-                <div>
-                  <label>備註</label>
-                  <textarea
-                    rows={3}
-                    placeholder="其他需要說明的事項…"
-                    value={form.remarks}
-                    onChange={e => set("remarks", e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* ── STEP 4: Confirm ── */}
-            {step === 4 && (
-              <div>
-                <p style={{ fontSize: "0.84rem", color: "#78350f", marginBottom: 16, lineHeight: 1.7 }}>
-                  ✅ 所有資料已填寫完成！以下是生成的 LINE 格式，複製後直接貼入 LINE 即可。
-                </p>
-                <div className="line-output">{generateLine()}</div>
-                <button
-                  onClick={copyLine}
-                  style={{
-                    width: "100%", marginTop: 16, padding: "15px", borderRadius: 14, border: "none",
-                    background: copied
-                      ? "linear-gradient(135deg, #15803d, #16a34a)"
-                      : "linear-gradient(135deg, #92400e, #b45309)",
-                    color: "white", fontWeight: 700, fontSize: "1rem", cursor: "pointer",
-                    boxShadow: "0 6px 20px rgba(146,64,14,0.3)", transition: "all 0.3s",
-                    fontFamily: "'Noto Serif TC', serif",
-                  }}
-                >
-                  {copied ? "✅ 已複製！貼到 LINE 吧" : "📋 一鍵複製 LINE 格式"}
-                </button>
-                <button
-                  onClick={() => { setStep(0); setForm(emptyForm); }}
-                  style={{
-                    width: "100%", marginTop: 10, padding: "12px", borderRadius: 14,
-                    border: "1px solid #e8d5b0", background: "white",
-                    color: "#78350f", fontWeight: 600, fontSize: "0.9rem", cursor: "pointer",
-                    fontFamily: "'Noto Serif TC', serif",
-                  }}
-                >
-                  🔄 重新填寫
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Navigation Buttons */}
-          {step < 4 && (
-            <div style={{ maxWidth: 520, margin: "16px auto 0", display: "flex", gap: 12 }}>
-              {step > 0 && (
-                <button
-                  className="step-btn"
-                  onClick={() => setStep(s => s - 1)}
-                  style={{
-                    flex: 1, padding: "15px", borderRadius: 14,
-                    border: "1px solid #e8d5b0", background: "white",
-                    color: "#78350f", fontWeight: 600, fontSize: "0.9rem", cursor: "pointer",
-                  }}
-                >← 上一步</button>
               )}
-              <button
-                className="step-btn"
-                onClick={() => setStep(s => s + 1)}
-                disabled={!canNext()}
-                style={primaryBtn(canNext())}
-              >
-                {step === 3 ? "生成訂單 →" : "下一步 →"}
-              </button>
             </div>
           )}
-        </div>
-      );
-    }
 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<App />);
-  </script>
+          {/* STEP 1 — Personal */}
+          {step===1&&(
+            <div style={{display:"flex",flexDirection:"column",gap:16}}>
+              {[
+                {k:"name",      l:"中文姓名",   ph:"請輸入真實姓名"},
+                {k:"idNumber",  l:"身分證字號", ph:"A123456789"},
+                {k:"email",     l:"電子郵箱",   ph:"example@email.com", t:"email"},
+                {k:"phone",     l:"手機號碼",   ph:"09xxxxxxxx", t:"tel"},
+                {k:"postalCode",l:"郵遞區號",   ph:"例：407"},
+                {k:"address",   l:"地址",       ph:"縣市 / 區 / 街道門號"},
+              ].map(f=>(
+                <div key={f.k}>
+                  <label>{f.l}</label>
+                  <input type={f.t||"text"} placeholder={f.ph} value={form[f.k]} onChange={e=>set(f.k,e.target.value)}/>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* STEP 2 — Payment */}
+          {step===2&&(
+            <div>
+              <div style={{display:"flex",gap:12,marginBottom:24}}>
+                {[{v:"transfer",l:"🏦 匯款"},{v:"card",l:"💳 刷卡"}].map(opt=>(
+                  <button key={opt.v} onClick={()=>set("payMethod",opt.v)} style={{
+                    flex:1,padding:"14px",borderRadius:14,fontWeight:600,fontSize:"0.9rem",
+                    border:form.payMethod===opt.v?"none":"2px solid #e8d5b0",
+                    background:form.payMethod===opt.v?"linear-gradient(135deg,#92400e,#b45309)":"white",
+                    color:form.payMethod===opt.v?"white":"#78350f",
+                    cursor:"pointer",transition:"all 0.2s",fontFamily:"'Noto Serif TC',serif",
+                    boxShadow:form.payMethod===opt.v?"0 6px 20px rgba(146,64,14,0.25)":"none",
+                  }}>{opt.l}</button>
+                ))}
+              </div>
+              {form.payMethod==="transfer"&&(
+                <div style={{padding:"16px 20px",background:"#fef3c7",borderRadius:14,border:"1px solid #fcd34d"}}>
+                  <div style={{fontWeight:700,color:"#78350f",marginBottom:10}}>匯款帳戶資訊</div>
+                  <div style={{fontSize:"0.85rem",color:"#92400e",lineHeight:2.1}}>
+                    中國信託 (822) 台中南屯分行<br/>帳號：045540435682<br/>戶名：鄒震宇<br/>
+                    <span style={{fontSize:"0.75rem",color:"#a16207"}}>⚠️ 備註欄請空白，方便對帳</span>
+                  </div>
+                </div>
+              )}
+              {form.payMethod==="card"&&(
+                <div style={{display:"flex",flexDirection:"column",gap:14}}>
+                  <InfoBox color="yellow">💡 匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
+                  {[
+                    {k:"cardNumber",l:"信用卡號",ph:"XXXX XXXX XXXX XXXX"},
+                    {k:"cardName",  l:"持卡人英文姓名",ph:"如信用卡上所示"},
+                    {k:"cardExpiry",l:"有效期限 (mm/yy)",ph:"MM/YY"},
+                    {k:"cardCVV",   l:"安全碼（卡背三位數）",ph:"CVV"},
+                  ].map(f=>(
+                    <div key={f.k}><label>{f.l}</label><input placeholder={f.ph} value={form[f.k]} onChange={e=>set(f.k,e.target.value)}/></div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* STEP 3 — Shipping */}
+          {step===3&&(
+            <div>
+              <div onClick={()=>set("sameAsPersonal",!form.sameAsPersonal)} style={{
+                display:"flex",alignItems:"center",gap:10,cursor:"pointer",
+                padding:"14px 16px",borderRadius:14,marginBottom:20,transition:"all 0.2s",
+                background:form.sameAsPersonal?"#fef3c7":"white",border:"1px solid #e8d5b0",
+              }}>
+                <div style={{
+                  width:22,height:22,borderRadius:6,border:"2px solid #b45309",flexShrink:0,
+                  background:form.sameAsPersonal?"#b45309":"white",
+                  display:"flex",alignItems:"center",justifyContent:"center",
+                }}>
+                  {form.sameAsPersonal&&<span style={{color:"white",fontSize:13,lineHeight:1}}>✓</span>}
+                </div>
+                <span style={{fontSize:"0.85rem",color:"#78350f",fontWeight:600}}>收貨資訊與個人資料相同</span>
+              </div>
+              {!form.sameAsPersonal&&(
+                <div style={{display:"flex",flexDirection:"column",gap:14,marginBottom:20}}>
+                  {[
+                    {k:"shipName",l:"收件人姓名"},{k:"shipId",l:"收件人身分證號"},
+                    {k:"shipPhone",l:"收件人電話"},{k:"shipAddress",l:"收件地址"},
+                  ].map(f=>(
+                    <div key={f.k}><label>{f.l}</label><input value={form[f.k]} onChange={e=>set(f.k,e.target.value)}/></div>
+                  ))}
+                </div>
+              )}
+              <div style={{marginBottom:16}}>
+                <label>有無申請 EZway</label>
+                <div style={{display:"flex",gap:10}}>
+                  {["有","無","申請中"].map(v=>(
+                    <button key={v} onClick={()=>set("ezway",v)} style={{
+                      flex:1,padding:"10px",borderRadius:10,fontSize:"0.85rem",fontWeight:600,
+                      border:form.ezway===v?"none":"1px solid #e8d5b0",
+                      background:form.ezway===v?"linear-gradient(135deg,#92400e,#b45309)":"white",
+                      color:form.ezway===v?"white":"#78350f",cursor:"pointer",transition:"all 0.2s",
+                      fontFamily:"'Noto Serif TC',serif",
+                    }}>{v}</button>
+                  ))}
+                </div>
+                <p style={{fontSize:"0.7rem",color:"#a16207",marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
+              </div>
+              <div><label>備註</label><textarea rows={3} placeholder="其他需要說明的事項…" value={form.remarks} onChange={e=>set("remarks",e.target.value)}/></div>
+            </div>
+          )}
+
+          {/* STEP 4 — Confirm */}
+          {step===4&&(
+            <div>
+              <InfoBox color="yellow">✅ 資料填寫完成！複製後貼到 LINE，接著使用「訂單更新」補上推薦人與付款資訊。</InfoBox>
+              <div className="line-output">{generateLine()}</div>
+              <CopyBtn getText={generateLine}/>
+              <ResetBtn onClick={()=>{setStep(0);setForm(emptyNew);}}/>
+            </div>
+          )}
+        </Card>
+
+        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:12}}>
+          <SecondaryBtn onClick={()=>step===0?onBack():setStep(s=>s-1)}>
+            {step===0?"← 返回首頁":"← 上一步"}
+          </SecondaryBtn>
+          {step<4&&<PrimaryBtn onClick={()=>setStep(s=>s+1)} disabled={!canNext()}>
+            {step===3?"生成訂單 →":"下一步 →"}
+          </PrimaryBtn>}
+        </div>
+      </div>
+    );
+  }
+
+  /* ─────────────────────────────────────────
+     MODE 2 — 訂單更新
+  ───────────────────────────────────────── */
+  function OrderUpdate({onBack}) {
+    const [step,setStep]             = useState(0);
+    const [pasted,setPasted]         = useState("");
+    const [refName,setRefName]       = useState("");
+    const [refNo,setRefNo]           = useState("");
+    const [placeName,setPlaceName]   = useState("");
+    const [placeNo,setPlaceNo]       = useState("");
+    const [last5,setLast5]           = useState("");
+    const [xferTime,setXferTime]     = useState("");
+    const [cardAmt,setCardAmt]       = useState("");
+
+    const isCard = pasted.includes("刷卡資訊");
+
+    const reset = () => {
+      setStep(0);setPasted("");setRefName("");setRefNo("");
+      setPlaceName("");setPlaceNo("");setLast5("");setXferTime("");setCardAmt("");
+    };
+
+    const generate = () => {
+      let t = pasted.trim();
+      t = t.replace(/▶️ 推薦人 \+ 編號：.*/,  `▶️ 推薦人 + 編號：${refName} ${refNo}`);
+      t = t.replace(/▶️ 安置人 \+ 編號：.*/,  `▶️ 安置人 + 編號：${placeName} ${placeNo}`);
+      if(!isCard){
+        t = t.replace(/▶️ 匯款帳號末五碼：.*/, `▶️ 匯款帳號末五碼：${last5}`);
+        t = t.replace(/▶️ 匯款時間：.*/,       `▶️ 匯款時間：${xferTime}`);
+      } else {
+        t = t.replace(/▶️ 刷卡金額：.*/,       `▶️ 刷卡金額：${cardAmt}`);
+      }
+      return t;
+    };
+
+    const canFill = pasted.trim().length>50;
+    const canGen  = refName&&refNo&&placeName&&placeNo&&
+      (isCard ? cardAmt : (last5&&xferTime));
+
+    return (
+      <div className="fade-in">
+        <StepBar steps={["貼上訂單","補充資料","更新完成"]} current={step}/>
+        <Card>
+          {step===0&&(
+            <div>
+              <InfoBox color="yellow">📋 請將「新訂單」產生的 LINE 文字完整貼入下方。</InfoBox>
+              <label>貼上新訂單文字</label>
+              <textarea rows={12} placeholder="將 LINE 訂單文字貼在這裡…"
+                value={pasted} onChange={e=>setPasted(e.target.value)}
+                style={{fontSize:13,lineHeight:1.7}}/>
+              {pasted.length>50&&(
+                <p style={{marginTop:10,fontSize:"0.78rem",color:"#16a34a",fontWeight:600}}>
+                  ✓ 已偵測到{isCard?"刷卡":"匯款"}訂單，請繼續。
+                </p>
+              )}
+            </div>
+          )}
+
+          {step===1&&(
+            <div style={{display:"flex",flexDirection:"column",gap:16}}>
+              <InfoBox color="yellow">✍️ 請填寫推薦人、安置人，以及付款確認細節。</InfoBox>
+
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+                <div><label>推薦人姓名</label><input placeholder="例：王小明" value={refName} onChange={e=>setRefName(e.target.value)}/></div>
+                <div><label>推薦人編號</label><input placeholder="例：TW00001" value={refNo} onChange={e=>setRefNo(e.target.value)}/></div>
+                <div><label>安置人姓名</label><input placeholder="例：李大華" value={placeName} onChange={e=>setPlaceName(e.target.value)}/></div>
+                <div><label>安置人編號</label><input placeholder="例：TW00002" value={placeNo} onChange={e=>setPlaceNo(e.target.value)}/></div>
+              </div>
+
+              <div style={{borderTop:"1px solid #e8d5b0",paddingTop:16}}>
+                <p style={{fontSize:"0.82rem",fontWeight:700,color:"#78350f",marginBottom:14}}>
+                  {isCard?"💳 刷卡確認資訊":"🏦 匯款確認資訊"}
+                </p>
+                {!isCard?(
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+                    <div><label>匯款帳號末五碼</label><input placeholder="例：35682" value={last5} onChange={e=>setLast5(e.target.value)}/></div>
+                    <div><label>匯款時間</label><input placeholder="例：03/16 下午2:30" value={xferTime} onChange={e=>setXferTime(e.target.value)}/></div>
+                  </div>
+                ):(
+                  <div><label>刷卡金額（含幣別）</label><input placeholder="例：USD 1,000 或 NTD 32,000" value={cardAmt} onChange={e=>setCardAmt(e.target.value)}/></div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {step===2&&(
+            <div>
+              <InfoBox color="yellow">
+                ✅ 訂單已更新！{isCard?" 因含有刷卡資訊，請再使用「入單資訊更新」移除卡號後再公開分享。":"複製後傳給上線確認即可。"}
+              </InfoBox>
+              <div className="line-output">{generate()}</div>
+              <CopyBtn getText={generate}/>
+              <ResetBtn onClick={reset}/>
+            </div>
+          )}
+        </Card>
+
+        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:12}}>
+          <SecondaryBtn onClick={()=>step===0?onBack():setStep(s=>s-1)}>
+            {step===0?"← 返回首頁":"← 上一步"}
+          </SecondaryBtn>
+          {step<2&&<PrimaryBtn onClick={()=>setStep(s=>s+1)} disabled={step===0?!canFill:!canGen}>
+            {step===1?"生成更新 →":"填寫資料 →"}
+          </PrimaryBtn>}
+        </div>
+      </div>
+    );
+  }
+
+  /* ─────────────────────────────────────────
+     MODE 3 — 入單資訊更新
+  ───────────────────────────────────────── */
+  const CARD_PATTERNS = [
+    /▶️ 刷卡資訊/,
+    /信用卡號：/,
+    /持卡人英文姓名：/,
+    /有效期限（mm\/yy）：/,
+    /安全碼：/,
+    /刷卡金額：/,
+  ];
+
+  const stripCard = text =>
+    text.split("\n")
+      .filter(l => !CARD_PATTERNS.some(p=>p.test(l)))
+      .join("\n")
+      .replace(/\n{3,}/g,"\n\n")
+      .trim();
+
+  function EntryUpdate({onBack}) {
+    const [step,setStep]     = useState(0);
+    const [pasted,setPasted] = useState("");
+
+    const hasCard = pasted.includes("刷卡資訊")||pasted.includes("信用卡號");
+    const clean   = pasted ? stripCard(pasted) : "";
+    const canGo   = pasted.trim().length>50;
+
+    return (
+      <div className="fade-in">
+        <StepBar steps={["貼上文字","確認移除","乾淨版本"]} current={step}/>
+        <Card>
+          {step===0&&(
+            <div>
+              <InfoBox color="yellow">📋 將「訂單更新」產生的文字貼入。系統會自動移除刷卡敏感資訊，產生可公開分享的乾淨版本。</InfoBox>
+              <label>貼上訂單更新文字</label>
+              <textarea rows={12} placeholder="將含有刷卡資訊的訂單文字貼在這裡…"
+                value={pasted} onChange={e=>setPasted(e.target.value)}
+                style={{fontSize:13,lineHeight:1.7}}/>
+              {pasted.length>50&&(
+                <p style={{marginTop:10,fontSize:"0.78rem",fontWeight:600,
+                  color:hasCard?"#dc2626":"#16a34a"}}>
+                  {hasCard?"⚠️ 偵測到刷卡資訊，下一步將自動移除。":"✓ 未偵測到刷卡資訊，仍可繼續生成乾淨版本。"}
+                </p>
+              )}
+            </div>
+          )}
+
+          {step===1&&(
+            <div>
+              <InfoBox color="red">
+                🗑️ 以下欄位將被移除：<br/><br/>
+                <strong>▶️ 刷卡資訊 / 信用卡號 / 持卡人英文姓名 / 有效期限 / 安全碼 / 刷卡金額</strong>
+              </InfoBox>
+              <InfoBox color="green">
+                ✅ 保留內容：會員基本資料、產品選擇、匯款資訊、收貨資訊、EZway、推薦人與安置人等所有非敏感欄位。
+              </InfoBox>
+            </div>
+          )}
+
+          {step===2&&(
+            <div>
+              <InfoBox color="green">✅ 刷卡資訊已移除！此版本可安全地在 LINE 群組流通。</InfoBox>
+              <div className="line-output">{clean}</div>
+              <CopyBtn getText={()=>clean}/>
+              <ResetBtn onClick={()=>{setStep(0);setPasted("");}}/>
+            </div>
+          )}
+        </Card>
+
+        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:12}}>
+          <SecondaryBtn onClick={()=>step===0?onBack():setStep(s=>s-1)}>
+            {step===0?"← 返回首頁":"← 上一步"}
+          </SecondaryBtn>
+          {step<2&&<PrimaryBtn onClick={()=>setStep(s=>s+1)} disabled={!canGo}>
+            {step===1?"確認移除，生成 →":"預覽移除項目 →"}
+          </PrimaryBtn>}
+        </div>
+      </div>
+    );
+  }
+
+  /* ─────────────────────────────────────────
+     HOME SCREEN
+  ───────────────────────────────────────── */
+  const MODES = [
+    {
+      id:"new", emoji:"📝", title:"新訂單", badge:"第一步",
+      badgeC:"#92400e", badgeBg:"#fef3c7",
+      sub:"陪新朋友填寫產品選擇與個人資料",
+      desc:"選產品 → 填資料 → 選付款 → 生成 LINE 文字",
+    },
+    {
+      id:"update", emoji:"✏️", title:"訂單更新", badge:"第二步",
+      badgeC:"#1e40af", badgeBg:"#dbeafe",
+      sub:"補上推薦人資訊與付款確認細節",
+      desc:"貼上新訂單 → 填推薦人 + 付款確認 → 生成更新版",
+    },
+    {
+      id:"entry", emoji:"🔒", title:"入單資訊更新", badge:"第三步",
+      badgeC:"#15803d", badgeBg:"#dcfce7",
+      sub:"移除刷卡敏感資訊，產生可公開版本",
+      desc:"貼上訂單更新 → 自動移除卡號 → 生成乾淨版本",
+    },
+  ];
+
+  function Home({onSelect}) {
+    return (
+      <div className="fade-in">
+        <div style={{maxWidth:520,margin:"0 auto 32px",textAlign:"center"}}>
+          <div style={{fontSize:44,marginBottom:8}}>🌟</div>
+          <h1 style={{fontSize:"1.55rem",fontWeight:700,color:"#78350f",letterSpacing:"0.05em"}}>
+            OlyLife 訂單系統
+          </h1>
+          <p style={{color:"#a16207",fontSize:"0.83rem",marginTop:6,lineHeight:1.6}}>請選擇目前要進行的步驟</p>
+        </div>
+
+        <div style={{maxWidth:520,margin:"0 auto",display:"flex",flexDirection:"column",gap:14}}>
+          {MODES.map((m,i)=>(
+            <div key={m.id} onClick={()=>onSelect(m.id)} className="home-card"
+              style={{animation:`fadeIn 0.4s ease ${i*0.08}s both`}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                <div style={{display:"flex",alignItems:"center",gap:12}}>
+                  <div style={{fontSize:28}}>{m.emoji}</div>
+                  <div>
+                    <div style={{fontSize:"1.05rem",fontWeight:700,color:"#78350f"}}>{m.title}</div>
+                    <div style={{fontSize:"0.78rem",color:"#a16207",marginTop:2}}>{m.sub}</div>
+                  </div>
+                </div>
+                <div style={{
+                  fontSize:"0.68rem",fontWeight:700,padding:"3px 10px",borderRadius:20,
+                  background:m.badgeBg,color:m.badgeC,whiteSpace:"nowrap",flexShrink:0,marginLeft:8,
+                }}>{m.badge}</div>
+              </div>
+              <div style={{marginTop:12,paddingTop:12,borderTop:"1px solid #f3e8d8",fontSize:"0.75rem",color:"#92400e",lineHeight:1.6}}>
+                {m.desc}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{maxWidth:520,margin:"20px auto 0",padding:"14px 20px",background:"rgba(255,255,255,0.6)",borderRadius:16,border:"1px solid #e8d5b0",fontSize:"0.75rem",color:"#a16207",lineHeight:1.8,textAlign:"center"}}>
+          💡 三個步驟各自獨立運作，不需依序操作。每步完成後生成 LINE 格式文字供複製使用。
+        </div>
+      </div>
+    );
+  }
+
+  /* ─────────────────────────────────────────
+     ROOT APP
+  ───────────────────────────────────────── */
+  function App() {
+    const [mode,setMode] = useState("home");
+    return (
+      <div style={{padding:"32px 16px 80px"}}>
+        {mode==="home"   && <Home        onSelect={setMode}/>}
+        {mode==="new"    && <NewOrder    onBack={()=>setMode("home")}/>}
+        {mode==="update" && <OrderUpdate onBack={()=>setMode("home")}/>}
+        {mode==="entry"  && <EntryUpdate onBack={()=>setMode("home")}/>}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
 </body>
 </html>
