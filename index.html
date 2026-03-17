@@ -10,24 +10,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:        #0d1117;
-      --surface:   #161b22;
-      --surface2:  #1c2330;
-      --border:    #2a3344;
-      --border2:   #3a4558;
-      --gold:      #c9a84c;
-      --gold-dim:  #8a6f32;
-      --gold-bg:   rgba(201,168,76,0.08);
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2330;
+      --border: #2a3344;
+      --border2: #3a4558;
+      --gold: #c9a84c;
+      --gold-dim: #8a6f32;
+      --gold-bg: rgba(201,168,76,0.08);
       --gold-glow: rgba(201,168,76,0.18);
-      --text:      #e6edf3;
-      --text-dim:  #8b949e;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
       --text-mute: #4a5568;
-      --red:       #f85149;
-      --red-bg:    rgba(248,81,73,0.1);
-      --green:     #3fb950;
-      --green-bg:  rgba(63,185,80,0.1);
-      --blue:      #58a6ff;
-      --blue-bg:   rgba(88,166,255,0.08);
+      --red: #f85149;
+      --green: #3fb950;
+      --blue: #58a6ff;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -36,8 +33,6 @@
       min-height: 100vh;
       color: var(--text);
     }
-
-    /* ── Subtle grid background ── */
     body::before {
       content: '';
       position: fixed; inset: 0; pointer-events: none; z-index: 0;
@@ -46,10 +41,8 @@
         linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
       background-size: 40px 40px;
     }
-
     @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
     .fade-in { animation: fadeIn 0.3s ease; position: relative; z-index: 1; }
-
     input, textarea {
       width: 100%;
       border: 1px solid var(--border);
@@ -68,7 +61,6 @@
     }
     input::placeholder, textarea::placeholder { color: var(--text-mute); }
     textarea { resize: none; }
-
     label {
       display: block;
       font-size: 10px;
@@ -78,90 +70,21 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-
-    /* ── Product cards ── */
-    .product-card {
-      transition: all 0.15s ease;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--surface2);
-    }
+    .product-card { transition: all 0.15s ease; cursor: pointer; border: 1px solid var(--border); border-radius: 6px; background: var(--surface2); }
     .product-card:hover { border-color: var(--gold-dim); }
-    .product-card.has-qty {
-      background: var(--gold-bg) !important;
-      border-color: var(--gold) !important;
-      box-shadow: 0 0 16px var(--gold-glow);
-    }
+    .product-card.has-qty { background: var(--gold-bg) !important; border-color: var(--gold) !important; box-shadow: 0 0 16px var(--gold-glow); }
     .product-card.has-qty .prod-price { color: var(--gold) !important; }
-    .product-card.has-qty .prod-note  { color: var(--text-dim) !important; }
-
-    /* ── Qty buttons ── */
-    .qty-btn {
-      width: 26px; height: 26px; border-radius: 4px; border: none;
-      font-size: 16px; font-weight: 700; line-height: 1;
-      cursor: pointer; transition: all 0.12s;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
+    .product-card.has-qty .prod-note { color: var(--text-dim) !important; }
+    .qty-btn { width: 26px; height: 26px; border-radius: 4px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.12s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .qty-btn:active { transform: scale(0.88); }
-
-    /* ── Section divider ── */
-    .pos-section {
-      border-left: 2px solid var(--gold-dim);
-      padding-left: 16px;
-      margin-bottom: 28px;
-    }
-
-    /* ── Buttons ── */
+    .pos-section { border-left: 2px solid var(--gold-dim); padding-left: 16px; margin-bottom: 28px; }
     .step-btn { transition: all 0.18s; font-family: 'Noto Serif TC', serif; }
     .step-btn:hover:not(:disabled) { transform: translateY(-1px); }
-
-    /* ── LINE output ── */
-    .line-output {
-      font-family: monospace;
-      background: #0d1117;
-      color: #c9d1d9;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      padding: 18px;
-      white-space: pre-wrap;
-      font-size: 12.5px;
-      line-height: 1.8;
-      max-height: 380px;
-      overflow-y: auto;
-    }
-    .line-output::-webkit-scrollbar { width: 4px; }
-    .line-output::-webkit-scrollbar-track { background: transparent; }
-    .line-output::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
-
-    /* ── Home cards ── */
-    .home-card {
-      cursor: pointer;
-      border-radius: 8px;
-      padding: 22px 20px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .home-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .home-card:hover {
-      border-color: var(--gold-dim);
-      background: var(--surface2);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
+    .line-output { font-family: monospace; background: #0d1117; color: #c9d1d9; border-radius: 6px; border: 1px solid var(--border); padding: 18px; white-space: pre-wrap; font-size: 12.5px; line-height: 1.8; max-height: 380px; overflow-y: auto; }
+    .home-card { cursor: pointer; border-radius: 8px; padding: 22px 20px; border: 1px solid var(--border); background: var(--surface); transition: all 0.2s ease; position: relative; overflow: hidden; }
+    .home-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dim), transparent); opacity: 0; transition: opacity 0.2s; }
+    .home-card:hover { border-color: var(--gold-dim); background: var(--surface2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
     .home-card:hover::before { opacity: 1; }
-
-    /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
@@ -169,13 +92,9 @@
 </head>
 <body>
 <div id="root"></div>
-
 <script type="text/babel">
   const { useState } = React;
 
-  /* ─────────────────────────────────────────
-     CONSTANTS
-  ───────────────────────────────────────── */
   const PRODUCTS = [
     { id:"p90",      name:"P90",               price:1000, emoji:"⚡" },
     { id:"p90plus",  name:"P90 Plus",           price:2000, emoji:"✨" },
@@ -193,32 +112,22 @@
   ];
   const MIN = 1000;
 
-  /* ─────────────────────────────────────────
-     SHARED UI COMPONENTS
-  ───────────────────────────────────────── */
+  /* ── Shared Components ── */
   const Card = ({children}) => (
-    <div style={{
-      maxWidth:520, margin:"0 auto",
-      background:"#161b22",
-      borderRadius:8,
-      boxShadow:"0 8px 32px rgba(0,0,0,0.5)",
-      padding:"28px 24px",
-      border:"1px solid #2a3344",
-    }}>{children}</div>
+    <div style={{maxWidth:520,margin:"0 auto",background:"#161b22",borderRadius:8,boxShadow:"0 8px 32px rgba(0,0,0,0.5)",padding:"28px 24px",border:"1px solid #2a3344"}}>
+      {children}
+    </div>
   );
 
   const PrimaryBtn = ({onClick, disabled, children, green}) => (
     <button onClick={onClick} disabled={disabled} className="step-btn" style={{
       flex:2, padding:"14px", borderRadius:6, border:"none",
-      background: disabled ? "#1c2330"
-        : green ? "linear-gradient(135deg,#1a6b2a,#22863a)"
-        : "linear-gradient(135deg,#9a7a2a,#c9a84c)",
-      color: disabled ? "#4a5568" : disabled ? "#4a5568" : green ? "white" : "#0d1117",
+      background: disabled ? "#1c2330" : (green ? "linear-gradient(135deg,#1a6b2a,#22863a)" : "linear-gradient(135deg,#9a7a2a,#c9a84c)"),
+      color: disabled ? "#4a5568" : (green ? "white" : "#0d1117"),
       fontWeight:700, fontSize:"0.92rem",
       cursor: disabled ? "not-allowed" : "pointer",
-      boxShadow: disabled ? "none" : green ? "0 4px 16px rgba(34,134,58,0.3)" : "0 4px 16px rgba(201,168,76,0.3)",
-      fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s",
-      letterSpacing:"0.04em",
+      boxShadow: disabled ? "none" : (green ? "0 4px 16px rgba(34,134,58,0.3)" : "0 4px 16px rgba(201,168,76,0.3)"),
+      fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s", letterSpacing:"0.04em",
     }}>{children}</button>
   );
 
@@ -235,19 +144,14 @@
     const [copied, setCopied] = useState(false);
     return (
       <button onClick={() => {
-        navigator.clipboard.writeText(getText()).then(() => {
-          setCopied(true); setTimeout(()=>setCopied(false),2500);
-        });
+        navigator.clipboard.writeText(getText()).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
       }} style={{
         width:"100%", marginTop:16, padding:"14px", borderRadius:6, border:"none",
-        background: copied
-          ? "linear-gradient(135deg,#1a6b2a,#22863a)"
-          : "linear-gradient(135deg,#9a7a2a,#c9a84c)",
+        background: copied ? "linear-gradient(135deg,#1a6b2a,#22863a)" : "linear-gradient(135deg,#9a7a2a,#c9a84c)",
         color: copied ? "white" : "#0d1117",
         fontWeight:700, fontSize:"0.95rem", cursor:"pointer",
         boxShadow: copied ? "0 4px 16px rgba(34,134,58,0.3)" : "0 4px 16px rgba(201,168,76,0.3)",
-        transition:"all 0.3s", fontFamily:"'Noto Serif TC',serif",
-        letterSpacing:"0.04em",
+        transition:"all 0.3s", fontFamily:"'Noto Serif TC',serif", letterSpacing:"0.04em",
       }}>
         {copied ? "✅ 已複製！貼到 LINE 吧" : "📋 一鍵複製 LINE 格式"}
       </button>
@@ -259,63 +163,57 @@
       width:"100%", marginTop:10, padding:"12px", borderRadius:6,
       border:"1px solid #2a3344", background:"transparent",
       color:"#8b949e", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
-      fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s",
+      fontFamily:"'Noto Serif TC',serif",
     }}>↺ 重新操作</button>
   );
 
   const StepBar = ({steps, current}) => (
-    <>
-      <div style={{maxWidth:520, margin:"0 auto 8px", display:"flex", alignItems:"center"}}>
-        {steps.map((s,i) => (
+    <div style={{maxWidth:520, margin:"0 auto 24px"}}>
+      <div style={{display:"flex", alignItems:"center", marginBottom:8}}>
+        {steps.map((s, i) => (
           <React.Fragment key={i}>
             <div style={{
-              width:30, height:30, borderRadius:4,
+              width:30, height:30, borderRadius:4, flexShrink:0,
               display:"flex", alignItems:"center", justifyContent:"center",
-              fontSize:"0.7rem", fontWeight:700, flexShrink:0,
-              background: i<current ? "#9a7a2a" : i===current ? "#c9a84c" : "#1c2330",
-              color: i<current ? "white" : i===current ? "#0d1117" : "#4a5568",
-              border: i===current ? "none" : `1px solid ${i<current ? "#9a7a2a" : "#2a3344"}`,
-              boxShadow: i===current ? "0 0 12px rgba(201,168,76,0.4)" : "none",
+              fontSize:"0.7rem", fontWeight:700,
+              background: i < current ? "#9a7a2a" : (i === current ? "#c9a84c" : "#1c2330"),
+              color: i < current ? "white" : (i === current ? "#0d1117" : "#4a5568"),
+              border: i === current ? "none" : ("1px solid " + (i < current ? "#9a7a2a" : "#2a3344")),
+              boxShadow: i === current ? "0 0 12px rgba(201,168,76,0.4)" : "none",
               transition:"all 0.3s",
-            }}>{i<current ? "✓" : i+1}</div>
-            {i<steps.length-1 && (
-              <div style={{
-                flex:1, height:1, margin:"0 4px",
-                background: i<current ? "#9a7a2a" : "#2a3344",
-                transition:"background 0.3s",
-              }}/>
+            }}>{i < current ? "✓" : i + 1}</div>
+            {i < steps.length - 1 && (
+              <div style={{flex:1, height:1, margin:"0 4px", background: i < current ? "#9a7a2a" : "#2a3344", transition:"background 0.3s"}} />
             )}
           </React.Fragment>
         ))}
       </div>
-      <div style={{maxWidth:520, margin:"0 auto 20px", textAlign:"center"}}>
+      <div style={{textAlign:"center"}}>
         <span style={{color:"#c9a84c", fontWeight:600, fontSize:"0.85rem", letterSpacing:"0.06em"}}>{steps[current]}</span>
       </div>
-    </>
+    </div>
   );
 
   const InfoBox = ({color, children}) => {
-    const colors = {
+    const C = {
       yellow: {bg:"rgba(201,168,76,0.08)",  border:"rgba(201,168,76,0.3)",  text:"#c9a84c"},
       red:    {bg:"rgba(248,81,73,0.08)",   border:"rgba(248,81,73,0.3)",   text:"#f85149"},
       green:  {bg:"rgba(63,185,80,0.08)",   border:"rgba(63,185,80,0.3)",   text:"#3fb950"},
       blue:   {bg:"rgba(88,166,255,0.08)",  border:"rgba(88,166,255,0.25)", text:"#58a6ff"},
     };
-    const c = colors[color] || colors.yellow;
+    const c = C[color] || C.yellow;
     return (
-      <div style={{
-        padding:"12px 16px", borderRadius:6, marginBottom:16,
-        background:c.bg, border:`1px solid ${c.border}`,
-        fontSize:"0.82rem", color:c.text, lineHeight:1.7,
-      }}>{children}</div>
+      <div style={{padding:"12px 16px", borderRadius:6, marginBottom:16, background:c.bg, border:"1px solid "+c.border, fontSize:"0.82rem", color:c.text, lineHeight:1.7}}>
+        {children}
+      </div>
     );
   };
 
-  /* ─────────────────────────────────────────
+  /* ══════════════════════════════════════════
      MODE 1 — 新訂單
-  ───────────────────────────────────────── */
+  ══════════════════════════════════════════ */
   const emptyNew = {
-    positions:{main:{},left:{},right:{}},
+    positions: {main:{}, left:{}, right:{}},
     name:"", idNumber:"", email:"", phone:"", postalCode:"", address:"",
     payMethod:"transfer",
     cardNumber:"", cardName:"", cardExpiry:"", cardCVV:"",
@@ -328,193 +226,165 @@
     const [step, setStep] = useState(0);
     const [form, setForm] = useState(emptyNew);
     const [transferTo, setTransferTo] = useState("");
-    const set = (k,v) => setForm(f=>({...f,[k]:v}));
 
-    // Change qty for a product in a position (+1 / -1, min 0)
+    const set = (k, v) => setForm(f => ({...f, [k]: v}));
+
     const changeQty = (pos, id, delta) => setForm(f => {
       const cur = f.positions[pos][id] || 0;
       const next = Math.max(0, cur + delta);
       const updated = {...f.positions[pos]};
-      if(next === 0) delete updated[id]; else updated[id] = next;
-      return {...f, positions:{...f.positions, [pos]: updated}};
+      if (next === 0) delete updated[id]; else updated[id] = next;
+      return {...f, positions: {...f.positions, [pos]: updated}};
     });
 
-    // Sum price × qty for a position
-    const posTotal = pk => Object.entries(form.positions[pk]).reduce((s,[id,qty])=>{
-      const p = PRODUCTS.find(pr=>pr.id===id); return s+(p?p.price*qty:0);
-    },0);
+    const posTotal = (pk) => Object.entries(form.positions[pk]).reduce((s, [id, qty]) => {
+      const p = PRODUCTS.find(pr => pr.id === id);
+      return s + (p ? p.price * qty : 0);
+    }, 0);
 
-    const total = POSITIONS.reduce((s,p)=>s+posTotal(p.key),0);
+    const total = POSITIONS.reduce((s, p) => s + posTotal(p.key), 0);
 
-    // Main must have at least one item; any active position must reach $1,000
     const posOk = () =>
       Object.keys(form.positions.main).length > 0 &&
-      POSITIONS.every(p => {
-        const hasItems = Object.keys(form.positions[p.key]).length > 0;
-        return !hasItems || posTotal(p.key) >= MIN;
-      });
+      POSITIONS.every(p => Object.keys(form.positions[p.key]).length === 0 || posTotal(p.key) >= MIN);
 
     const generateLine = () => {
-      const posLine = POSITIONS.map(p=>{
+      const posLine = POSITIONS.map(p => {
         const entries = Object.entries(form.positions[p.key]);
-        if(!entries.length) return `${p.label}：（未選擇）`;
-        const items = entries.map(([id,qty])=>{
-          const pr=PRODUCTS.find(r=>r.id===id);
-          return qty>1 ? `${pr.name} x${qty}（$${pr.price*qty}）` : `${pr.name}（$${pr.price}）`;
+        if (!entries.length) return p.label + "：（未選擇）";
+        const items = entries.map(([id, qty]) => {
+          const pr = PRODUCTS.find(r => r.id === id);
+          return qty > 1 ? (pr.name + " x" + qty + "（$" + (pr.price * qty) + "）") : (pr.name + "（$" + pr.price + "）");
         }).join("、");
-        // Put subtotal on its own indented line
-        return `${p.label}：${items}\n　　　　小計 $${posTotal(p.key).toLocaleString()}`;
+        return p.label + "：" + items + "\n　　　　小計 $" + posTotal(p.key).toLocaleString();
       }).join("\n");
 
-      const pay = form.payMethod==="transfer"
-        ? `▶️匯款信息\n中國信託(822) 台中南屯分行 \n匯款帳號：045540435682 \n戶名：鄒震宇\n（備註欄空白，方便對帳）\n----------------------`
-        : `▶️刷卡 \n(一台刷美金1000\n匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：${form.cardNumber}\n\n信用卡英文名字：${form.cardName}\n\n信用卡有效期（mm/yy）：${form.cardExpiry}\n\n安全碼(卡背面的三位數字)：${form.cardCVV}`;
+      let paySection;
+      if (form.payMethod === "transfer") {
+        paySection = "▶️匯款信息\n中國信託(822) 台中南屯分行 \n匯款帳號：045540435682 \n戶名：鄒震宇\n（備註欄空白，方便對帳）\n----------------------";
+        if (transferTo) paySection += "\n匯款給：" + transferTo;
+      } else {
+        paySection = "▶️刷卡 \n(一台刷美金1000\n匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：" + form.cardNumber + "\n\n信用卡英文名字：" + form.cardName + "\n\n信用卡有效期（mm/yy）：" + form.cardExpiry + "\n\n安全碼(卡背面的三位數字)：" + form.cardCVV;
+      }
 
-      const sn = form.sameAsPersonal?form.name:form.shipName;
-      const si = form.sameAsPersonal?form.idNumber:form.shipId;
-      const sp = form.sameAsPersonal?form.phone:form.shipPhone;
-      const sa = form.sameAsPersonal?form.address:form.shipAddress;
+      const sn = form.sameAsPersonal ? form.name : form.shipName;
+      const si = form.sameAsPersonal ? form.idNumber : form.shipId;
+      const sp = form.sameAsPersonal ? form.phone : form.shipPhone;
+      const sa = form.sameAsPersonal ? form.address : form.shipAddress;
 
-      return `會員註冊資料(版本更新)
-🌟Olylife 註冊資料
-
-▶️中文姓名：${form.name}
-▶️身分證字號：${form.idNumber}
-▶️電子郵箱：${form.email}
-▶️手機號碼：${form.phone}
-▶️郵遞區號：${form.postalCode}
-▶️地址：${form.address}
-
-▶️產品選擇（合計 $${total.toLocaleString()}）
-${posLine}
-
-${pay}
-${form.payMethod==="transfer" && transferTo ? `\n匯款給：${transferTo}` : ""}
-▶️收貨信息
- 姓名：${sn}
- 身分證號：${si}
- 電話：${sp}
- 地址：${sa}
-
-▶️有無申請EZway：${form.ezway||"未填"}
-(申請EZway資料，務必和上面
-收貨信息相同！）
-${form.remarks?`\n▶️備註：${form.remarks}`:""}
-${form.payMethod==="transfer"?"\n▶️備註：\n匯款帳號末五碼：":""}
-
-以下客戶免填
-▶️推薦人+編號：
-▶️安置人+編號：`;
+      let out = "會員註冊資料(版本更新)\n🌟Olylife 註冊資料\n\n";
+      out += "▶️中文姓名：" + form.name + "\n";
+      out += "▶️身分證字號：" + form.idNumber + "\n";
+      out += "▶️電子郵箱：" + form.email + "\n";
+      out += "▶️手機號碼：" + form.phone + "\n";
+      out += "▶️郵遞區號：" + form.postalCode + "\n";
+      out += "▶️地址：" + form.address + "\n\n";
+      out += "▶️產品選擇（合計 $" + total.toLocaleString() + "）\n" + posLine + "\n\n";
+      out += paySection + "\n\n";
+      out += "▶️收貨信息\n 姓名：" + sn + "\n 身分證號：" + si + "\n 電話：" + sp + "\n 地址：" + sa + "\n\n";
+      out += "▶️有無申請EZway：" + (form.ezway || "未填") + "\n(申請EZway資料，務必和上面\n收貨信息相同！）\n";
+      if (form.remarks) out += "\n▶️備註：" + form.remarks + "\n";
+      if (form.payMethod === "transfer") out += "\n▶️備註：\n匯款帳號末五碼：\n";
+      out += "\n以下客戶免填\n▶️推薦人+編號：\n▶️安置人+編號：";
+      return out;
     };
 
     const canNext = () => {
-      if(step===0) return posOk();
-      if(step===1) return form.name&&form.idNumber&&form.email&&form.phone&&form.address;
-      if(step===2) return form.payMethod==="transfer" ||
-        (form.cardNumber&&form.cardName&&form.cardExpiry&&form.cardCVV);
-      if(step===3) return form.sameAsPersonal ||
-        (form.shipName&&form.shipId&&form.shipPhone&&form.shipAddress);
+      if (step === 0) return posOk();
+      if (step === 1) return form.name && form.idNumber && form.email && form.phone && form.address;
+      if (step === 2) return form.payMethod === "transfer" || (form.cardNumber && form.cardName && form.cardExpiry && form.cardCVV);
+      if (step === 3) return form.sameAsPersonal || (form.shipName && form.shipId && form.shipPhone && form.shipAddress);
       return true;
     };
 
     return (
       <div className="fade-in">
-        <StepBar steps={["產品選擇","個人資料","付款方式","收貨資訊","確認訂單"]} current={step}/>
+        <StepBar steps={["產品選擇","個人資料","付款方式","收貨資訊","確認訂單"]} current={step} />
         <Card>
 
-          {/* STEP 0 — Products */}
-          {step===0 && (
+          {/* Step 0 — Products */}
+          {step === 0 && (
             <div>
-              <p style={{color:"#8b949e",fontSize:"0.82rem",marginBottom:20,lineHeight:1.7}}>
+              <p style={{color:"#8b949e", fontSize:"0.82rem", marginBottom:20, lineHeight:1.7}}>
                 每個位置可選多項產品，金額自動加總。主球必填，左右球可視情況選填。
                 <strong style={{color:"#c9a84c"}}> 每個球位最低 $1,000。</strong>
               </p>
-              {POSITIONS.map(pos=>{
-                const sub=posTotal(pos.key);
-                const hasSel=Object.keys(form.positions[pos.key]).length>0;
-                const low=hasSel&&sub<MIN;
+              {POSITIONS.map(pos => {
+                const sub = posTotal(pos.key);
+                const hasSel = Object.keys(form.positions[pos.key]).length > 0;
+                const low = hasSel && sub < MIN;
                 return (
-                  <div key={pos.key} className="pos-section"
-                    style={{borderLeftColor:low?"#f85149":"#9a7a2a"}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                  <div key={pos.key} className="pos-section" style={{borderLeftColor: low ? "#f85149" : "#9a7a2a"}}>
+                    <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10}}>
                       <div>
-                        <span style={{fontSize:"0.95rem",fontWeight:700,color:"#e6edf3"}}>{pos.icon} {pos.label}</span>
-                        <span style={{fontSize:"0.72rem",color:"#8b949e",marginLeft:8}}>{pos.desc}</span>
+                        <span style={{fontSize:"0.95rem", fontWeight:700, color:"#e6edf3"}}>{pos.icon} {pos.label}</span>
+                        <span style={{fontSize:"0.72rem", color:"#8b949e", marginLeft:8}}>{pos.desc}</span>
                       </div>
-                      {hasSel&&(
+                      {hasSel && (
                         <div style={{
-                          fontSize:"0.75rem",fontWeight:700,padding:"3px 10px",borderRadius:4,whiteSpace:"nowrap",
-                          background:low?"rgba(248,81,73,0.1)":"rgba(201,168,76,0.1)",
-                          color:low?"#f85149":"#c9a84c",
-                          border:`1px solid ${low?"rgba(248,81,73,0.3)":"rgba(201,168,76,0.3)"}`,
+                          fontSize:"0.75rem", fontWeight:700, padding:"3px 10px", borderRadius:4, whiteSpace:"nowrap",
+                          background: low ? "rgba(248,81,73,0.1)" : "rgba(201,168,76,0.1)",
+                          color: low ? "#f85149" : "#c9a84c",
+                          border: "1px solid " + (low ? "rgba(248,81,73,0.3)" : "rgba(201,168,76,0.3)"),
                         }}>
-                          {low?`⚠ $${sub.toLocaleString()} / 未達$1,000`:`✓ $${sub.toLocaleString()}`}
+                          {low ? ("⚠ $" + sub.toLocaleString() + " / 未達$1,000") : ("✓ $" + sub.toLocaleString())}
                         </div>
                       )}
                     </div>
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-                      {PRODUCTS.map(prod=>{
+                    <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:8}}>
+                      {PRODUCTS.map(prod => {
                         const qty = form.positions[pos.key][prod.id] || 0;
                         const active = qty > 0;
                         return (
-                          <div key={prod.id}
-                            className={`product-card${active?" has-qty":""}`}
-                            style={{padding:"10px 12px",color:"#e6edf3"}}>
-                            <div style={{fontSize:"1rem",marginBottom:2}}>{prod.emoji}</div>
-                            <div style={{fontSize:"0.76rem",fontWeight:600,lineHeight:1.35,color:"#e6edf3"}}>{prod.name}</div>
-                            {prod.note&&<div className="prod-note" style={{fontSize:"0.63rem",color:"#8b949e",marginTop:2}}>{prod.note}</div>}
-                            <div className="prod-price" style={{fontSize:"0.82rem",fontWeight:700,marginTop:4,color:"#c9a84c"}}>
-                              ${prod.price.toLocaleString()}
-                            </div>
-                            {/* Qty controls */}
-                            <div style={{display:"flex",alignItems:"center",gap:6,marginTop:8}}>
+                          <div key={prod.id} className={"product-card" + (active ? " has-qty" : "")} style={{padding:"10px 12px", color:"#e6edf3"}}>
+                            <div style={{fontSize:"1rem", marginBottom:2}}>{prod.emoji}</div>
+                            <div style={{fontSize:"0.76rem", fontWeight:600, lineHeight:1.35, color:"#e6edf3"}}>{prod.name}</div>
+                            {prod.note && <div className="prod-note" style={{fontSize:"0.63rem", color:"#8b949e", marginTop:2}}>{prod.note}</div>}
+                            <div className="prod-price" style={{fontSize:"0.82rem", fontWeight:700, marginTop:4, color:"#c9a84c"}}>${prod.price.toLocaleString()}</div>
+                            <div style={{display:"flex", alignItems:"center", gap:6, marginTop:8}}>
                               {active ? (
                                 <>
-                                  <button className="qty-btn"
-                                    onClick={e=>{e.stopPropagation();changeQty(pos.key,prod.id,-1);}}
-                                    style={{background:"rgba(201,168,76,0.2)",color:"#c9a84c",fontSize:18}}>−</button>
-                                  <span style={{flex:1,textAlign:"center",fontWeight:700,fontSize:"0.95rem",color:"#c9a84c"}}>{qty}</span>
-                                  <button className="qty-btn"
-                                    onClick={e=>{e.stopPropagation();changeQty(pos.key,prod.id,+1);}}
-                                    style={{background:"rgba(201,168,76,0.2)",color:"#c9a84c",fontSize:18}}>＋</button>
+                                  <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, -1); }} style={{background:"rgba(201,168,76,0.2)", color:"#c9a84c"}}>−</button>
+                                  <span style={{flex:1, textAlign:"center", fontWeight:700, fontSize:"0.95rem", color:"#c9a84c"}}>{qty}</span>
+                                  <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(201,168,76,0.2)", color:"#c9a84c"}}>＋</button>
                                 </>
                               ) : (
-                                <button className="qty-btn"
-                                  onClick={e=>{e.stopPropagation();changeQty(pos.key,prod.id,+1);}}
-                                  style={{background:"rgba(201,168,76,0.1)",color:"#8a6f32",fontSize:14,width:"100%",borderRadius:4}}>＋ 加入</button>
+                                <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(201,168,76,0.1)", color:"#8a6f32", fontSize:14, width:"100%", borderRadius:4}}>＋ 加入</button>
                               )}
                             </div>
                           </div>
                         );
                       })}
                     </div>
-                    {low&&<p style={{marginTop:8,fontSize:"0.75rem",color:"#f85149"}}>⚠ 此球位不足 $1,000，請再加選產品。</p>}
+                    {low && <p style={{marginTop:8, fontSize:"0.75rem", color:"#f85149"}}>⚠ 此球位不足 $1,000，請再加選產品。</p>}
                   </div>
                 );
               })}
-              {POSITIONS.some(p=>Object.keys(form.positions[p.key]).length>0)&&(
-                <div style={{padding:"14px 16px",background:"rgba(201,168,76,0.06)",borderRadius:6,border:"1px solid rgba(201,168,76,0.2)"}}>
-                  <div style={{fontSize:"0.75rem",color:"#c9a84c",fontWeight:700,marginBottom:8,letterSpacing:"0.08em"}}>訂單總覽</div>
-                  {POSITIONS.map(p=>{
+              {POSITIONS.some(p => Object.keys(form.positions[p.key]).length > 0) && (
+                <div style={{padding:"14px 16px", background:"rgba(201,168,76,0.06)", borderRadius:6, border:"1px solid rgba(201,168,76,0.2)"}}>
+                  <div style={{fontSize:"0.75rem", color:"#c9a84c", fontWeight:700, marginBottom:8, letterSpacing:"0.08em"}}>訂單總覽</div>
+                  {POSITIONS.map(p => {
                     const entries = Object.entries(form.positions[p.key]);
-                    if(!entries.length) return null;
+                    if (!entries.length) return null;
                     return (
                       <div key={p.key} style={{marginBottom:6}}>
-                        <div style={{fontSize:"0.76rem",color:"#e6edf3",fontWeight:600,marginBottom:2}}>{p.icon} {p.label}</div>
-                        {entries.map(([id,qty])=>{
-                          const pr=PRODUCTS.find(r=>r.id===id);
-                          return <div key={id} style={{display:"flex",justifyContent:"space-between",fontSize:"0.76rem",color:"#8b949e",paddingLeft:12}}>
-                            <span>{pr.name}{qty>1?` ×${qty}`:""}</span>
-                            <span>${(pr.price*qty).toLocaleString()}</span>
-                          </div>;
+                        <div style={{fontSize:"0.76rem", color:"#e6edf3", fontWeight:600, marginBottom:2}}>{p.icon} {p.label}</div>
+                        {entries.map(([id, qty]) => {
+                          const pr = PRODUCTS.find(r => r.id === id);
+                          return (
+                            <div key={id} style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", color:"#8b949e", paddingLeft:12}}>
+                              <span>{pr.name}{qty > 1 ? " ×" + qty : ""}</span>
+                              <span>${(pr.price * qty).toLocaleString()}</span>
+                            </div>
+                          );
                         })}
-                        <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.76rem",fontWeight:600,color:"#c9a84c",paddingLeft:12,marginTop:2}}>
+                        <div style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", fontWeight:600, color:"#c9a84c", paddingLeft:12, marginTop:2}}>
                           <span>小計</span><span>${posTotal(p.key).toLocaleString()}</span>
                         </div>
                       </div>
                     );
                   })}
-                  <div style={{borderTop:"1px solid rgba(201,168,76,0.2)",marginTop:8,paddingTop:8,display:"flex",justifyContent:"space-between",fontWeight:700,color:"#c9a84c",fontSize:"0.88rem"}}>
+                  <div style={{borderTop:"1px solid rgba(201,168,76,0.2)", marginTop:8, paddingTop:8, display:"flex", justifyContent:"space-between", fontWeight:700, color:"#c9a84c", fontSize:"0.88rem"}}>
                     <span>訂單合計</span><span>${total.toLocaleString()}</span>
                   </div>
                 </div>
@@ -522,52 +392,52 @@ ${form.payMethod==="transfer"?"\n▶️備註：\n匯款帳號末五碼：":""}
             </div>
           )}
 
-          {/* STEP 1 — Personal */}
-          {step===1&&(
-            <div style={{display:"flex",flexDirection:"column",gap:16}}>
+          {/* Step 1 — Personal */}
+          {step === 1 && (
+            <div style={{display:"flex", flexDirection:"column", gap:16}}>
               {[
-                {k:"name",      l:"中文姓名",   ph:"請輸入真實姓名"},
-                {k:"idNumber",  l:"身分證字號", ph:"A123456789"},
-                {k:"email",     l:"電子郵箱",   ph:"example@email.com", t:"email"},
-                {k:"phone",     l:"手機號碼",   ph:"09xxxxxxxx", t:"tel"},
-                {k:"postalCode",l:"郵遞區號",   ph:"例：407"},
-                {k:"address",   l:"地址",       ph:"縣市 / 區 / 街道門號"},
-              ].map(f=>(
+                {k:"name",       l:"中文姓名",   ph:"請輸入真實姓名"},
+                {k:"idNumber",   l:"身分證字號", ph:"A123456789"},
+                {k:"email",      l:"電子郵箱",   ph:"example@email.com", t:"email"},
+                {k:"phone",      l:"手機號碼",   ph:"09xxxxxxxx", t:"tel"},
+                {k:"postalCode", l:"郵遞區號",   ph:"例：407"},
+                {k:"address",    l:"地址",       ph:"縣市 / 區 / 街道門號"},
+              ].map(f => (
                 <div key={f.k}>
                   <label>{f.l}</label>
-                  <input type={f.t||"text"} placeholder={f.ph} value={form[f.k]} onChange={e=>set(f.k,e.target.value)}/>
+                  <input type={f.t || "text"} placeholder={f.ph} value={form[f.k]} onChange={e => set(f.k, e.target.value)} />
                 </div>
               ))}
             </div>
           )}
 
-          {/* STEP 2 — Payment */}
-          {step===2&&(
+          {/* Step 2 — Payment */}
+          {step === 2 && (
             <div>
-              <div style={{display:"flex",gap:10,marginBottom:20}}>
-                {[{v:"transfer",l:"🏦 匯款"},{v:"card",l:"💳 刷卡"}].map(opt=>(
-                  <button key={opt.v} onClick={()=>set("payMethod",opt.v)} style={{
-                    flex:1,padding:"13px",borderRadius:6,fontWeight:600,fontSize:"0.88rem",
-                    border:form.payMethod===opt.v?"1px solid #c9a84c":"1px solid #2a3344",
-                    background:form.payMethod===opt.v?"rgba(201,168,76,0.12)":"transparent",
-                    color:form.payMethod===opt.v?"#c9a84c":"#8b949e",
-                    cursor:"pointer",transition:"all 0.2s",fontFamily:"'Noto Serif TC',serif",
-                    boxShadow:form.payMethod===opt.v?"0 0 12px rgba(201,168,76,0.15)":"none",
+              <div style={{display:"flex", gap:10, marginBottom:20}}>
+                {[{v:"transfer", l:"🏦 匯款"}, {v:"card", l:"💳 刷卡"}].map(opt => (
+                  <button key={opt.v} onClick={() => set("payMethod", opt.v)} style={{
+                    flex:1, padding:"13px", borderRadius:6, fontWeight:600, fontSize:"0.88rem",
+                    border: "1px solid " + (form.payMethod === opt.v ? "#c9a84c" : "#2a3344"),
+                    background: form.payMethod === opt.v ? "rgba(201,168,76,0.12)" : "transparent",
+                    color: form.payMethod === opt.v ? "#c9a84c" : "#8b949e",
+                    cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
+                    boxShadow: form.payMethod === opt.v ? "0 0 12px rgba(201,168,76,0.15)" : "none",
                   }}>{opt.l}</button>
                 ))}
               </div>
-              {form.payMethod==="transfer"&&(
-                <div style={{display:"flex",flexDirection:"column",gap:12}}>
-                  <div style={{padding:"16px 20px",background:"rgba(201,168,76,0.06)",borderRadius:6,border:"1px solid rgba(201,168,76,0.2)"}}>
-                    <div style={{fontWeight:700,color:"#c9a84c",marginBottom:8,fontSize:"0.88rem"}}>🏦 台幣匯款</div>
-                    <div style={{fontSize:"0.8rem",color:"#8b949e",marginBottom:12}}>個別匯款帳號請詢問介紹人</div>
+              {form.payMethod === "transfer" && (
+                <div style={{display:"flex", flexDirection:"column", gap:12}}>
+                  <div style={{padding:"16px 20px", background:"rgba(201,168,76,0.06)", borderRadius:6, border:"1px solid rgba(201,168,76,0.2)"}}>
+                    <div style={{fontWeight:700, color:"#c9a84c", marginBottom:8, fontSize:"0.88rem"}}>🏦 台幣匯款</div>
+                    <div style={{fontSize:"0.8rem", color:"#8b949e", marginBottom:12}}>個別匯款帳號請詢問介紹人</div>
                     <label>匯款給（姓名，可空白）</label>
-                    <input placeholder="例：王小明" value={transferTo} onChange={e=>setTransferTo(e.target.value)}/>
+                    <input placeholder="例：王小明" value={transferTo} onChange={e => setTransferTo(e.target.value)} />
                   </div>
-                  <div style={{padding:"16px 20px",background:"rgba(88,166,255,0.06)",borderRadius:6,border:"1px solid rgba(88,166,255,0.2)"}}>
-                    <div style={{fontWeight:700,color:"#58a6ff",marginBottom:4,fontSize:"0.88rem"}}>🌐 美金匯款參考（公司帳戶）</div>
-                    <div style={{fontSize:"0.7rem",color:"#8b949e",marginBottom:10}}>此欄僅供參考，不會出現在最終訂單文字中</div>
-                    <div style={{fontSize:"0.78rem",color:"#8b949e",lineHeight:2.1}}>
+                  <div style={{padding:"16px 20px", background:"rgba(88,166,255,0.06)", borderRadius:6, border:"1px solid rgba(88,166,255,0.2)"}}>
+                    <div style={{fontWeight:700, color:"#58a6ff", marginBottom:4, fontSize:"0.88rem"}}>🌐 美金匯款參考（公司帳戶）</div>
+                    <div style={{fontSize:"0.7rem", color:"#8b949e", marginBottom:10}}>此欄僅供參考，不會出現在最終訂單文字中</div>
+                    <div style={{fontSize:"0.78rem", color:"#8b949e", lineHeight:2.1}}>
                       Company Name：Olylife Limited<br/>
                       Account Number：09000800682121<br/>
                       Bank Name：BANK SINOPAC Hong Kong Branch<br/>
@@ -579,368 +449,302 @@ ${form.payMethod==="transfer"?"\n▶️備註：\n匯款帳號末五碼：":""}
                   </div>
                 </div>
               )}
-              {form.payMethod==="card"&&(
-                <div style={{display:"flex",flexDirection:"column",gap:14}}>
+              {form.payMethod === "card" && (
+                <div style={{display:"flex", flexDirection:"column", gap:14}}>
                   <InfoBox color="yellow">💡 一台刷美金1000，匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
                   {[
-                    {k:"cardNumber",l:"信用卡號",ph:"XXXX XXXX XXXX XXXX"},
-                    {k:"cardName",  l:"信用卡英文名字",ph:"如信用卡上所示"},
-                    {k:"cardExpiry",l:"信用卡有效期（mm/yy）",ph:"MM/YY"},
-                    {k:"cardCVV",   l:"安全碼(卡背面的三位數字)",ph:"CVV"},
-                  ].map(f=>(
-                    <div key={f.k}><label>{f.l}</label><input placeholder={f.ph} value={form[f.k]} onChange={e=>set(f.k,e.target.value)}/></div>
+                    {k:"cardNumber", l:"信用卡號",              ph:"XXXX XXXX XXXX XXXX"},
+                    {k:"cardName",   l:"信用卡英文名字",         ph:"如信用卡上所示"},
+                    {k:"cardExpiry", l:"信用卡有效期（mm/yy）", ph:"MM/YY"},
+                    {k:"cardCVV",    l:"安全碼(卡背面的三位數字)", ph:"CVV"},
+                  ].map(f => (
+                    <div key={f.k}><label>{f.l}</label><input placeholder={f.ph} value={form[f.k]} onChange={e => set(f.k, e.target.value)} /></div>
                   ))}
                 </div>
               )}
             </div>
           )}
 
-          {/* STEP 3 — Shipping */}
-          {step===3&&(
+          {/* Step 3 — Shipping */}
+          {step === 3 && (
             <div>
-              <div onClick={()=>set("sameAsPersonal",!form.sameAsPersonal)} style={{
-                display:"flex",alignItems:"center",gap:10,cursor:"pointer",
-                padding:"13px 16px",borderRadius:6,marginBottom:20,transition:"all 0.2s",
-                background:form.sameAsPersonal?"rgba(201,168,76,0.08)":"transparent",
-                border:`1px solid ${form.sameAsPersonal?"rgba(201,168,76,0.3)":"#2a3344"}`,
+              <div onClick={() => set("sameAsPersonal", !form.sameAsPersonal)} style={{
+                display:"flex", alignItems:"center", gap:10, cursor:"pointer",
+                padding:"13px 16px", borderRadius:6, marginBottom:20, transition:"all 0.2s",
+                background: form.sameAsPersonal ? "rgba(201,168,76,0.08)" : "transparent",
+                border: "1px solid " + (form.sameAsPersonal ? "rgba(201,168,76,0.3)" : "#2a3344"),
               }}>
                 <div style={{
-                  width:20,height:20,borderRadius:4,flexShrink:0,
-                  border:`2px solid ${form.sameAsPersonal?"#c9a84c":"#3a4558"}`,
-                  background:form.sameAsPersonal?"#c9a84c":"transparent",
-                  display:"flex",alignItems:"center",justifyContent:"center",
+                  width:20, height:20, borderRadius:4, flexShrink:0,
+                  border: "2px solid " + (form.sameAsPersonal ? "#c9a84c" : "#3a4558"),
+                  background: form.sameAsPersonal ? "#c9a84c" : "transparent",
+                  display:"flex", alignItems:"center", justifyContent:"center",
                 }}>
-                  {form.sameAsPersonal&&<span style={{color:"#0d1117",fontSize:12,lineHeight:1,fontWeight:700}}>✓</span>}
+                  {form.sameAsPersonal && <span style={{color:"#0d1117", fontSize:12, fontWeight:700}}>✓</span>}
                 </div>
-                <span style={{fontSize:"0.85rem",color:form.sameAsPersonal?"#c9a84c":"#8b949e",fontWeight:600}}>收貨資訊與個人資料相同</span>
+                <span style={{fontSize:"0.85rem", color: form.sameAsPersonal ? "#c9a84c" : "#8b949e", fontWeight:600}}>收貨資訊與個人資料相同</span>
               </div>
-              {!form.sameAsPersonal&&(
-                <div style={{display:"flex",flexDirection:"column",gap:14,marginBottom:20}}>
+              {!form.sameAsPersonal && (
+                <div style={{display:"flex", flexDirection:"column", gap:14, marginBottom:20}}>
                   {[
-                    {k:"shipName",l:"收件人姓名"},{k:"shipId",l:"收件人身分證號"},
-                    {k:"shipPhone",l:"收件人電話"},{k:"shipAddress",l:"收件地址"},
-                  ].map(f=>(
-                    <div key={f.k}><label>{f.l}</label><input value={form[f.k]} onChange={e=>set(f.k,e.target.value)}/></div>
+                    {k:"shipName",    l:"收件人姓名"},
+                    {k:"shipId",      l:"收件人身分證號"},
+                    {k:"shipPhone",   l:"收件人電話"},
+                    {k:"shipAddress", l:"收件地址"},
+                  ].map(f => (
+                    <div key={f.k}><label>{f.l}</label><input value={form[f.k]} onChange={e => set(f.k, e.target.value)} /></div>
                   ))}
                 </div>
               )}
               <div style={{marginBottom:16}}>
                 <label>有無申請 EZway</label>
-                <div style={{display:"flex",gap:8}}>
-                  {["有","無","申請中"].map(v=>(
-                    <button key={v} onClick={()=>set("ezway",v)} style={{
-                      flex:1,padding:"10px",borderRadius:6,fontSize:"0.85rem",fontWeight:600,
-                      border:form.ezway===v?"1px solid #c9a84c":"1px solid #2a3344",
-                      background:form.ezway===v?"rgba(201,168,76,0.12)":"transparent",
-                      color:form.ezway===v?"#c9a84c":"#8b949e",cursor:"pointer",transition:"all 0.2s",
-                      fontFamily:"'Noto Serif TC',serif",
+                <div style={{display:"flex", gap:8}}>
+                  {["有","無","申請中"].map(v => (
+                    <button key={v} onClick={() => set("ezway", v)} style={{
+                      flex:1, padding:"10px", borderRadius:6, fontSize:"0.85rem", fontWeight:600,
+                      border: "1px solid " + (form.ezway === v ? "#c9a84c" : "#2a3344"),
+                      background: form.ezway === v ? "rgba(201,168,76,0.12)" : "transparent",
+                      color: form.ezway === v ? "#c9a84c" : "#8b949e",
+                      cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
                     }}>{v}</button>
                   ))}
                 </div>
-                <p style={{fontSize:"0.7rem",color:"#4a5568",marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
+                <p style={{fontSize:"0.7rem", color:"#4a5568", marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
               </div>
-              <div><label>備註</label><textarea rows={3} placeholder="其他需要說明的事項…" value={form.remarks} onChange={e=>set("remarks",e.target.value)}/></div>
+              <div><label>備註</label><textarea rows={3} placeholder="其他需要說明的事項…" value={form.remarks} onChange={e => set("remarks", e.target.value)} /></div>
             </div>
           )}
 
-          {/* STEP 4 — Confirm */}
-          {step===4&&(
+          {/* Step 4 — Confirm */}
+          {step === 4 && (
             <div>
               <InfoBox color="green">✅ 資料填寫完成！複製後貼到 LINE，接著使用「訂單更新」補上推薦人與付款資訊。</InfoBox>
               <div className="line-output">{generateLine()}</div>
-              <CopyBtn getText={generateLine}/>
-              <ResetBtn onClick={()=>{setStep(0);setForm(emptyNew);setTransferTo("");}}/>
+              <CopyBtn getText={generateLine} />
+              <ResetBtn onClick={() => { setStep(0); setForm(emptyNew); setTransferTo(""); }} />
             </div>
           )}
         </Card>
-
-        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:10}}>
-          <SecondaryBtn onClick={()=>step===0?onBack():setStep(s=>s-1)}>
-            {step===0?"← 返回首頁":"← 上一步"}
+        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10}}>
+          <SecondaryBtn onClick={() => step === 0 ? onBack() : setStep(s => s - 1)}>
+            {step === 0 ? "← 返回首頁" : "← 上一步"}
           </SecondaryBtn>
-          {step<4&&<PrimaryBtn onClick={()=>setStep(s=>s+1)} disabled={!canNext()}>
-            {step===3?"生成訂單 →":"下一步 →"}
-          </PrimaryBtn>}
+          {step < 4 && (
+            <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={!canNext()}>
+              {step === 3 ? "生成訂單 →" : "下一步 →"}
+            </PrimaryBtn>
+          )}
         </div>
       </div>
     );
   }
 
-  /* ─────────────────────────────────────────
+  /* ══════════════════════════════════════════
      MODE 2 — 訂單更新
-  ───────────────────────────────────────── */
+  ══════════════════════════════════════════ */
   function OrderUpdate({onBack}) {
-    const [step,setStep]             = useState(0);
-    const [pasted,setPasted]         = useState("");
-    const [refName,setRefName]       = useState("");
-    const [refNo,setRefNo]           = useState("");
-    const [placeName,setPlaceName]   = useState("");
-    const [placeNo,setPlaceNo]       = useState("");
-    const [last5,setLast5]           = useState("");
-    const [xferTime,setXferTime]     = useState("");
-    const [cardAmt,setCardAmt]       = useState("");
+    const [step, setStep]           = useState(0);
+    const [pasted, setPasted]       = useState("");
+    const [refName, setRefName]     = useState("");
+    const [refNo, setRefNo]         = useState("");
+    const [placeName, setPlaceName] = useState("");
+    const [placeNo, setPlaceNo]     = useState("");
+    const [last5, setLast5]         = useState("");
+    const [xferTime, setXferTime]   = useState("");
+    const [cardAmt, setCardAmt]     = useState("");
 
-    const isCard = pasted.includes("刷卡資訊");
-
-    const reset = () => {
-      setStep(0);setPasted("");setRefName("");setRefNo("");
-      setPlaceName("");setPlaceNo("");setLast5("");setXferTime("");setCardAmt("");
-    };
+    const isCard = pasted.includes("刷卡");
+    const canFill = pasted.trim().length > 50;
+    const canGen = refName && refNo && placeName && placeNo && (isCard ? cardAmt : (last5 && xferTime));
 
     const generate = () => {
       let t = pasted.trim();
-      t = t.replace(/▶️ 推薦人 \+ 編號：.*/,  `▶️ 推薦人 + 編號：${refName} ${refNo}`);
-      t = t.replace(/▶️ 安置人 \+ 編號：.*/,  `▶️ 安置人 + 編號：${placeName} ${placeNo}`);
-      if(!isCard){
-        t = t.replace(/▶️ 匯款帳號末五碼：.*/, `▶️ 匯款帳號末五碼：${last5}`);
-        t = t.replace(/▶️ 匯款時間：.*/,       `▶️ 匯款時間：${xferTime}`);
+      t = t.replace(/▶️推薦人\+編號：.*/,  "▶️推薦人+編號：" + refName + " " + refNo);
+      t = t.replace(/▶️安置人\+編號：.*/,  "▶️安置人+編號：" + placeName + " " + placeNo);
+      if (!isCard) {
+        t = t.replace(/匯款帳號末五碼：.*/, "匯款帳號末五碼：" + last5);
+        if (!t.includes("匯款時間")) t = t.replace(/匯款帳號末五碼：[^\n]*/, "匯款帳號末五碼：" + last5 + "\n▶️匯款時間：" + xferTime);
+        else t = t.replace(/▶️匯款時間：.*/, "▶️匯款時間：" + xferTime);
       } else {
-        t = t.replace(/▶️ 刷卡金額：.*/,       `▶️ 刷卡金額：${cardAmt}`);
+        if (!t.includes("刷卡金額")) t += "\n▶️刷卡金額：" + cardAmt;
+        else t = t.replace(/▶️刷卡金額：.*/, "▶️刷卡金額：" + cardAmt);
       }
       return t;
     };
 
-    const canFill = pasted.trim().length>50;
-    const canGen  = refName&&refNo&&placeName&&placeNo&&
-      (isCard ? cardAmt : (last5&&xferTime));
+    const reset = () => { setStep(0); setPasted(""); setRefName(""); setRefNo(""); setPlaceName(""); setPlaceNo(""); setLast5(""); setXferTime(""); setCardAmt(""); };
 
     return (
       <div className="fade-in">
-        <StepBar steps={["貼上訂單","補充資料","更新完成"]} current={step}/>
+        <StepBar steps={["貼上訂單","補充資料","更新完成"]} current={step} />
         <Card>
-          {step===0&&(
+          {step === 0 && (
             <div>
               <InfoBox color="yellow">📋 請將「新訂單」產生的 LINE 文字完整貼入下方。</InfoBox>
               <label>貼上新訂單文字</label>
-              <textarea rows={12} placeholder="將 LINE 訂單文字貼在這裡…"
-                value={pasted} onChange={e=>setPasted(e.target.value)}
-                style={{fontSize:13,lineHeight:1.7}}/>
-              {pasted.length>50&&(
-                <p style={{marginTop:10,fontSize:"0.78rem",color:"#16a34a",fontWeight:600}}>
-                  ✓ 已偵測到{isCard?"刷卡":"匯款"}訂單，請繼續。
+              <textarea rows={12} placeholder="將 LINE 訂單文字貼在這裡…" value={pasted} onChange={e => setPasted(e.target.value)} style={{fontSize:13, lineHeight:1.7}} />
+              {pasted.length > 50 && (
+                <p style={{marginTop:10, fontSize:"0.78rem", color:"#3fb950", fontWeight:600}}>
+                  ✓ 已偵測到{isCard ? "刷卡" : "匯款"}訂單，請繼續。
                 </p>
               )}
             </div>
           )}
-
-          {step===1&&(
-            <div style={{display:"flex",flexDirection:"column",gap:16}}>
+          {step === 1 && (
+            <div style={{display:"flex", flexDirection:"column", gap:16}}>
               <InfoBox color="yellow">✍️ 請填寫推薦人、安置人，以及付款確認細節。</InfoBox>
-
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-                <div><label>推薦人姓名</label><input placeholder="例：王小明" value={refName} onChange={e=>setRefName(e.target.value)}/></div>
-                <div><label>推薦人編號</label><input placeholder="例：TW123456" value={refNo} onChange={e=>setRefNo(e.target.value)}/></div>
-                <div><label>安置人姓名</label><input placeholder="例：李大華" value={placeName} onChange={e=>setPlaceName(e.target.value)}/></div>
-                <div><label>安置人編號</label><input placeholder="例：TW123456" value={placeNo} onChange={e=>setPlaceNo(e.target.value)}/></div>
+              <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
+                <div><label>推薦人姓名</label><input placeholder="例：王小明" value={refName} onChange={e => setRefName(e.target.value)} /></div>
+                <div><label>推薦人編號</label><input placeholder="例：TW123456" value={refNo} onChange={e => setRefNo(e.target.value)} /></div>
+                <div><label>安置人姓名</label><input placeholder="例：李大華" value={placeName} onChange={e => setPlaceName(e.target.value)} /></div>
+                <div><label>安置人編號</label><input placeholder="例：TW123456" value={placeNo} onChange={e => setPlaceNo(e.target.value)} /></div>
               </div>
-
-              <div style={{borderTop:"1px solid #e8d5b0",paddingTop:16}}>
-                <p style={{fontSize:"0.82rem",fontWeight:700,color:"#78350f",marginBottom:14}}>
-                  {isCard?"💳 刷卡確認資訊":"🏦 匯款確認資訊"}
-                </p>
-                {!isCard?(
-                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-                    <div><label>匯款帳號末五碼</label><input placeholder="例：35682" value={last5} onChange={e=>setLast5(e.target.value)}/></div>
-                    <div><label>匯款時間</label><input placeholder="例：03/16 下午2:30" value={xferTime} onChange={e=>setXferTime(e.target.value)}/></div>
+              <div style={{borderTop:"1px solid #2a3344", paddingTop:16}}>
+                <p style={{fontSize:"0.82rem", fontWeight:700, color:"#e6edf3", marginBottom:14}}>{isCard ? "💳 刷卡確認資訊" : "🏦 匯款確認資訊"}</p>
+                {!isCard ? (
+                  <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
+                    <div><label>匯款帳號末五碼</label><input placeholder="例：35682" value={last5} onChange={e => setLast5(e.target.value)} /></div>
+                    <div><label>匯款時間</label><input placeholder="例：03/17 下午2:30" value={xferTime} onChange={e => setXferTime(e.target.value)} /></div>
                   </div>
-                ):(
-                  <div><label>刷卡金額（含幣別）</label><input placeholder="例：USD 1,000 或 NTD 32,000" value={cardAmt} onChange={e=>setCardAmt(e.target.value)}/></div>
+                ) : (
+                  <div><label>刷卡金額（含幣別）</label><input placeholder="例：USD 1,000 或 NTD 32,000" value={cardAmt} onChange={e => setCardAmt(e.target.value)} /></div>
                 )}
               </div>
             </div>
           )}
-
-          {step===2&&(
+          {step === 2 && (
             <div>
-              <InfoBox color="yellow">
-                ✅ 訂單已更新！{isCard?" 因含有刷卡資訊，請再使用「入單資訊更新」移除卡號後再公開分享。":"複製後傳給上線確認即可。"}
+              <InfoBox color={isCard ? "yellow" : "green"}>
+                {isCard ? "✅ 訂單已更新！因含有刷卡資訊，請再使用「入單資訊更新」移除卡號後再公開分享。" : "✅ 訂單已更新！複製後傳給上線確認即可。"}
               </InfoBox>
               <div className="line-output">{generate()}</div>
-              <CopyBtn getText={generate}/>
-              <ResetBtn onClick={reset}/>
+              <CopyBtn getText={generate} />
+              <ResetBtn onClick={reset} />
             </div>
           )}
         </Card>
-
-        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:12}}>
-          <SecondaryBtn onClick={()=>step===0?onBack():setStep(s=>s-1)}>
-            {step===0?"← 返回首頁":"← 上一步"}
+        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10}}>
+          <SecondaryBtn onClick={() => step === 0 ? onBack() : setStep(s => s - 1)}>
+            {step === 0 ? "← 返回首頁" : "← 上一步"}
           </SecondaryBtn>
-          {step<2&&<PrimaryBtn onClick={()=>setStep(s=>s+1)} disabled={step===0?!canFill:!canGen}>
-            {step===1?"生成更新 →":"填寫資料 →"}
-          </PrimaryBtn>}
+          {step < 2 && (
+            <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={step === 0 ? !canFill : !canGen}>
+              {step === 1 ? "生成更新 →" : "填寫資料 →"}
+            </PrimaryBtn>
+          )}
         </div>
       </div>
     );
   }
 
-  /* ─────────────────────────────────────────
+  /* ══════════════════════════════════════════
      MODE 3 — 入單資訊更新
-  ───────────────────────────────────────── */
-  const CARD_PATTERNS = [
-    /▶️ 刷卡資訊/,
-    /信用卡號：/,
-    /持卡人英文姓名：/,
-    /有效期限（mm\/yy）：/,
-    /安全碼：/,
-    /刷卡金額：/,
-  ];
-
-  const stripCard = text =>
-    text.split("\n")
-      .filter(l => !CARD_PATTERNS.some(p=>p.test(l)))
-      .join("\n")
-      .replace(/\n{3,}/g,"\n\n")
-      .trim();
+  ══════════════════════════════════════════ */
+  const CARD_PATTERNS = [/▶️刷卡/, /信用卡號：/, /信用卡英文名字：/, /信用卡有效期/, /安全碼/, /刷卡金額：/];
+  const stripCard = text => text.split("\n").filter(l => !CARD_PATTERNS.some(p => p.test(l))).join("\n").replace(/\n{3,}/g, "\n\n").trim();
 
   function EntryUpdate({onBack}) {
-    const [step,setStep]     = useState(0);
-    const [pasted,setPasted] = useState("");
-
-    const hasCard = pasted.includes("刷卡資訊")||pasted.includes("信用卡號");
+    const [step, setStep]     = useState(0);
+    const [pasted, setPasted] = useState("");
+    const hasCard = pasted.includes("刷卡") || pasted.includes("信用卡號");
     const clean   = pasted ? stripCard(pasted) : "";
-    const canGo   = pasted.trim().length>50;
+    const canGo   = pasted.trim().length > 50;
 
     return (
       <div className="fade-in">
-        <StepBar steps={["貼上文字","確認移除","乾淨版本"]} current={step}/>
+        <StepBar steps={["貼上文字","確認移除","乾淨版本"]} current={step} />
         <Card>
-          {step===0&&(
+          {step === 0 && (
             <div>
               <InfoBox color="yellow">📋 將「訂單更新」產生的文字貼入。系統會自動移除刷卡敏感資訊，產生可公開分享的乾淨版本。</InfoBox>
               <label>貼上訂單更新文字</label>
-              <textarea rows={12} placeholder="將含有刷卡資訊的訂單文字貼在這裡…"
-                value={pasted} onChange={e=>setPasted(e.target.value)}
-                style={{fontSize:13,lineHeight:1.7}}/>
-              {pasted.length>50&&(
-                <p style={{marginTop:10,fontSize:"0.78rem",fontWeight:600,
-                  color:hasCard?"#dc2626":"#16a34a"}}>
-                  {hasCard?"⚠️ 偵測到刷卡資訊，下一步將自動移除。":"✓ 未偵測到刷卡資訊，仍可繼續生成乾淨版本。"}
+              <textarea rows={12} placeholder="將含有刷卡資訊的訂單文字貼在這裡…" value={pasted} onChange={e => setPasted(e.target.value)} style={{fontSize:13, lineHeight:1.7}} />
+              {pasted.length > 50 && (
+                <p style={{marginTop:10, fontSize:"0.78rem", fontWeight:600, color: hasCard ? "#f85149" : "#3fb950"}}>
+                  {hasCard ? "⚠️ 偵測到刷卡資訊，下一步將自動移除。" : "✓ 未偵測到刷卡資訊，仍可繼續生成乾淨版本。"}
                 </p>
               )}
             </div>
           )}
-
-          {step===1&&(
+          {step === 1 && (
             <div>
-              <InfoBox color="red">
-                🗑️ 以下欄位將被移除：<br/><br/>
-                <strong>▶️ 刷卡資訊 / 信用卡號 / 持卡人英文姓名 / 有效期限 / 安全碼 / 刷卡金額</strong>
-              </InfoBox>
-              <InfoBox color="green">
-                ✅ 保留內容：會員基本資料、產品選擇、匯款資訊、收貨資訊、EZway、推薦人與安置人等所有非敏感欄位。
-              </InfoBox>
+              <InfoBox color="red">🗑️ 以下欄位將被移除：<br/><br/><strong>▶️ 刷卡 / 信用卡號 / 信用卡英文名字 / 信用卡有效期 / 安全碼 / 刷卡金額</strong></InfoBox>
+              <InfoBox color="green">✅ 保留內容：會員基本資料、產品選擇、匯款資訊、收貨資訊、EZway、推薦人與安置人等所有非敏感欄位。</InfoBox>
             </div>
           )}
-
-          {step===2&&(
+          {step === 2 && (
             <div>
               <InfoBox color="green">✅ 刷卡資訊已移除！此版本可安全地在 LINE 群組流通。</InfoBox>
               <div className="line-output">{clean}</div>
-              <CopyBtn getText={()=>clean}/>
-              <ResetBtn onClick={()=>{setStep(0);setPasted("");}}/>
+              <CopyBtn getText={() => clean} />
+              <ResetBtn onClick={() => { setStep(0); setPasted(""); }} />
             </div>
           )}
         </Card>
-
-        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:12}}>
-          <SecondaryBtn onClick={()=>step===0?onBack():setStep(s=>s-1)}>
-            {step===0?"← 返回首頁":"← 上一步"}
+        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10}}>
+          <SecondaryBtn onClick={() => step === 0 ? onBack() : setStep(s => s - 1)}>
+            {step === 0 ? "← 返回首頁" : "← 上一步"}
           </SecondaryBtn>
-          {step<2&&<PrimaryBtn onClick={()=>setStep(s=>s+1)} disabled={!canGo}>
-            {step===1?"確認移除，生成 →":"預覽移除項目 →"}
-          </PrimaryBtn>}
+          {step < 2 && (
+            <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={!canGo}>
+              {step === 1 ? "確認移除，生成 →" : "預覽移除項目 →"}
+            </PrimaryBtn>
+          )}
         </div>
       </div>
     );
   }
 
-  /* ─────────────────────────────────────────
+  /* ══════════════════════════════════════════
      HOME SCREEN
-  ───────────────────────────────────────── */
+  ══════════════════════════════════════════ */
   const MODES = [
-    {
-      id:"new", emoji:"📝", title:"新訂單", badge:"STEP 01",
-      badgeC:"#c9a84c", badgeBg:"rgba(201,168,76,0.1)",
-      sub:"陪新朋友填寫產品選擇與個人資料",
-      desc:"選產品 → 填資料 → 選付款 → 生成 LINE 文字",
-    },
-    {
-      id:"update", emoji:"✏️", title:"訂單更新", badge:"STEP 02",
-      badgeC:"#58a6ff", badgeBg:"rgba(88,166,255,0.1)",
-      sub:"補上推薦人資訊與付款確認細節",
-      desc:"貼上新訂單 → 填推薦人 + 付款確認 → 生成更新版",
-    },
-    {
-      id:"entry", emoji:"🔒", title:"入單資訊更新", badge:"STEP 03",
-      badgeC:"#3fb950", badgeBg:"rgba(63,185,80,0.1)",
-      sub:"移除刷卡敏感資訊，產生可公開版本",
-      desc:"貼上訂單更新 → 自動移除卡號 → 生成乾淨版本",
-    },
+    { id:"new",    emoji:"📝", title:"新訂單",        badge:"STEP 01", badgeC:"#c9a84c", badgeBg:"rgba(201,168,76,0.1)",  sub:"陪新朋友填寫產品選擇與個人資料",   desc:"選產品 → 填資料 → 選付款 → 生成 LINE 文字" },
+    { id:"update", emoji:"✏️", title:"訂單更新",       badge:"STEP 02", badgeC:"#58a6ff", badgeBg:"rgba(88,166,255,0.1)",  sub:"補上推薦人資訊與付款確認細節",     desc:"貼上新訂單 → 填推薦人 + 付款確認 → 生成更新版" },
+    { id:"entry",  emoji:"🔒", title:"入單資訊更新",   badge:"STEP 03", badgeC:"#3fb950", badgeBg:"rgba(63,185,80,0.1)",   sub:"移除刷卡敏感資訊，產生可公開版本", desc:"貼上訂單更新 → 自動移除卡號 → 生成乾淨版本" },
   ];
 
   function Home({onSelect}) {
     return (
       <div className="fade-in">
-        {/* Header */}
-        <div style={{maxWidth:520,margin:"0 auto 36px",textAlign:"center"}}>
-          {/* Gold top bar */}
-          <div style={{
-            width:48, height:3, background:"linear-gradient(90deg,#9a7a2a,#c9a84c)",
-            margin:"0 auto 20px", borderRadius:2,
-          }}/>
-          <div style={{
-            fontFamily:"'Cinzel',serif",
-            fontSize:"1.6rem", fontWeight:700,
-            background:"linear-gradient(135deg,#c9a84c,#e8d5a0)",
-            WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
-            letterSpacing:"0.12em", marginBottom:6,
-          }}>OLYLIFE</div>
-          <div style={{fontSize:"0.78rem",color:"#8b949e",letterSpacing:"0.2em",textTransform:"uppercase"}}>
-            訂單管理系統
+        <div style={{maxWidth:520, margin:"0 auto 36px", textAlign:"center"}}>
+          <div style={{width:48, height:3, background:"linear-gradient(90deg,#9a7a2a,#c9a84c)", margin:"0 auto 20px", borderRadius:2}} />
+          <div style={{fontFamily:"'Cinzel',serif", fontSize:"1.6rem", fontWeight:700, background:"linear-gradient(135deg,#c9a84c,#e8d5a0)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", letterSpacing:"0.12em", marginBottom:6}}>
+            OLYLIFE
           </div>
+          <div style={{fontSize:"0.78rem", color:"#8b949e", letterSpacing:"0.2em", textTransform:"uppercase"}}>訂單管理系統</div>
         </div>
 
-        <div style={{maxWidth:520,margin:"0 auto",display:"flex",flexDirection:"column",gap:12}}>
-          {MODES.map((m,i)=>(
-            <div key={m.id} onClick={()=>onSelect(m.id)} className="home-card"
-              style={{animation:`fadeIn 0.4s ease ${i*0.08}s both`}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-                <div style={{display:"flex",alignItems:"center",gap:14}}>
-                  <div style={{
-                    width:42,height:42,borderRadius:6,flexShrink:0,
-                    background:"rgba(201,168,76,0.08)",border:"1px solid rgba(201,168,76,0.2)",
-                    display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,
-                  }}>{m.emoji}</div>
+        <div style={{maxWidth:520, margin:"0 auto", display:"flex", flexDirection:"column", gap:12}}>
+          {MODES.map((m, i) => (
+            <div key={m.id} onClick={() => onSelect(m.id)} className="home-card" style={{animation:"fadeIn 0.4s ease " + (i * 0.08) + "s both"}}>
+              <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start"}}>
+                <div style={{display:"flex", alignItems:"center", gap:14}}>
+                  <div style={{width:42, height:42, borderRadius:6, flexShrink:0, background:"rgba(201,168,76,0.08)", border:"1px solid rgba(201,168,76,0.2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20}}>
+                    {m.emoji}
+                  </div>
                   <div>
-                    <div style={{fontSize:"1rem",fontWeight:700,color:"#e6edf3"}}>{m.title}</div>
-                    <div style={{fontSize:"0.76rem",color:"#8b949e",marginTop:3}}>{m.sub}</div>
+                    <div style={{fontSize:"1rem", fontWeight:700, color:"#e6edf3"}}>{m.title}</div>
+                    <div style={{fontSize:"0.76rem", color:"#8b949e", marginTop:3}}>{m.sub}</div>
                   </div>
                 </div>
-                <div style={{
-                  fontSize:"0.62rem",fontWeight:700,padding:"3px 9px",borderRadius:4,
-                  background:m.badgeBg,color:m.badgeC,whiteSpace:"nowrap",flexShrink:0,
-                  marginLeft:8,letterSpacing:"0.08em",
-                }}>{m.badge}</div>
+                <div style={{fontSize:"0.62rem", fontWeight:700, padding:"3px 9px", borderRadius:4, background:m.badgeBg, color:m.badgeC, whiteSpace:"nowrap", flexShrink:0, marginLeft:8, letterSpacing:"0.08em"}}>
+                  {m.badge}
+                </div>
               </div>
-              <div style={{
-                marginTop:14,paddingTop:12,
-                borderTop:"1px solid #2a3344",
-                fontSize:"0.73rem",color:"#4a5568",lineHeight:1.6,
-              }}>
+              <div style={{marginTop:14, paddingTop:12, borderTop:"1px solid #2a3344", fontSize:"0.73rem", color:"#4a5568", lineHeight:1.6}}>
                 {m.desc}
               </div>
             </div>
           ))}
         </div>
 
-        <div style={{maxWidth:520,margin:"20px auto 0",padding:"12px 20px",background:"rgba(255,255,255,0.03)",borderRadius:6,border:"1px solid #2a3344",fontSize:"0.73rem",color:"#4a5568",lineHeight:1.8,textAlign:"center"}}>
+        <div style={{maxWidth:520, margin:"20px auto 0", padding:"12px 20px", background:"rgba(255,255,255,0.03)", borderRadius:6, border:"1px solid #2a3344", fontSize:"0.73rem", color:"#4a5568", lineHeight:1.8, textAlign:"center"}}>
           三個步驟各自獨立運作，不需依序操作。每步完成後生成 LINE 格式文字供複製使用。
         </div>
 
-        {/* Version history */}
-        <div style={{maxWidth:520,margin:"20px auto 0",fontSize:"0.65rem",color:"#3a4558",lineHeight:2,textAlign:"center"}}>
-          <div style={{fontWeight:700,marginBottom:4,letterSpacing:"0.08em",color:"#4a5568"}}>VERSION HISTORY</div>
+        <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#3a4558", lineHeight:2, textAlign:"center"}}>
+          <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#4a5568"}}>VERSION HISTORY</div>
           <div><strong style={{color:"#4a5568"}}>v4.0</strong>　全面重設計：深色科技感主題，香檳金點綴</div>
           <div><strong style={{color:"#3a4558"}}>v3.4</strong>　統一 LINE 輸出格式；產品小計換行；刷卡欄位標籤修正</div>
           <div><strong style={{color:"#3a4558"}}>v3.3</strong>　新增「匯款給」欄位；香港帳號改為參考用</div>
@@ -954,22 +758,22 @@ ${form.payMethod==="transfer"?"\n▶️備註：\n匯款帳號末五碼：":""}
     );
   }
 
-  /* ─────────────────────────────────────────
+  /* ══════════════════════════════════════════
      ROOT APP
-  ───────────────────────────────────────── */
+  ══════════════════════════════════════════ */
   function App() {
-    const [mode,setMode] = useState("home");
+    const [mode, setMode] = useState("home");
     return (
       <div style={{padding:"32px 16px 80px"}}>
-        {mode==="home"   && <Home        onSelect={setMode}/>}
-        {mode==="new"    && <NewOrder    onBack={()=>setMode("home")}/>}
-        {mode==="update" && <OrderUpdate onBack={()=>setMode("home")}/>}
-        {mode==="entry"  && <EntryUpdate onBack={()=>setMode("home")}/>}
+        {mode === "home"   && <Home        onSelect={setMode} />}
+        {mode === "new"    && <NewOrder    onBack={() => setMode("home")} />}
+        {mode === "update" && <OrderUpdate onBack={() => setMode("home")} />}
+        {mode === "entry"  && <EntryUpdate onBack={() => setMode("home")} />}
       </div>
     );
   }
 
-  ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
 </body>
 </html>
