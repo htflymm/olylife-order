@@ -359,7 +359,7 @@
 
       let paySection;
       if (form.payMethod === "transfer") {
-        paySection = "▶️匯款信息\n中國信託(822) 台中南屯分行 \n匯款帳號：045540435682 \n戶名：鄒震宇\n（備註欄空白，方便對帳）\n----------------------";
+        paySection = "▶️匯款信息\n個別匯款帳號請詢問介紹人";
         if (transferTo) paySection += "\n匯款給：" + transferTo;
       } else {
         paySection = "▶️刷卡 \n(一台刷美金1000\n匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：" + form.cardNumber + "\n\n信用卡英文名字：" + form.cardName + "\n\n信用卡有效期（mm/yy）：" + form.cardExpiry + "\n\n安全碼(卡背面的三位數字)：" + form.cardCVV;
@@ -864,6 +864,7 @@
         {/* ── Version ── */}
         <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#b8d9bb", lineHeight:2, textAlign:"center"}}>
           <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, marginBottom:4, letterSpacing:"0.12em", color:"#c8e6cb", textTransform:"uppercase"}}>Version History</div>
+          <div><strong style={{color:"#b8d9bb"}}>v5.3</strong>　修正：生成文字不再輸出舊匯款帳號</div>
           <div><strong style={{color:"#b8d9bb"}}>v5.2</strong>　對齊官網綠色主題；Logo 綠底顯示；標題改為「奇跡入單」</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.1</strong>　淺色底對齊官網；藍色系配色</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.0</strong>　品牌重設計；CHAMPION'S CHOICE 主題</div>
