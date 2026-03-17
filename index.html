@@ -348,12 +348,22 @@
       const posLine = POSITIONS.map(p => {
         const entries = Object.entries(form.positions[p.key]);
         if (!entries.length) return p.label + "：（未選擇）";
-        const items = entries.map(([id, qty]) => {
+        // Each product on its own line, indent continuation lines to align with first product
+        const indent = "　　　"; // 3 full-width spaces ≈ width of "主球："
+        const items = entries.map(([id, qty], idx) => {
           const pr = PRODUCTS.find(r => r.id === id);
-          return qty > 1 ? (pr.name + " x" + qty + "（$" + (pr.price * qty) + "）") : (pr.name + "（$" + pr.price + "）");
-        }).join("、");
-        return p.label + "：" + items + "\n　　　　小計 $" + posTotal(p.key).toLocaleString();
-      }).join("\n");
+          const text = qty > 1
+            ? (pr.name + " x" + qty + "（$" + (pr.price * qty) + "）")
+            : (pr.name + "（$" + pr.price + "）");
+          // First item follows label directly; subsequent items on new indented lines
+          return idx === 0 ? text + "、" : indent + text + (idx < entries.length - 1 ? "、" : "");
+        });
+        // Last item shouldn't have trailing 、 — remove it
+        const lastIdx = items.length - 1;
+        items[lastIdx] = items[lastIdx].replace(/、$/, "");
+        items[0] = items[0].replace(/、$/, items.length > 1 ? "、" : "");
+        return p.label + "：" + items.join("\n") + "\n　　　　小計 $" + posTotal(p.key).toLocaleString();
+      }).join("\n\n");
 
       let paySection;
       if (form.payMethod === "transfer") {
@@ -862,6 +872,7 @@
         {/* ── Version ── */}
         <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#b8d9bb", lineHeight:2, textAlign:"center"}}>
           <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, marginBottom:4, letterSpacing:"0.12em", color:"#c8e6cb", textTransform:"uppercase"}}>Version History</div>
+          <div><strong style={{color:"#b8d9bb"}}>v5.6</strong>　產品排版優化：每項各自一行、縮排對齊、球位間空行</div>
           <div><strong style={{color:"#b8d9bb"}}>v5.5</strong>　SlyLine 換用官方圖片 OLY-SL-6-P；全產品圖片統一官方來源</div>
           <div><strong style={{color:"#b8d9bb"}}>v5.4</strong>　換用官方後台圖片；修正 P90 Plus / Shaken / 小神吹 產品代碼</div>
           <div><strong style={{color:"#b8d9bb"}}>v5.3</strong>　修正：生成文字不再輸出舊匯款帳號</div>
