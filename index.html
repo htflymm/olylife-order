@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OlyLife 訂單系統</title>
+  <title>奇跡入單 | OlyLife</title>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:        #f4f7fb;
-      --bg2:       #eaf0f8;
-      --white:     #ffffff;
-      --surface:   #ffffff;
-      --surface2:  #f0f5fb;
-      --border:    #dbe6f2;
-      --border2:   #c5d8ed;
-      --blue:      #006cc8;
-      --blue-light:#0099e6;
-      --blue-dim:  #cce3f7;
-      --blue-bg:   rgba(0,108,200,0.06);
-      --blue-glow: rgba(0,108,200,0.15);
-      --text:      #0d1c2e;
-      --text-dim:  #4a6080;
-      --text-mute: #8ba4be;
-      --red:       #d93025;
-      --red-bg:    rgba(217,48,37,0.07);
-      --green:     #0f7a4a;
-      --green-bg:  rgba(15,122,74,0.07);
-      --cyan:      #0088cc;
+      --bg:         #f5faf6;
+      --white:      #ffffff;
+      --surface:    #ffffff;
+      --surface2:   #f0f7f1;
+      --border:     #d4e8d6;
+      --border2:    #b8d9bb;
+      --green:      #2a8a3e;
+      --green-light:#35a84e;
+      --green-dim:  #c8e6cb;
+      --green-bg:   rgba(42,138,62,0.07);
+      --green-glow: rgba(42,138,62,0.18);
+      --green-hero: #25a244;
+      --logo-bg:    #d6edd8;
+      --text:       #0f1f12;
+      --text-dim:   #3d6644;
+      --text-mute:  #7ea882;
+      --red:        #c62828;
+      --red-bg:     rgba(198,40,40,0.07);
+      --blue-ref:   #1565c0;
+      --blue-bg:    rgba(21,101,192,0.06);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,7 +46,7 @@
 
     input, textarea {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 6px;
       padding: 11px 14px;
       background: var(--white);
@@ -57,8 +57,8 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     input:focus, textarea:focus {
-      border-color: var(--blue-light);
-      box-shadow: 0 0 0 3px var(--blue-glow);
+      border-color: var(--green-light);
+      box-shadow: 0 0 0 3px var(--green-glow);
     }
     input::placeholder, textarea::placeholder { color: var(--text-mute); }
     textarea { resize: none; }
@@ -68,7 +68,7 @@
       font-family: 'Rajdhani', sans-serif;
       font-size: 11px;
       font-weight: 700;
-      color: var(--blue);
+      color: var(--green);
       margin-bottom: 6px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -85,20 +85,20 @@
       display: flex;
       flex-direction: column;
     }
-    .product-card:hover { border-color: var(--blue-light); box-shadow: 0 4px 16px rgba(0,108,200,0.12); transform: translateY(-1px); }
+    .product-card:hover { border-color: var(--green-light); box-shadow: 0 4px 16px rgba(42,138,62,0.13); transform: translateY(-1px); }
     .product-card.has-qty {
-      border-color: var(--blue) !important;
-      background: var(--blue-bg) !important;
-      box-shadow: 0 4px 18px rgba(0,108,200,0.18) !important;
+      border-color: var(--green) !important;
+      background: var(--green-bg) !important;
+      box-shadow: 0 4px 18px rgba(42,138,62,0.18) !important;
     }
-    .product-card.has-qty .prod-name  { color: var(--blue) !important; }
-    .product-card.has-qty .prod-price { color: var(--blue-light) !important; }
+    .product-card.has-qty .prod-name  { color: var(--green) !important; }
+    .product-card.has-qty .prod-price { color: var(--green-light) !important; }
 
     .prod-img-wrap {
       width: 100%; aspect-ratio: 1/1;
       background: var(--surface2);
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; border-bottom: 1px solid var(--border);
+      overflow: hidden; border-bottom: 1.5px solid var(--border);
     }
     .prod-img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
     .prod-img-placeholder {
@@ -106,7 +106,7 @@
       display: flex; align-items: center; justify-content: center;
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.6rem; font-weight: 700;
-      color: var(--blue-dim); letter-spacing: 0.05em;
+      color: var(--green-dim);
     }
 
     /* ── Qty buttons ── */
@@ -119,7 +119,7 @@
     .qty-btn:active { transform: scale(0.88); }
 
     /* ── Position section ── */
-    .pos-section { border-left: 3px solid var(--blue-dim); padding-left: 16px; margin-bottom: 26px; }
+    .pos-section { border-left: 3px solid var(--green-dim); padding-left: 16px; margin-bottom: 26px; }
 
     /* ── Step buttons ── */
     .step-btn { transition: all 0.18s; font-family: 'Noto Serif TC', serif; }
@@ -128,8 +128,8 @@
     /* ── LINE output ── */
     .line-output {
       font-family: monospace;
-      background: #1a2235;
-      color: #c5d8ed;
+      background: #0f1f12;
+      color: #c8e6cb;
       border-radius: 6px;
       border: 1px solid var(--border);
       padding: 18px;
@@ -154,14 +154,14 @@
     .home-card::after {
       content: '';
       position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--blue), var(--blue-light), var(--cyan));
+      background: linear-gradient(90deg, var(--green), var(--green-light), #66bb6a);
       opacity: 0; transition: opacity 0.2s;
     }
-    .home-card:hover { border-color: var(--blue-light); box-shadow: 0 6px 24px rgba(0,108,200,0.12); transform: translateY(-2px); }
+    .home-card:hover { border-color: var(--green-light); box-shadow: 0 6px 24px rgba(42,138,62,0.13); transform: translateY(-2px); }
     .home-card:hover::after { opacity: 1; }
 
     ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-track { background: var(--surface2); }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
   </style>
 </head>
@@ -216,22 +216,22 @@
       maxWidth:520, margin:"0 auto",
       background:"#ffffff",
       borderRadius:10,
-      boxShadow:"0 2px 20px rgba(0,60,120,0.09)",
+      boxShadow:"0 2px 20px rgba(0,80,20,0.09)",
       padding:"28px 24px",
-      border:"1.5px solid #dbe6f2",
+      border:"1.5px solid #d4e8d6",
     }}>{children}</div>
   );
 
-  const PrimaryBtn = ({onClick, disabled, children, green}) => (
+  const PrimaryBtn = ({onClick, disabled, children, altColor}) => (
     <button onClick={onClick} disabled={disabled} className="step-btn" style={{
       flex:2, padding:"14px", borderRadius:6, border:"none",
-      background: disabled ? "#e8f0f8"
-        : green ? "linear-gradient(135deg,#0f7a4a,#12a060)"
-        : "linear-gradient(135deg,#005bb5,#0099e6)",
-      color: disabled ? "#8ba4be" : "#ffffff",
+      background: disabled ? "#e8f5e9"
+        : altColor ? "linear-gradient(135deg,#1565c0,#1976d2)"
+        : "linear-gradient(135deg,#1e7a35,#25a244)",
+      color: disabled ? "#7ea882" : "#ffffff",
       fontWeight:700, fontSize:"0.92rem",
       cursor: disabled ? "not-allowed" : "pointer",
-      boxShadow: disabled ? "none" : (green ? "0 4px 14px rgba(15,122,74,0.3)" : "0 4px 14px rgba(0,100,200,0.3)"),
+      boxShadow: disabled ? "none" : (altColor ? "0 4px 14px rgba(21,101,192,0.28)" : "0 4px 14px rgba(37,162,68,0.32)"),
       fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s", letterSpacing:"0.03em",
     }}>{children}</button>
   );
@@ -239,8 +239,8 @@
   const SecondaryBtn = ({onClick, children}) => (
     <button onClick={onClick} className="step-btn" style={{
       flex:1, padding:"14px", borderRadius:6,
-      border:"1.5px solid #dbe6f2", background:"#ffffff",
-      color:"#4a6080", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
+      border:"1.5px solid #d4e8d6", background:"#ffffff",
+      color:"#3d6644", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
       fontFamily:"'Noto Serif TC',serif",
     }}>{children}</button>
   );
@@ -250,9 +250,9 @@
     return (
       <button onClick={() => { navigator.clipboard.writeText(getText()).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }); }} style={{
         width:"100%", marginTop:16, padding:"14px", borderRadius:6, border:"none",
-        background: copied ? "linear-gradient(135deg,#0f7a4a,#12a060)" : "linear-gradient(135deg,#005bb5,#0099e6)",
+        background: copied ? "linear-gradient(135deg,#1565c0,#1976d2)" : "linear-gradient(135deg,#1e7a35,#25a244)",
         color:"#ffffff", fontWeight:700, fontSize:"0.95rem", cursor:"pointer",
-        boxShadow: copied ? "0 4px 14px rgba(15,122,74,0.3)" : "0 4px 14px rgba(0,100,200,0.3)",
+        boxShadow: copied ? "0 4px 14px rgba(21,101,192,0.28)" : "0 4px 14px rgba(37,162,68,0.32)",
         transition:"all 0.3s", fontFamily:"'Noto Serif TC',serif", letterSpacing:"0.03em",
       }}>
         {copied ? "已複製！貼到 LINE 吧" : "一鍵複製 LINE 格式"}
@@ -263,8 +263,8 @@
   const ResetBtn = ({onClick}) => (
     <button onClick={onClick} style={{
       width:"100%", marginTop:10, padding:"12px", borderRadius:6,
-      border:"1.5px solid #dbe6f2", background:"transparent",
-      color:"#8ba4be", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
+      border:"1.5px solid #d4e8d6", background:"transparent",
+      color:"#7ea882", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
       fontFamily:"'Noto Serif TC',serif",
     }}>↺ 重新操作</button>
   );
@@ -278,30 +278,30 @@
               width:30, height:30, borderRadius:15, flexShrink:0,
               display:"flex", alignItems:"center", justifyContent:"center",
               fontFamily:"'Rajdhani',sans-serif", fontSize:"0.75rem", fontWeight:700,
-              background: i < current ? "#006cc8" : (i === current ? "#0099e6" : "#dbe6f2"),
-              color: i <= current ? "#ffffff" : "#8ba4be",
-              boxShadow: i === current ? "0 0 0 4px rgba(0,153,230,0.2)" : "none",
+              background: i < current ? "#2a8a3e" : (i === current ? "#25a244" : "#d4e8d6"),
+              color: i <= current ? "#ffffff" : "#7ea882",
+              boxShadow: i === current ? "0 0 0 4px rgba(37,162,68,0.22)" : "none",
               transition:"all 0.3s",
             }}>{i < current ? "✓" : i + 1}</div>
             {i < steps.length - 1 && (
-              <div style={{flex:1, height:2, margin:"0 4px", background: i < current ? "#006cc8" : "#dbe6f2", transition:"background 0.3s"}} />
+              <div style={{flex:1, height:2, margin:"0 4px", background: i < current ? "#2a8a3e" : "#d4e8d6", transition:"background 0.3s"}} />
             )}
           </React.Fragment>
         ))}
       </div>
       <div style={{textAlign:"center"}}>
-        <span style={{fontFamily:"'Rajdhani',sans-serif", color:"#006cc8", fontWeight:700, fontSize:"0.85rem", letterSpacing:"0.1em", textTransform:"uppercase"}}>{steps[current]}</span>
+        <span style={{fontFamily:"'Rajdhani',sans-serif", color:"#2a8a3e", fontWeight:700, fontSize:"0.85rem", letterSpacing:"0.1em", textTransform:"uppercase"}}>{steps[current]}</span>
       </div>
     </div>
   );
 
   const InfoBox = ({color, children}) => {
     const C = {
-      blue:  {bg:"rgba(0,108,200,0.06)", border:"rgba(0,108,200,0.2)", text:"#006cc8"},
-      red:   {bg:"rgba(217,48,37,0.06)", border:"rgba(217,48,37,0.2)", text:"#c0392b"},
-      green: {bg:"rgba(15,122,74,0.06)", border:"rgba(15,122,74,0.2)", text:"#0f7a4a"},
+      green: {bg:"rgba(42,138,62,0.07)",  border:"rgba(42,138,62,0.22)",  text:"#1e7a35"},
+      red:   {bg:"rgba(198,40,40,0.07)",  border:"rgba(198,40,40,0.22)",  text:"#c62828"},
+      blue:  {bg:"rgba(21,101,192,0.07)", border:"rgba(21,101,192,0.22)", text:"#1565c0"},
     };
-    const c = C[color] || C.blue;
+    const c = C[color] || C.green;
     return (
       <div style={{padding:"12px 16px", borderRadius:6, marginBottom:16, background:c.bg, border:"1px solid "+c.border, fontSize:"0.82rem", color:c.text, lineHeight:1.7}}>
         {children}
@@ -395,13 +395,21 @@
       return true;
     };
 
-    const payTabStyle = (active) => ({
+    const tabStyle = (active) => ({
       flex:1, padding:"13px", borderRadius:6, fontWeight:600, fontSize:"0.88rem",
-      border: active ? "1.5px solid #0099e6" : "1.5px solid #dbe6f2",
-      background: active ? "rgba(0,108,200,0.07)" : "#ffffff",
-      color: active ? "#006cc8" : "#8ba4be",
+      border: active ? "1.5px solid #25a244" : "1.5px solid #d4e8d6",
+      background: active ? "rgba(42,138,62,0.08)" : "#ffffff",
+      color: active ? "#2a8a3e" : "#7ea882",
       cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
-      boxShadow: active ? "0 2px 8px rgba(0,108,200,0.12)" : "none",
+      boxShadow: active ? "0 2px 8px rgba(42,138,62,0.15)" : "none",
+    });
+
+    const ezwayStyle = (active) => ({
+      flex:1, padding:"10px", borderRadius:6, fontSize:"0.85rem", fontWeight:600,
+      border: "1.5px solid " + (active ? "#25a244" : "#d4e8d6"),
+      background: active ? "rgba(42,138,62,0.08)" : "#ffffff",
+      color: active ? "#2a8a3e" : "#7ea882",
+      cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
     });
 
     return (
@@ -412,28 +420,28 @@
           {/* Step 0 — Products */}
           {step === 0 && (
             <div>
-              <p style={{color:"#4a6080", fontSize:"0.82rem", marginBottom:20, lineHeight:1.7}}>
+              <p style={{color:"#3d6644", fontSize:"0.82rem", marginBottom:20, lineHeight:1.7}}>
                 每個位置可選多項產品，金額自動加總。主球必填，左右球可視情況選填。
-                <strong style={{color:"#006cc8"}}> 每個球位最低 $1,000。</strong>
+                <strong style={{color:"#2a8a3e"}}> 每個球位最低 $1,000。</strong>
               </p>
               {POSITIONS.map(pos => {
                 const sub = posTotal(pos.key);
                 const hasSel = Object.keys(form.positions[pos.key]).length > 0;
                 const low = hasSel && sub < MIN;
                 return (
-                  <div key={pos.key} className="pos-section" style={{borderLeftColor: low ? "#d93025" : "#0099e6"}}>
+                  <div key={pos.key} className="pos-section" style={{borderLeftColor: low ? "#c62828" : "#25a244"}}>
                     <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12}}>
                       <div>
-                        <span style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.95rem", fontWeight:700, color:"#0d1c2e", letterSpacing:"0.04em"}}>{pos.icon} {pos.label}</span>
-                        <span style={{fontSize:"0.72rem", color:"#8ba4be", marginLeft:8}}>{pos.desc}</span>
+                        <span style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.95rem", fontWeight:700, color:"#0f1f12", letterSpacing:"0.04em"}}>{pos.icon} {pos.label}</span>
+                        <span style={{fontSize:"0.72rem", color:"#7ea882", marginLeft:8}}>{pos.desc}</span>
                       </div>
                       {hasSel && (
                         <div style={{
                           fontFamily:"'Rajdhani',sans-serif",
                           fontSize:"0.78rem", fontWeight:700, padding:"3px 10px", borderRadius:20, whiteSpace:"nowrap",
-                          background: low ? "rgba(217,48,37,0.08)" : "rgba(0,108,200,0.08)",
-                          color: low ? "#d93025" : "#006cc8",
-                          border: "1px solid " + (low ? "rgba(217,48,37,0.25)" : "rgba(0,108,200,0.25)"),
+                          background: low ? "rgba(198,40,40,0.08)" : "rgba(42,138,62,0.09)",
+                          color: low ? "#c62828" : "#2a8a3e",
+                          border: "1px solid " + (low ? "rgba(198,40,40,0.25)" : "rgba(42,138,62,0.28)"),
                         }}>
                           {low ? ("⚠ $" + sub.toLocaleString() + " / 未達 $1,000") : ("✓ $" + sub.toLocaleString())}
                         </div>
@@ -447,20 +455,20 @@
                           <div key={prod.id} className={"product-card" + (active ? " has-qty" : "")}>
                             <ProdImage src={prod.img} name={prod.name} />
                             <div style={{padding:"10px 10px 12px"}}>
-                              <div className="prod-name" style={{fontSize:"0.75rem", fontWeight:600, lineHeight:1.35, color:"#0d1c2e", minHeight:"2.2em"}}>{prod.name}</div>
-                              {prod.note && <div style={{fontSize:"0.62rem", color:"#8ba4be", marginTop:2}}>{prod.note}</div>}
-                              <div className="prod-price" style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.9rem", fontWeight:700, marginTop:4, color:"#006cc8"}}>
+                              <div className="prod-name" style={{fontSize:"0.75rem", fontWeight:600, lineHeight:1.35, color:"#0f1f12", minHeight:"2.2em"}}>{prod.name}</div>
+                              {prod.note && <div style={{fontSize:"0.62rem", color:"#7ea882", marginTop:2}}>{prod.note}</div>}
+                              <div className="prod-price" style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.9rem", fontWeight:700, marginTop:4, color:"#2a8a3e"}}>
                                 ${prod.price.toLocaleString()}
                               </div>
                               <div style={{display:"flex", alignItems:"center", gap:6, marginTop:8}}>
                                 {active ? (
                                   <>
-                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, -1); }} style={{background:"rgba(0,108,200,0.12)", color:"#006cc8"}}>−</button>
-                                    <span style={{flex:1, textAlign:"center", fontFamily:"'Rajdhani',sans-serif", fontWeight:700, fontSize:"1rem", color:"#006cc8"}}>{qty}</span>
-                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(0,108,200,0.12)", color:"#006cc8"}}>＋</button>
+                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, -1); }} style={{background:"rgba(42,138,62,0.12)", color:"#2a8a3e"}}>−</button>
+                                    <span style={{flex:1, textAlign:"center", fontFamily:"'Rajdhani',sans-serif", fontWeight:700, fontSize:"1rem", color:"#2a8a3e"}}>{qty}</span>
+                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(42,138,62,0.12)", color:"#2a8a3e"}}>＋</button>
                                   </>
                                 ) : (
-                                  <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"#eaf0f8", color:"#4a6080", fontSize:13, width:"100%", borderRadius:4}}>＋ 加入</button>
+                                  <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"#e8f5e9", color:"#3d6644", fontSize:13, width:"100%", borderRadius:4}}>＋ 加入</button>
                                 )}
                               </div>
                             </div>
@@ -468,36 +476,36 @@
                         );
                       })}
                     </div>
-                    {low && <p style={{marginTop:8, fontSize:"0.75rem", color:"#d93025"}}>⚠ 此球位不足 $1,000，請再加選產品。</p>}
+                    {low && <p style={{marginTop:8, fontSize:"0.75rem", color:"#c62828"}}>⚠ 此球位不足 $1,000，請再加選產品。</p>}
                   </div>
                 );
               })}
 
               {POSITIONS.some(p => Object.keys(form.positions[p.key]).length > 0) && (
-                <div style={{padding:"14px 16px", background:"rgba(0,108,200,0.05)", borderRadius:8, border:"1px solid rgba(0,108,200,0.15)"}}>
-                  <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.72rem", color:"#006cc8", fontWeight:700, marginBottom:8, letterSpacing:"0.12em", textTransform:"uppercase"}}>訂單總覽</div>
+                <div style={{padding:"14px 16px", background:"rgba(42,138,62,0.06)", borderRadius:8, border:"1px solid rgba(42,138,62,0.18)"}}>
+                  <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.72rem", color:"#2a8a3e", fontWeight:700, marginBottom:8, letterSpacing:"0.12em", textTransform:"uppercase"}}>訂單總覽</div>
                   {POSITIONS.map(p => {
                     const entries = Object.entries(form.positions[p.key]);
                     if (!entries.length) return null;
                     return (
                       <div key={p.key} style={{marginBottom:6}}>
-                        <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.78rem", color:"#0d1c2e", fontWeight:600, marginBottom:2}}>{p.icon} {p.label}</div>
+                        <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.78rem", color:"#0f1f12", fontWeight:600, marginBottom:2}}>{p.icon} {p.label}</div>
                         {entries.map(([id, qty]) => {
                           const pr = PRODUCTS.find(r => r.id === id);
                           return (
-                            <div key={id} style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", color:"#4a6080", paddingLeft:12}}>
+                            <div key={id} style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", color:"#3d6644", paddingLeft:12}}>
                               <span>{pr.name}{qty > 1 ? " ×" + qty : ""}</span>
                               <span>${(pr.price * qty).toLocaleString()}</span>
                             </div>
                           );
                         })}
-                        <div style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", fontWeight:600, color:"#006cc8", paddingLeft:12, marginTop:2}}>
+                        <div style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", fontWeight:600, color:"#2a8a3e", paddingLeft:12, marginTop:2}}>
                           <span>小計</span><span>${posTotal(p.key).toLocaleString()}</span>
                         </div>
                       </div>
                     );
                   })}
-                  <div style={{borderTop:"1px solid rgba(0,108,200,0.15)", marginTop:8, paddingTop:8, display:"flex", justifyContent:"space-between", fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#0099e6", fontSize:"0.95rem"}}>
+                  <div style={{borderTop:"1px solid rgba(42,138,62,0.18)", marginTop:8, paddingTop:8, display:"flex", justifyContent:"space-between", fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#1e7a35", fontSize:"0.95rem"}}>
                     <span>訂單合計</span><span>${total.toLocaleString()}</span>
                   </div>
                 </div>
@@ -529,21 +537,21 @@
             <div>
               <div style={{display:"flex", gap:10, marginBottom:20}}>
                 {[{v:"transfer", l:"匯款"}, {v:"card", l:"刷卡"}].map(opt => (
-                  <button key={opt.v} onClick={() => set("payMethod", opt.v)} style={payTabStyle(form.payMethod === opt.v)}>{opt.l}</button>
+                  <button key={opt.v} onClick={() => set("payMethod", opt.v)} style={tabStyle(form.payMethod === opt.v)}>{opt.l}</button>
                 ))}
               </div>
               {form.payMethod === "transfer" && (
                 <div style={{display:"flex", flexDirection:"column", gap:12}}>
-                  <div style={{padding:"16px 20px", background:"rgba(0,108,200,0.05)", borderRadius:8, border:"1px solid rgba(0,108,200,0.15)"}}>
-                    <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#006cc8", marginBottom:8, fontSize:"0.88rem", letterSpacing:"0.04em"}}>台幣匯款</div>
-                    <div style={{fontSize:"0.8rem", color:"#8ba4be", marginBottom:12}}>個別匯款帳號請詢問介紹人</div>
+                  <div style={{padding:"16px 20px", background:"rgba(42,138,62,0.06)", borderRadius:8, border:"1px solid rgba(42,138,62,0.18)"}}>
+                    <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#2a8a3e", marginBottom:8, fontSize:"0.88rem", letterSpacing:"0.04em"}}>台幣匯款</div>
+                    <div style={{fontSize:"0.8rem", color:"#7ea882", marginBottom:12}}>個別匯款帳號請詢問介紹人</div>
                     <label>匯款給（姓名，可空白）</label>
                     <input placeholder="例：王小明" value={transferTo} onChange={e => setTransferTo(e.target.value)} />
                   </div>
-                  <div style={{padding:"16px 20px", background:"#f4f7fb", borderRadius:8, border:"1px solid #dbe6f2"}}>
-                    <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#4a6080", marginBottom:4, fontSize:"0.88rem", letterSpacing:"0.04em"}}>美金匯款參考（公司帳戶）</div>
-                    <div style={{fontSize:"0.7rem", color:"#8ba4be", marginBottom:10}}>此欄僅供參考，不會出現在最終訂單文字中</div>
-                    <div style={{fontSize:"0.78rem", color:"#4a6080", lineHeight:2.1}}>
+                  <div style={{padding:"16px 20px", background:"#f0f7f1", borderRadius:8, border:"1px solid #d4e8d6"}}>
+                    <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#3d6644", marginBottom:4, fontSize:"0.88rem", letterSpacing:"0.04em"}}>美金匯款參考（公司帳戶）</div>
+                    <div style={{fontSize:"0.7rem", color:"#7ea882", marginBottom:10}}>此欄僅供參考，不會出現在最終訂單文字中</div>
+                    <div style={{fontSize:"0.78rem", color:"#3d6644", lineHeight:2.1}}>
                       Company Name：Olylife Limited<br/>
                       Account Number：09000800682121<br/>
                       Bank Name：BANK SINOPAC Hong Kong Branch<br/>
@@ -556,7 +564,7 @@
               )}
               {form.payMethod === "card" && (
                 <div style={{display:"flex", flexDirection:"column", gap:14}}>
-                  <InfoBox color="blue">一台刷美金1000，匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
+                  <InfoBox color="green">一台刷美金1000，匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
                   {[
                     {k:"cardNumber", l:"信用卡號",              ph:"XXXX XXXX XXXX XXXX"},
                     {k:"cardName",   l:"信用卡英文名字",         ph:"如信用卡上所示"},
@@ -576,18 +584,18 @@
               <div onClick={() => set("sameAsPersonal", !form.sameAsPersonal)} style={{
                 display:"flex", alignItems:"center", gap:10, cursor:"pointer",
                 padding:"13px 16px", borderRadius:8, marginBottom:20, transition:"all 0.2s",
-                background: form.sameAsPersonal ? "rgba(0,108,200,0.06)" : "#ffffff",
-                border: "1.5px solid " + (form.sameAsPersonal ? "rgba(0,108,200,0.3)" : "#dbe6f2"),
+                background: form.sameAsPersonal ? "rgba(42,138,62,0.07)" : "#ffffff",
+                border: "1.5px solid " + (form.sameAsPersonal ? "rgba(42,138,62,0.32)" : "#d4e8d6"),
               }}>
                 <div style={{
                   width:20, height:20, borderRadius:4, flexShrink:0,
-                  border: "2px solid " + (form.sameAsPersonal ? "#0099e6" : "#c5d8ed"),
-                  background: form.sameAsPersonal ? "#0099e6" : "transparent",
+                  border: "2px solid " + (form.sameAsPersonal ? "#25a244" : "#b8d9bb"),
+                  background: form.sameAsPersonal ? "#25a244" : "transparent",
                   display:"flex", alignItems:"center", justifyContent:"center",
                 }}>
                   {form.sameAsPersonal && <span style={{color:"#fff", fontSize:12, fontWeight:700, lineHeight:1}}>✓</span>}
                 </div>
-                <span style={{fontSize:"0.85rem", color: form.sameAsPersonal ? "#006cc8" : "#8ba4be", fontWeight:600}}>收貨資訊與個人資料相同</span>
+                <span style={{fontSize:"0.85rem", color: form.sameAsPersonal ? "#2a8a3e" : "#7ea882", fontWeight:600}}>收貨資訊與個人資料相同</span>
               </div>
               {!form.sameAsPersonal && (
                 <div style={{display:"flex", flexDirection:"column", gap:14, marginBottom:20}}>
@@ -600,16 +608,10 @@
                 <label>有無申請 EZway</label>
                 <div style={{display:"flex", gap:8}}>
                   {["有","無","申請中"].map(v => (
-                    <button key={v} onClick={() => set("ezway", v)} style={{
-                      flex:1, padding:"10px", borderRadius:6, fontSize:"0.85rem", fontWeight:600,
-                      border: "1.5px solid " + (form.ezway === v ? "#0099e6" : "#dbe6f2"),
-                      background: form.ezway === v ? "rgba(0,108,200,0.07)" : "#ffffff",
-                      color: form.ezway === v ? "#006cc8" : "#8ba4be",
-                      cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
-                    }}>{v}</button>
+                    <button key={v} onClick={() => set("ezway", v)} style={ezwayStyle(form.ezway === v)}>{v}</button>
                   ))}
                 </div>
-                <p style={{fontSize:"0.7rem", color:"#c5d8ed", marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
+                <p style={{fontSize:"0.7rem", color:"#b8d9bb", marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
               </div>
               <div><label>備註</label><textarea rows={3} placeholder="其他需要說明的事項…" value={form.remarks} onChange={e => set("remarks", e.target.value)} /></div>
             </div>
@@ -675,23 +677,23 @@
         <Card>
           {step === 0 && (
             <div>
-              <InfoBox color="blue">請將「新訂單」產生的 LINE 文字完整貼入下方。</InfoBox>
+              <InfoBox color="green">請將「新訂單」產生的 LINE 文字完整貼入下方。</InfoBox>
               <label>貼上新訂單文字</label>
               <textarea rows={12} placeholder="將 LINE 訂單文字貼在這裡…" value={pasted} onChange={e => setPasted(e.target.value)} style={{fontSize:13, lineHeight:1.7}} />
-              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", color:"#0f7a4a", fontWeight:600}}>✓ 已偵測到{isCard ? "刷卡" : "匯款"}訂單，請繼續。</p>}
+              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", color:"#1e7a35", fontWeight:600}}>✓ 已偵測到{isCard ? "刷卡" : "匯款"}訂單，請繼續。</p>}
             </div>
           )}
           {step === 1 && (
             <div style={{display:"flex", flexDirection:"column", gap:16}}>
-              <InfoBox color="blue">請填寫推薦人、安置人，以及付款確認細節。</InfoBox>
+              <InfoBox color="green">請填寫推薦人、安置人，以及付款確認細節。</InfoBox>
               <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
                 <div><label>推薦人姓名</label><input placeholder="例：王小明" value={refName} onChange={e => setRefName(e.target.value)} /></div>
                 <div><label>推薦人編號</label><input placeholder="例：TW123456" value={refNo} onChange={e => setRefNo(e.target.value)} /></div>
                 <div><label>安置人姓名</label><input placeholder="例：李大華" value={placeName} onChange={e => setPlaceName(e.target.value)} /></div>
                 <div><label>安置人編號</label><input placeholder="例：TW123456" value={placeNo} onChange={e => setPlaceNo(e.target.value)} /></div>
               </div>
-              <div style={{borderTop:"1px solid #dbe6f2", paddingTop:16}}>
-                <p style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.85rem", fontWeight:700, color:"#0d1c2e", marginBottom:14, letterSpacing:"0.04em"}}>{isCard ? "刷卡確認資訊" : "匯款確認資訊"}</p>
+              <div style={{borderTop:"1px solid #d4e8d6", paddingTop:16}}>
+                <p style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.85rem", fontWeight:700, color:"#0f1f12", marginBottom:14, letterSpacing:"0.04em"}}>{isCard ? "刷卡確認資訊" : "匯款確認資訊"}</p>
                 {!isCard ? (
                   <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
                     <div><label>匯款帳號末五碼</label><input placeholder="例：35682" value={last5} onChange={e => setLast5(e.target.value)} /></div>
@@ -741,10 +743,10 @@
         <Card>
           {step === 0 && (
             <div>
-              <InfoBox color="blue">將「訂單更新」產生的文字貼入。系統會自動移除刷卡敏感資訊，產生可公開分享的乾淨版本。</InfoBox>
+              <InfoBox color="green">將「訂單更新」產生的文字貼入。系統會自動移除刷卡敏感資訊，產生可公開分享的乾淨版本。</InfoBox>
               <label>貼上訂單更新文字</label>
               <textarea rows={12} placeholder="將含有刷卡資訊的訂單文字貼在這裡…" value={pasted} onChange={e => setPasted(e.target.value)} style={{fontSize:13, lineHeight:1.7}} />
-              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", fontWeight:600, color:hasCard?"#d93025":"#0f7a4a"}}>{hasCard?"⚠ 偵測到刷卡資訊，下一步將自動移除。":"✓ 未偵測到刷卡資訊，仍可繼續生成乾淨版本。"}</p>}
+              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", fontWeight:600, color:hasCard?"#c62828":"#1e7a35"}}>{hasCard?"⚠ 偵測到刷卡資訊，下一步將自動移除。":"✓ 未偵測到刷卡資訊，仍可繼續生成乾淨版本。"}</p>}
             </div>
           )}
           {step === 1 && (
@@ -784,68 +786,91 @@
 
     return (
       <div className="fade-in">
-        {/* Header */}
-        <div style={{maxWidth:520, margin:"0 auto 36px", textAlign:"center"}}>
-          {/* Logo */}
-          <div style={{marginBottom:14}}>
-            {!logoFailed ? (
-              <img src={LOGO} alt="OlyLife" style={{height:44, objectFit:"contain"}} onError={() => setLogoFailed(true)} />
-            ) : (
-              <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"2rem", fontWeight:700, color:"#006cc8", letterSpacing:"0.18em"}}>OLYLIFE</div>
-            )}
-          </div>
 
-          {/* Blue rule */}
-          <div style={{height:2, background:"linear-gradient(90deg, transparent, #006cc8, #0099e6, #006cc8, transparent)", marginBottom:14}} />
-
-          {/* Tagline */}
-          <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.72rem", color:"#0099e6", letterSpacing:"0.3em", textTransform:"uppercase", marginBottom:4}}>
-            CHAMPION'S CHOICE
-          </div>
-          <div style={{fontSize:"0.8rem", color:"#8ba4be"}}>訂單管理系統</div>
+        {/* ── Logo banner ── */}
+        <div style={{
+          maxWidth:520, margin:"0 auto 0",
+          background:"#d6edd8",
+          borderRadius:"10px 10px 0 0",
+          padding:"18px 24px",
+          display:"flex", alignItems:"center", justifyContent:"center",
+        }}>
+          {!logoFailed ? (
+            <img src={LOGO} alt="OlyLife" style={{height:40, objectFit:"contain"}} onError={() => setLogoFailed(true)} />
+          ) : (
+            <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"1.8rem", fontWeight:700, color:"#1e7a35", letterSpacing:"0.18em"}}>OLYLIFE</div>
+          )}
         </div>
 
-        {/* Mode cards */}
+        {/* ── CHAMPION'S CHOICE banner ── */}
+        <div style={{
+          maxWidth:520, margin:"0 auto 0",
+          background:"#25a244",
+          padding:"14px 24px",
+          textAlign:"center",
+        }}>
+          <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"1.3rem", fontWeight:700, color:"#ffffff", letterSpacing:"0.22em"}}>
+            CHAMPION'S CHOICE
+          </div>
+        </div>
+
+        {/* ── Title block ── */}
+        <div style={{
+          maxWidth:520, margin:"0 auto 24px",
+          background:"#ffffff",
+          borderRadius:"0 0 10px 10px",
+          padding:"18px 24px 20px",
+          textAlign:"center",
+          borderBottom:"1.5px solid #d4e8d6",
+          borderLeft:"1.5px solid #d4e8d6",
+          borderRight:"1.5px solid #d4e8d6",
+          boxShadow:"0 4px 16px rgba(0,80,20,0.07)",
+        }}>
+          <div style={{fontSize:"1.4rem", fontWeight:700, color:"#0f1f12", letterSpacing:"0.04em"}}>奇跡入單</div>
+          <div style={{fontSize:"0.78rem", color:"#7ea882", marginTop:4}}>OlyLife 奇跡團隊 · 入單引導工具</div>
+        </div>
+
+        {/* ── Mode cards ── */}
         <div style={{maxWidth:520, margin:"0 auto", display:"flex", flexDirection:"column", gap:12}}>
           {MODES.map((m, i) => (
             <div key={m.id} onClick={() => onSelect(m.id)} className="home-card" style={{animation:"fadeIn 0.4s ease "+(i*0.08)+"s both"}}>
               <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start"}}>
                 <div>
-                  <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"1.05rem", fontWeight:700, color:"#0d1c2e", letterSpacing:"0.04em"}}>{m.title}</div>
-                  <div style={{fontSize:"0.76rem", color:"#8ba4be", marginTop:3}}>{m.sub}</div>
+                  <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"1.05rem", fontWeight:700, color:"#0f1f12", letterSpacing:"0.04em"}}>{m.title}</div>
+                  <div style={{fontSize:"0.76rem", color:"#7ea882", marginTop:3}}>{m.sub}</div>
                 </div>
                 <div style={{
                   fontFamily:"'Rajdhani',sans-serif",
                   fontSize:"0.65rem", fontWeight:700, padding:"3px 10px", borderRadius:20,
-                  background:"rgba(0,108,200,0.08)", color:"#006cc8",
-                  border:"1px solid rgba(0,108,200,0.2)",
+                  background:"rgba(42,138,62,0.09)", color:"#2a8a3e",
+                  border:"1px solid rgba(42,138,62,0.22)",
                   whiteSpace:"nowrap", flexShrink:0, marginLeft:8, letterSpacing:"0.1em",
                 }}>
                   {m.badge}
                 </div>
               </div>
-              <div style={{marginTop:14, paddingTop:12, borderTop:"1px solid #eaf0f8", fontSize:"0.73rem", color:"#8ba4be", lineHeight:1.6}}>
+              <div style={{marginTop:14, paddingTop:12, borderTop:"1px solid #e8f5e9", fontSize:"0.73rem", color:"#7ea882", lineHeight:1.6}}>
                 {m.desc}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Info */}
-        <div style={{maxWidth:520, margin:"20px auto 0", padding:"12px 20px", background:"#ffffff", borderRadius:8, border:"1px solid #dbe6f2", fontSize:"0.73rem", color:"#8ba4be", lineHeight:1.8, textAlign:"center"}}>
+        {/* ── Info ── */}
+        <div style={{maxWidth:520, margin:"16px auto 0", padding:"12px 20px", background:"#ffffff", borderRadius:8, border:"1.5px solid #d4e8d6", fontSize:"0.73rem", color:"#7ea882", lineHeight:1.8, textAlign:"center"}}>
           三個步驟各自獨立運作，不需依序操作。每步完成後生成 LINE 格式文字供複製使用。
         </div>
 
-        {/* Version */}
-        <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#c5d8ed", lineHeight:2, textAlign:"center"}}>
-          <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, marginBottom:4, letterSpacing:"0.12em", color:"#dbe6f2", textTransform:"uppercase"}}>Version History</div>
-          <div><strong style={{color:"#c5d8ed"}}>v5.1</strong>　淺色底對齊官網風格；藍色系品牌配色</div>
-          <div><strong style={{color:"#dbe6f2"}}>v5.0</strong>　對齊 OlyLife 官方品牌；CHAMPION'S CHOICE 主題</div>
-          <div><strong style={{color:"#dbe6f2"}}>v4.2</strong>　補齊所有 8 款產品圖片</div>
-          <div><strong style={{color:"#dbe6f2"}}>v4.0</strong>　深色科技感主題</div>
-          <div><strong style={{color:"#dbe6f2"}}>v3.0</strong>　產品改為數量加減，支援同品項多台</div>
-          <div><strong style={{color:"#dbe6f2"}}>v2.0</strong>　三模式首頁架構</div>
-          <div><strong style={{color:"#dbe6f2"}}>v1.0</strong>　初版上線</div>
+        {/* ── Version ── */}
+        <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#b8d9bb", lineHeight:2, textAlign:"center"}}>
+          <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, marginBottom:4, letterSpacing:"0.12em", color:"#c8e6cb", textTransform:"uppercase"}}>Version History</div>
+          <div><strong style={{color:"#b8d9bb"}}>v5.2</strong>　對齊官網綠色主題；Logo 綠底顯示；標題改為「奇跡入單」</div>
+          <div><strong style={{color:"#c8e6cb"}}>v5.1</strong>　淺色底對齊官網；藍色系配色</div>
+          <div><strong style={{color:"#c8e6cb"}}>v5.0</strong>　品牌重設計；CHAMPION'S CHOICE 主題</div>
+          <div><strong style={{color:"#c8e6cb"}}>v4.2</strong>　補齊所有 8 款產品圖片</div>
+          <div><strong style={{color:"#c8e6cb"}}>v3.0</strong>　產品改為數量加減，支援同品項多台</div>
+          <div><strong style={{color:"#c8e6cb"}}>v2.0</strong>　三模式首頁架構</div>
+          <div><strong style={{color:"#c8e6cb"}}>v1.0</strong>　初版上線</div>
         </div>
       </div>
     );
