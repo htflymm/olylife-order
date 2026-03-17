@@ -7,86 +7,165 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --surface2:  #1c2330;
+      --border:    #2a3344;
+      --border2:   #3a4558;
+      --gold:      #c9a84c;
+      --gold-dim:  #8a6f32;
+      --gold-bg:   rgba(201,168,76,0.08);
+      --gold-glow: rgba(201,168,76,0.18);
+      --text:      #e6edf3;
+      --text-dim:  #8b949e;
+      --text-mute: #4a5568;
+      --red:       #f85149;
+      --red-bg:    rgba(248,81,73,0.1);
+      --green:     #3fb950;
+      --green-bg:  rgba(63,185,80,0.1);
+      --blue:      #58a6ff;
+      --blue-bg:   rgba(88,166,255,0.08);
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Noto Serif TC', serif;
-      background: linear-gradient(135deg, #fdf6ec 0%, #fef9f2 50%, #fdf0e0 100%);
+      background: var(--bg);
       min-height: 100vh;
+      color: var(--text);
     }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-    .fade-in { animation: fadeIn 0.35s ease; }
+
+    /* ── Subtle grid background ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease; position: relative; z-index: 1; }
+
     input, textarea {
       width: 100%;
-      border: 1px solid #e8d5b0;
-      border-radius: 12px;
-      padding: 12px 16px;
-      background: rgba(255,255,255,0.9);
-      color: #44260e;
-      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 11px 14px;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 14px;
       font-family: 'Noto Serif TC', serif;
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    input:focus, textarea:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
+    input:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-glow);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-mute); }
     textarea { resize: none; }
+
     label {
       display: block;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      color: #b45309;
+      color: var(--gold);
       margin-bottom: 6px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-    .product-card { transition: all 0.18s ease; }
-    .product-card.has-qty {
-      background: linear-gradient(135deg, #92400e, #b45309) !important;
-      color: white !important;
-      box-shadow: 0 8px 24px rgba(146,64,14,0.25);
-      border-color: transparent !important;
+
+    /* ── Product cards ── */
+    .product-card {
+      transition: all 0.15s ease;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface2);
     }
-    .product-card.has-qty .prod-price,
-    .product-card.has-qty .prod-note { color: rgba(255,255,255,0.85) !important; }
+    .product-card:hover { border-color: var(--gold-dim); }
+    .product-card.has-qty {
+      background: var(--gold-bg) !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+    .product-card.has-qty .prod-price { color: var(--gold) !important; }
+    .product-card.has-qty .prod-note  { color: var(--text-dim) !important; }
+
+    /* ── Qty buttons ── */
     .qty-btn {
-      width: 26px; height: 26px; border-radius: 50%; border: none;
+      width: 26px; height: 26px; border-radius: 4px; border: none;
       font-size: 16px; font-weight: 700; line-height: 1;
-      cursor: pointer; transition: background 0.15s, transform 0.1s;
+      cursor: pointer; transition: all 0.12s;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
     .qty-btn:active { transform: scale(0.88); }
-    .pos-section { border-left: 3px solid #d97706; padding-left: 16px; margin-bottom: 24px; }
-    .step-btn { transition: all 0.2s; font-family: 'Noto Serif TC', serif; }
+
+    /* ── Section divider ── */
+    .pos-section {
+      border-left: 2px solid var(--gold-dim);
+      padding-left: 16px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Buttons ── */
+    .step-btn { transition: all 0.18s; font-family: 'Noto Serif TC', serif; }
     .step-btn:hover:not(:disabled) { transform: translateY(-1px); }
+
+    /* ── LINE output ── */
     .line-output {
       font-family: monospace;
-      background: #1c1c1c;
-      color: #e8d5b0;
-      border-radius: 16px;
-      padding: 20px;
+      background: #0d1117;
+      color: #c9d1d9;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      padding: 18px;
       white-space: pre-wrap;
-      font-size: 13px;
+      font-size: 12.5px;
       line-height: 1.8;
       max-height: 380px;
       overflow-y: auto;
     }
+    .line-output::-webkit-scrollbar { width: 4px; }
+    .line-output::-webkit-scrollbar-track { background: transparent; }
+    .line-output::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+    /* ── Home cards ── */
     .home-card {
       cursor: pointer;
-      border-radius: 20px;
+      border-radius: 8px;
       padding: 22px 20px;
-      border: 1.5px solid #e8d5b0;
-      background: rgba(255,255,255,0.9);
-      transition: all 0.22s ease;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .home-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
     }
     .home-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(146,64,14,0.14);
-      border-color: #d97706;
+      border-color: var(--gold-dim);
+      background: var(--surface2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
+    .home-card:hover::before { opacity: 1; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
   </style>
-</head>
 <body>
 <div id="root"></div>
 
@@ -119,31 +198,34 @@
   const Card = ({children}) => (
     <div style={{
       maxWidth:520, margin:"0 auto",
-      background:"rgba(255,255,255,0.88)", borderRadius:24,
-      boxShadow:"0 20px 60px rgba(146,64,14,0.12)",
-      padding:"28px 24px", border:"1px solid rgba(217,119,6,0.15)",
+      background:"#161b22",
+      borderRadius:8,
+      boxShadow:"0 8px 32px rgba(0,0,0,0.5)",
+      padding:"28px 24px",
+      border:"1px solid #2a3344",
     }}>{children}</div>
   );
 
   const PrimaryBtn = ({onClick, disabled, children, green}) => (
     <button onClick={onClick} disabled={disabled} className="step-btn" style={{
-      flex:2, padding:"15px", borderRadius:14, border:"none",
-      background: disabled ? "#e8d5b0"
-        : green ? "linear-gradient(135deg,#15803d,#16a34a)"
-        : "linear-gradient(135deg,#92400e,#b45309)",
-      color: disabled ? "#a16207" : "white",
-      fontWeight:700, fontSize:"0.95rem",
+      flex:2, padding:"14px", borderRadius:6, border:"none",
+      background: disabled ? "#1c2330"
+        : green ? "linear-gradient(135deg,#1a6b2a,#22863a)"
+        : "linear-gradient(135deg,#9a7a2a,#c9a84c)",
+      color: disabled ? "#4a5568" : disabled ? "#4a5568" : green ? "white" : "#0d1117",
+      fontWeight:700, fontSize:"0.92rem",
       cursor: disabled ? "not-allowed" : "pointer",
-      boxShadow: disabled ? "none" : "0 6px 20px rgba(146,64,14,0.22)",
+      boxShadow: disabled ? "none" : green ? "0 4px 16px rgba(34,134,58,0.3)" : "0 4px 16px rgba(201,168,76,0.3)",
       fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s",
+      letterSpacing:"0.04em",
     }}>{children}</button>
   );
 
   const SecondaryBtn = ({onClick, children}) => (
     <button onClick={onClick} className="step-btn" style={{
-      flex:1, padding:"15px", borderRadius:14,
-      border:"1px solid #e8d5b0", background:"white",
-      color:"#78350f", fontWeight:600, fontSize:"0.9rem", cursor:"pointer",
+      flex:1, padding:"14px", borderRadius:6,
+      border:"1px solid #2a3344", background:"#161b22",
+      color:"#8b949e", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
       fontFamily:"'Noto Serif TC',serif",
     }}>{children}</button>
   );
@@ -156,13 +238,15 @@
           setCopied(true); setTimeout(()=>setCopied(false),2500);
         });
       }} style={{
-        width:"100%", marginTop:16, padding:"15px", borderRadius:14, border:"none",
+        width:"100%", marginTop:16, padding:"14px", borderRadius:6, border:"none",
         background: copied
-          ? "linear-gradient(135deg,#15803d,#16a34a)"
-          : "linear-gradient(135deg,#92400e,#b45309)",
-        color:"white", fontWeight:700, fontSize:"1rem", cursor:"pointer",
-        boxShadow:"0 6px 20px rgba(146,64,14,0.28)", transition:"all 0.3s",
-        fontFamily:"'Noto Serif TC',serif",
+          ? "linear-gradient(135deg,#1a6b2a,#22863a)"
+          : "linear-gradient(135deg,#9a7a2a,#c9a84c)",
+        color: copied ? "white" : "#0d1117",
+        fontWeight:700, fontSize:"0.95rem", cursor:"pointer",
+        boxShadow: copied ? "0 4px 16px rgba(34,134,58,0.3)" : "0 4px 16px rgba(201,168,76,0.3)",
+        transition:"all 0.3s", fontFamily:"'Noto Serif TC',serif",
+        letterSpacing:"0.04em",
       }}>
         {copied ? "✅ 已複製！貼到 LINE 吧" : "📋 一鍵複製 LINE 格式"}
       </button>
@@ -171,11 +255,11 @@
 
   const ResetBtn = ({onClick}) => (
     <button onClick={onClick} style={{
-      width:"100%", marginTop:10, padding:"12px", borderRadius:14,
-      border:"1px solid #e8d5b0", background:"white",
-      color:"#78350f", fontWeight:600, fontSize:"0.9rem", cursor:"pointer",
-      fontFamily:"'Noto Serif TC',serif",
-    }}>🔄 重新操作</button>
+      width:"100%", marginTop:10, padding:"12px", borderRadius:6,
+      border:"1px solid #2a3344", background:"transparent",
+      color:"#8b949e", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
+      fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s",
+    }}>↺ 重新操作</button>
   );
 
   const StepBar = ({steps, current}) => (
@@ -184,18 +268,19 @@
         {steps.map((s,i) => (
           <React.Fragment key={i}>
             <div style={{
-              width:32, height:32, borderRadius:"50%",
+              width:30, height:30, borderRadius:4,
               display:"flex", alignItems:"center", justifyContent:"center",
-              fontSize:"0.72rem", fontWeight:700, flexShrink:0,
-              background: i<current ? "#b45309" : i===current ? "#92400e" : "#e8d5b0",
-              color: i<=current ? "white" : "#a16207",
-              boxShadow: i===current ? "0 0 0 4px rgba(146,64,14,0.18)" : "none",
+              fontSize:"0.7rem", fontWeight:700, flexShrink:0,
+              background: i<current ? "#9a7a2a" : i===current ? "#c9a84c" : "#1c2330",
+              color: i<current ? "white" : i===current ? "#0d1117" : "#4a5568",
+              border: i===current ? "none" : `1px solid ${i<current ? "#9a7a2a" : "#2a3344"}`,
+              boxShadow: i===current ? "0 0 12px rgba(201,168,76,0.4)" : "none",
               transition:"all 0.3s",
             }}>{i<current ? "✓" : i+1}</div>
             {i<steps.length-1 && (
               <div style={{
-                flex:1, height:2, margin:"0 3px",
-                background: i<current ? "#b45309" : "#e8d5b0",
+                flex:1, height:1, margin:"0 4px",
+                background: i<current ? "#9a7a2a" : "#2a3344",
                 transition:"background 0.3s",
               }}/>
             )}
@@ -203,21 +288,22 @@
         ))}
       </div>
       <div style={{maxWidth:520, margin:"0 auto 20px", textAlign:"center"}}>
-        <span style={{color:"#92400e", fontWeight:600, fontSize:"0.88rem"}}>{steps[current]}</span>
+        <span style={{color:"#c9a84c", fontWeight:600, fontSize:"0.85rem", letterSpacing:"0.06em"}}>{steps[current]}</span>
       </div>
     </>
   );
 
   const InfoBox = ({color, children}) => {
     const colors = {
-      yellow: {bg:"#fef3c7", border:"#fcd34d", text:"#92400e"},
-      red:    {bg:"#fee2e2", border:"#fca5a5", text:"#dc2626"},
-      green:  {bg:"#f0fdf4", border:"#86efac", text:"#15803d"},
+      yellow: {bg:"rgba(201,168,76,0.08)",  border:"rgba(201,168,76,0.3)",  text:"#c9a84c"},
+      red:    {bg:"rgba(248,81,73,0.08)",   border:"rgba(248,81,73,0.3)",   text:"#f85149"},
+      green:  {bg:"rgba(63,185,80,0.08)",   border:"rgba(63,185,80,0.3)",   text:"#3fb950"},
+      blue:   {bg:"rgba(88,166,255,0.08)",  border:"rgba(88,166,255,0.25)", text:"#58a6ff"},
     };
     const c = colors[color] || colors.yellow;
     return (
       <div style={{
-        padding:"12px 16px", borderRadius:12, marginBottom:18,
+        padding:"12px 16px", borderRadius:6, marginBottom:16,
         background:c.bg, border:`1px solid ${c.border}`,
         fontSize:"0.82rem", color:c.text, lineHeight:1.7,
       }}>{children}</div>
@@ -275,11 +361,13 @@
           const pr=PRODUCTS.find(r=>r.id===id);
           return qty>1 ? `${pr.name} x${qty}（$${pr.price*qty}）` : `${pr.name}（$${pr.price}）`;
         }).join("、");
-        return `${p.label}：${items}  小計 $${posTotal(p.key).toLocaleString()}`;
+        // Put subtotal on its own indented line
+        return `${p.label}：${items}\n　　　　小計 $${posTotal(p.key).toLocaleString()}`;
       }).join("\n");
 
       const pay = form.payMethod==="transfer"
-        ? `▶️ 匯款資訊\n匯款方式：台幣匯款${transferTo ? `\n匯款給：${transferTo}` : ""}`
+        ? `▶️匯款信息\n中國信託(822) 台中南屯分行 \n匯款帳號：045540435682 \n戶名：鄒震宇\n（備註欄空白，方便對帳）\n----------------------`
+        : `▶️刷卡 \n(一台刷美金1000\n匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：${form.cardNumber}\n\n信用卡英文名字：${form.cardName}\n\n信用卡有效期（mm/yy）：${form.cardExpiry}\n\n安全碼(卡背面的三位數字)：${form.cardCVV}`;
         : `▶️ 刷卡資訊\n信用卡號：${form.cardNumber}\n持卡人英文姓名：${form.cardName}\n有效期限（mm/yy）：${form.cardExpiry}\n安全碼：${form.cardCVV}`;
 
       const sn = form.sameAsPersonal?form.name:form.shipName;
@@ -287,34 +375,36 @@
       const sp = form.sameAsPersonal?form.phone:form.shipPhone;
       const sa = form.sameAsPersonal?form.address:form.shipAddress;
 
-      return `🌟 OlyLife 訂購資料
+      return `會員註冊資料(版本更新)
+🌟Olylife 註冊資料
 
-▶️ 中文姓名：${form.name}
-▶️ 身分證字號：${form.idNumber}
-▶️ 電子郵箱：${form.email}
-▶️ 手機號碼：${form.phone}
-▶️ 郵遞區號：${form.postalCode}
-▶️ 地址：${form.address}
+▶️中文姓名：${form.name}
+▶️身分證字號：${form.idNumber}
+▶️電子郵箱：${form.email}
+▶️手機號碼：${form.phone}
+▶️郵遞區號：${form.postalCode}
+▶️地址：${form.address}
 
-▶️ 產品選擇（合計 $${total.toLocaleString()}）
+▶️產品選擇（合計 $${total.toLocaleString()}）
 ${posLine}
 
 ${pay}
+${form.payMethod==="transfer" && transferTo ? `\n匯款給：${transferTo}` : ""}
+▶️收貨信息
+ 姓名：${sn}
+ 身分證號：${si}
+ 電話：${sp}
+ 地址：${sa}
 
-▶️ 收貨資訊
-姓名：${sn}
-身分證號：${si}
-電話：${sp}
-地址：${sa}
-
-▶️ 有無申請 EZway：${form.ezway||"未填"}
-（申請 EZway 資料，務必和收貨資訊相同）
-${form.remarks?`\n▶️ 備註：${form.remarks}`:""}
-${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n▶️ 匯款時間：（待填）":"\n▶️ 刷卡金額：（待填）"}
+▶️有無申請EZway：${form.ezway||"未填"}
+(申請EZway資料，務必和上面
+收貨信息相同！）
+${form.remarks?`\n▶️備註：${form.remarks}`:""}
+${form.payMethod==="transfer"?"\n▶️備註：\n匯款帳號末五碼：":""}
 
 以下客戶免填
-▶️ 推薦人 + 編號：
-▶️ 安置人 + 編號：`;
+▶️推薦人+編號：
+▶️安置人+編號：`;
     };
 
     const canNext = () => {
@@ -335,9 +425,9 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
           {/* STEP 0 — Products */}
           {step===0 && (
             <div>
-              <p style={{color:"#78350f",fontSize:"0.84rem",marginBottom:20,lineHeight:1.7}}>
+              <p style={{color:"#8b949e",fontSize:"0.82rem",marginBottom:20,lineHeight:1.7}}>
                 每個位置可選多項產品，金額自動加總。主球必填，左右球可視情況選填。
-                <strong style={{color:"#b45309"}}> 每個球位最低 $1,000。</strong>
+                <strong style={{color:"#c9a84c"}}> 每個球位最低 $1,000。</strong>
               </p>
               {POSITIONS.map(pos=>{
                 const sub=posTotal(pos.key);
@@ -345,20 +435,20 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
                 const low=hasSel&&sub<MIN;
                 return (
                   <div key={pos.key} className="pos-section"
-                    style={{borderLeftColor:low?"#ef4444":"#d97706"}}>
+                    style={{borderLeftColor:low?"#f85149":"#9a7a2a"}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                       <div>
-                        <span style={{fontSize:"1rem",fontWeight:700,color:"#78350f"}}>{pos.icon} {pos.label}</span>
-                        <span style={{fontSize:"0.73rem",color:"#a16207",marginLeft:8}}>{pos.desc}</span>
+                        <span style={{fontSize:"0.95rem",fontWeight:700,color:"#e6edf3"}}>{pos.icon} {pos.label}</span>
+                        <span style={{fontSize:"0.72rem",color:"#8b949e",marginLeft:8}}>{pos.desc}</span>
                       </div>
                       {hasSel&&(
                         <div style={{
-                          fontSize:"0.79rem",fontWeight:700,padding:"3px 10px",borderRadius:20,whiteSpace:"nowrap",
-                          background:low?"#fee2e2":"#fef3c7",
-                          color:low?"#dc2626":"#92400e",
-                          border:`1px solid ${low?"#fca5a5":"#fcd34d"}`,
+                          fontSize:"0.75rem",fontWeight:700,padding:"3px 10px",borderRadius:4,whiteSpace:"nowrap",
+                          background:low?"rgba(248,81,73,0.1)":"rgba(201,168,76,0.1)",
+                          color:low?"#f85149":"#c9a84c",
+                          border:`1px solid ${low?"rgba(248,81,73,0.3)":"rgba(201,168,76,0.3)"}`,
                         }}>
-                          {low?`⚠️ $${sub.toLocaleString()} / 未達$1,000`:`✓ $${sub.toLocaleString()}`}
+                          {low?`⚠ $${sub.toLocaleString()} / 未達$1,000`:`✓ $${sub.toLocaleString()}`}
                         </div>
                       )}
                     </div>
@@ -369,12 +459,11 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
                         return (
                           <div key={prod.id}
                             className={`product-card${active?" has-qty":""}`}
-                            style={{border:"1px solid #e8d5b0",borderRadius:12,padding:"10px 12px",
-                              background:"white",color:"#78350f"}}>
-                            <div style={{fontSize:"1.1rem",marginBottom:2}}>{prod.emoji}</div>
-                            <div style={{fontSize:"0.78rem",fontWeight:600,lineHeight:1.35}}>{prod.name}</div>
-                            {prod.note&&<div className="prod-note" style={{fontSize:"0.65rem",color:"#a16207",marginTop:2}}>{prod.note}</div>}
-                            <div className="prod-price" style={{fontSize:"0.82rem",fontWeight:700,marginTop:4,color:"#92400e"}}>
+                            style={{padding:"10px 12px",color:"#e6edf3"}}>
+                            <div style={{fontSize:"1rem",marginBottom:2}}>{prod.emoji}</div>
+                            <div style={{fontSize:"0.76rem",fontWeight:600,lineHeight:1.35,color:"#e6edf3"}}>{prod.name}</div>
+                            {prod.note&&<div className="prod-note" style={{fontSize:"0.63rem",color:"#8b949e",marginTop:2}}>{prod.note}</div>}
+                            <div className="prod-price" style={{fontSize:"0.82rem",fontWeight:700,marginTop:4,color:"#c9a84c"}}>
                               ${prod.price.toLocaleString()}
                             </div>
                             {/* Qty controls */}
@@ -383,49 +472,49 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
                                 <>
                                   <button className="qty-btn"
                                     onClick={e=>{e.stopPropagation();changeQty(pos.key,prod.id,-1);}}
-                                    style={{background:"rgba(255,255,255,0.25)",color:"white",fontSize:18}}>−</button>
-                                  <span style={{flex:1,textAlign:"center",fontWeight:700,fontSize:"0.95rem",color:"white"}}>{qty}</span>
+                                    style={{background:"rgba(201,168,76,0.2)",color:"#c9a84c",fontSize:18}}>−</button>
+                                  <span style={{flex:1,textAlign:"center",fontWeight:700,fontSize:"0.95rem",color:"#c9a84c"}}>{qty}</span>
                                   <button className="qty-btn"
                                     onClick={e=>{e.stopPropagation();changeQty(pos.key,prod.id,+1);}}
-                                    style={{background:"rgba(255,255,255,0.25)",color:"white",fontSize:18}}>＋</button>
+                                    style={{background:"rgba(201,168,76,0.2)",color:"#c9a84c",fontSize:18}}>＋</button>
                                 </>
                               ) : (
                                 <button className="qty-btn"
                                   onClick={e=>{e.stopPropagation();changeQty(pos.key,prod.id,+1);}}
-                                  style={{background:"#f3e8d8",color:"#b45309",fontSize:18,width:"100%",borderRadius:8}}>＋ 加入</button>
+                                  style={{background:"rgba(201,168,76,0.1)",color:"#8a6f32",fontSize:14,width:"100%",borderRadius:4}}>＋ 加入</button>
                               )}
                             </div>
                           </div>
                         );
                       })}
                     </div>
-                    {low&&<p style={{marginTop:8,fontSize:"0.75rem",color:"#dc2626"}}>⚠️ 此球位不足 $1,000，請再加選產品。</p>}
+                    {low&&<p style={{marginTop:8,fontSize:"0.75rem",color:"#f85149"}}>⚠ 此球位不足 $1,000，請再加選產品。</p>}
                   </div>
                 );
               })}
               {POSITIONS.some(p=>Object.keys(form.positions[p.key]).length>0)&&(
-                <div style={{padding:"14px 16px",background:"#fef3c7",borderRadius:14,border:"1px solid #fcd34d"}}>
-                  <div style={{fontSize:"0.78rem",color:"#92400e",fontWeight:700,marginBottom:8}}>訂單總覽</div>
+                <div style={{padding:"14px 16px",background:"rgba(201,168,76,0.06)",borderRadius:6,border:"1px solid rgba(201,168,76,0.2)"}}>
+                  <div style={{fontSize:"0.75rem",color:"#c9a84c",fontWeight:700,marginBottom:8,letterSpacing:"0.08em"}}>訂單總覽</div>
                   {POSITIONS.map(p=>{
                     const entries = Object.entries(form.positions[p.key]);
                     if(!entries.length) return null;
                     return (
                       <div key={p.key} style={{marginBottom:6}}>
-                        <div style={{fontSize:"0.78rem",color:"#78350f",fontWeight:600,marginBottom:2}}>{p.icon} {p.label}</div>
+                        <div style={{fontSize:"0.76rem",color:"#e6edf3",fontWeight:600,marginBottom:2}}>{p.icon} {p.label}</div>
                         {entries.map(([id,qty])=>{
                           const pr=PRODUCTS.find(r=>r.id===id);
-                          return <div key={id} style={{display:"flex",justifyContent:"space-between",fontSize:"0.78rem",color:"#92400e",paddingLeft:12}}>
+                          return <div key={id} style={{display:"flex",justifyContent:"space-between",fontSize:"0.76rem",color:"#8b949e",paddingLeft:12}}>
                             <span>{pr.name}{qty>1?` ×${qty}`:""}</span>
                             <span>${(pr.price*qty).toLocaleString()}</span>
                           </div>;
                         })}
-                        <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.78rem",fontWeight:600,color:"#78350f",paddingLeft:12,marginTop:2}}>
+                        <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.76rem",fontWeight:600,color:"#c9a84c",paddingLeft:12,marginTop:2}}>
                           <span>小計</span><span>${posTotal(p.key).toLocaleString()}</span>
                         </div>
                       </div>
                     );
                   })}
-                  <div style={{borderTop:"1px solid #fcd34d",marginTop:8,paddingTop:8,display:"flex",justifyContent:"space-between",fontWeight:700,color:"#78350f",fontSize:"0.9rem"}}>
+                  <div style={{borderTop:"1px solid rgba(201,168,76,0.2)",marginTop:8,paddingTop:8,display:"flex",justifyContent:"space-between",fontWeight:700,color:"#c9a84c",fontSize:"0.88rem"}}>
                     <span>訂單合計</span><span>${total.toLocaleString()}</span>
                   </div>
                 </div>
@@ -455,30 +544,30 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
           {/* STEP 2 — Payment */}
           {step===2&&(
             <div>
-              <div style={{display:"flex",gap:12,marginBottom:24}}>
+              <div style={{display:"flex",gap:10,marginBottom:20}}>
                 {[{v:"transfer",l:"🏦 匯款"},{v:"card",l:"💳 刷卡"}].map(opt=>(
                   <button key={opt.v} onClick={()=>set("payMethod",opt.v)} style={{
-                    flex:1,padding:"14px",borderRadius:14,fontWeight:600,fontSize:"0.9rem",
-                    border:form.payMethod===opt.v?"none":"2px solid #e8d5b0",
-                    background:form.payMethod===opt.v?"linear-gradient(135deg,#92400e,#b45309)":"white",
-                    color:form.payMethod===opt.v?"white":"#78350f",
+                    flex:1,padding:"13px",borderRadius:6,fontWeight:600,fontSize:"0.88rem",
+                    border:form.payMethod===opt.v?"1px solid #c9a84c":"1px solid #2a3344",
+                    background:form.payMethod===opt.v?"rgba(201,168,76,0.12)":"transparent",
+                    color:form.payMethod===opt.v?"#c9a84c":"#8b949e",
                     cursor:"pointer",transition:"all 0.2s",fontFamily:"'Noto Serif TC',serif",
-                    boxShadow:form.payMethod===opt.v?"0 6px 20px rgba(146,64,14,0.25)":"none",
+                    boxShadow:form.payMethod===opt.v?"0 0 12px rgba(201,168,76,0.15)":"none",
                   }}>{opt.l}</button>
                 ))}
               </div>
               {form.payMethod==="transfer"&&(
                 <div style={{display:"flex",flexDirection:"column",gap:12}}>
-                  <div style={{padding:"16px 20px",background:"#fef3c7",borderRadius:14,border:"1px solid #fcd34d"}}>
-                    <div style={{fontWeight:700,color:"#78350f",marginBottom:10}}>🏦 台幣匯款</div>
-                    <div style={{fontSize:"0.82rem",color:"#a16207",marginBottom:10}}>個別匯款帳號請詢問介紹人</div>
+                  <div style={{padding:"16px 20px",background:"rgba(201,168,76,0.06)",borderRadius:6,border:"1px solid rgba(201,168,76,0.2)"}}>
+                    <div style={{fontWeight:700,color:"#c9a84c",marginBottom:8,fontSize:"0.88rem"}}>🏦 台幣匯款</div>
+                    <div style={{fontSize:"0.8rem",color:"#8b949e",marginBottom:12}}>個別匯款帳號請詢問介紹人</div>
                     <label>匯款給（姓名，可空白）</label>
                     <input placeholder="例：王小明" value={transferTo} onChange={e=>setTransferTo(e.target.value)}/>
                   </div>
-                  <div style={{padding:"16px 20px",background:"#f0f9ff",borderRadius:14,border:"1px solid #bae6fd"}}>
-                    <div style={{fontWeight:700,color:"#0c4a6e",marginBottom:6}}>🌐 美金匯款參考（公司帳戶）</div>
-                    <div style={{fontSize:"0.72rem",color:"#0284c7",marginBottom:8}}>此欄僅供參考，不會出現在最終訂單文字中</div>
-                    <div style={{fontSize:"0.8rem",color:"#0369a1",lineHeight:2.1}}>
+                  <div style={{padding:"16px 20px",background:"rgba(88,166,255,0.06)",borderRadius:6,border:"1px solid rgba(88,166,255,0.2)"}}>
+                    <div style={{fontWeight:700,color:"#58a6ff",marginBottom:4,fontSize:"0.88rem"}}>🌐 美金匯款參考（公司帳戶）</div>
+                    <div style={{fontSize:"0.7rem",color:"#8b949e",marginBottom:10}}>此欄僅供參考，不會出現在最終訂單文字中</div>
+                    <div style={{fontSize:"0.78rem",color:"#8b949e",lineHeight:2.1}}>
                       Company Name：Olylife Limited<br/>
                       Account Number：09000800682121<br/>
                       Bank Name：BANK SINOPAC Hong Kong Branch<br/>
@@ -492,12 +581,12 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
               )}
               {form.payMethod==="card"&&(
                 <div style={{display:"flex",flexDirection:"column",gap:14}}>
-                  <InfoBox color="yellow">💡 匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
+                  <InfoBox color="yellow">💡 一台刷美金1000，匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
                   {[
                     {k:"cardNumber",l:"信用卡號",ph:"XXXX XXXX XXXX XXXX"},
-                    {k:"cardName",  l:"持卡人英文姓名",ph:"如信用卡上所示"},
-                    {k:"cardExpiry",l:"有效期限 (mm/yy)",ph:"MM/YY"},
-                    {k:"cardCVV",   l:"安全碼（卡背三位數）",ph:"CVV"},
+                    {k:"cardName",  l:"信用卡英文名字",ph:"如信用卡上所示"},
+                    {k:"cardExpiry",l:"信用卡有效期（mm/yy）",ph:"MM/YY"},
+                    {k:"cardCVV",   l:"安全碼(卡背面的三位數字)",ph:"CVV"},
                   ].map(f=>(
                     <div key={f.k}><label>{f.l}</label><input placeholder={f.ph} value={form[f.k]} onChange={e=>set(f.k,e.target.value)}/></div>
                   ))}
@@ -511,17 +600,19 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
             <div>
               <div onClick={()=>set("sameAsPersonal",!form.sameAsPersonal)} style={{
                 display:"flex",alignItems:"center",gap:10,cursor:"pointer",
-                padding:"14px 16px",borderRadius:14,marginBottom:20,transition:"all 0.2s",
-                background:form.sameAsPersonal?"#fef3c7":"white",border:"1px solid #e8d5b0",
+                padding:"13px 16px",borderRadius:6,marginBottom:20,transition:"all 0.2s",
+                background:form.sameAsPersonal?"rgba(201,168,76,0.08)":"transparent",
+                border:`1px solid ${form.sameAsPersonal?"rgba(201,168,76,0.3)":"#2a3344"}`,
               }}>
                 <div style={{
-                  width:22,height:22,borderRadius:6,border:"2px solid #b45309",flexShrink:0,
-                  background:form.sameAsPersonal?"#b45309":"white",
+                  width:20,height:20,borderRadius:4,flexShrink:0,
+                  border:`2px solid ${form.sameAsPersonal?"#c9a84c":"#3a4558"}`,
+                  background:form.sameAsPersonal?"#c9a84c":"transparent",
                   display:"flex",alignItems:"center",justifyContent:"center",
                 }}>
-                  {form.sameAsPersonal&&<span style={{color:"white",fontSize:13,lineHeight:1}}>✓</span>}
+                  {form.sameAsPersonal&&<span style={{color:"#0d1117",fontSize:12,lineHeight:1,fontWeight:700}}>✓</span>}
                 </div>
-                <span style={{fontSize:"0.85rem",color:"#78350f",fontWeight:600}}>收貨資訊與個人資料相同</span>
+                <span style={{fontSize:"0.85rem",color:form.sameAsPersonal?"#c9a84c":"#8b949e",fontWeight:600}}>收貨資訊與個人資料相同</span>
               </div>
               {!form.sameAsPersonal&&(
                 <div style={{display:"flex",flexDirection:"column",gap:14,marginBottom:20}}>
@@ -535,18 +626,18 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
               )}
               <div style={{marginBottom:16}}>
                 <label>有無申請 EZway</label>
-                <div style={{display:"flex",gap:10}}>
+                <div style={{display:"flex",gap:8}}>
                   {["有","無","申請中"].map(v=>(
                     <button key={v} onClick={()=>set("ezway",v)} style={{
-                      flex:1,padding:"10px",borderRadius:10,fontSize:"0.85rem",fontWeight:600,
-                      border:form.ezway===v?"none":"1px solid #e8d5b0",
-                      background:form.ezway===v?"linear-gradient(135deg,#92400e,#b45309)":"white",
-                      color:form.ezway===v?"white":"#78350f",cursor:"pointer",transition:"all 0.2s",
+                      flex:1,padding:"10px",borderRadius:6,fontSize:"0.85rem",fontWeight:600,
+                      border:form.ezway===v?"1px solid #c9a84c":"1px solid #2a3344",
+                      background:form.ezway===v?"rgba(201,168,76,0.12)":"transparent",
+                      color:form.ezway===v?"#c9a84c":"#8b949e",cursor:"pointer",transition:"all 0.2s",
                       fontFamily:"'Noto Serif TC',serif",
                     }}>{v}</button>
                   ))}
                 </div>
-                <p style={{fontSize:"0.7rem",color:"#a16207",marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
+                <p style={{fontSize:"0.7rem",color:"#4a5568",marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
               </div>
               <div><label>備註</label><textarea rows={3} placeholder="其他需要說明的事項…" value={form.remarks} onChange={e=>set("remarks",e.target.value)}/></div>
             </div>
@@ -555,7 +646,7 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
           {/* STEP 4 — Confirm */}
           {step===4&&(
             <div>
-              <InfoBox color="yellow">✅ 資料填寫完成！複製後貼到 LINE，接著使用「訂單更新」補上推薦人與付款資訊。</InfoBox>
+              <InfoBox color="green">✅ 資料填寫完成！複製後貼到 LINE，接著使用「訂單更新」補上推薦人與付款資訊。</InfoBox>
               <div className="line-output">{generateLine()}</div>
               <CopyBtn getText={generateLine}/>
               <ResetBtn onClick={()=>{setStep(0);setForm(emptyNew);setTransferTo("");}}/>
@@ -563,7 +654,7 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
           )}
         </Card>
 
-        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:12}}>
+        <div style={{maxWidth:520,margin:"16px auto 0",display:"flex",gap:10}}>
           <SecondaryBtn onClick={()=>step===0?onBack():setStep(s=>s-1)}>
             {step===0?"← 返回首頁":"← 上一步"}
           </SecondaryBtn>
@@ -769,20 +860,20 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
   ───────────────────────────────────────── */
   const MODES = [
     {
-      id:"new", emoji:"📝", title:"新訂單", badge:"第一步",
-      badgeC:"#92400e", badgeBg:"#fef3c7",
+      id:"new", emoji:"📝", title:"新訂單", badge:"STEP 01",
+      badgeC:"#c9a84c", badgeBg:"rgba(201,168,76,0.1)",
       sub:"陪新朋友填寫產品選擇與個人資料",
       desc:"選產品 → 填資料 → 選付款 → 生成 LINE 文字",
     },
     {
-      id:"update", emoji:"✏️", title:"訂單更新", badge:"第二步",
-      badgeC:"#1e40af", badgeBg:"#dbeafe",
+      id:"update", emoji:"✏️", title:"訂單更新", badge:"STEP 02",
+      badgeC:"#58a6ff", badgeBg:"rgba(88,166,255,0.1)",
       sub:"補上推薦人資訊與付款確認細節",
       desc:"貼上新訂單 → 填推薦人 + 付款確認 → 生成更新版",
     },
     {
-      id:"entry", emoji:"🔒", title:"入單資訊更新", badge:"第三步",
-      badgeC:"#15803d", badgeBg:"#dcfce7",
+      id:"entry", emoji:"🔒", title:"入單資訊更新", badge:"STEP 03",
+      badgeC:"#3fb950", badgeBg:"rgba(63,185,80,0.1)",
       sub:"移除刷卡敏感資訊，產生可公開版本",
       desc:"貼上訂單更新 → 自動移除卡號 → 生成乾淨版本",
     },
@@ -791,51 +882,73 @@ ${form.payMethod==="transfer"?"\n▶️ 匯款帳號末五碼：（待填）\n�
   function Home({onSelect}) {
     return (
       <div className="fade-in">
-        <div style={{maxWidth:520,margin:"0 auto 32px",textAlign:"center"}}>
-          <div style={{fontSize:44,marginBottom:8}}>🌟</div>
-          <h1 style={{fontSize:"1.55rem",fontWeight:700,color:"#78350f",letterSpacing:"0.05em"}}>
-            OlyLife 訂單系統
-          </h1>
-          <p style={{color:"#a16207",fontSize:"0.83rem",marginTop:6,lineHeight:1.6}}>請選擇目前要進行的步驟</p>
+        {/* Header */}
+        <div style={{maxWidth:520,margin:"0 auto 36px",textAlign:"center"}}>
+          {/* Gold top bar */}
+          <div style={{
+            width:48, height:3, background:"linear-gradient(90deg,#9a7a2a,#c9a84c)",
+            margin:"0 auto 20px", borderRadius:2,
+          }}/>
+          <div style={{
+            fontFamily:"'Cinzel',serif",
+            fontSize:"1.6rem", fontWeight:700,
+            background:"linear-gradient(135deg,#c9a84c,#e8d5a0)",
+            WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
+            letterSpacing:"0.12em", marginBottom:6,
+          }}>OLYLIFE</div>
+          <div style={{fontSize:"0.78rem",color:"#8b949e",letterSpacing:"0.2em",textTransform:"uppercase"}}>
+            訂單管理系統
+          </div>
         </div>
 
-        <div style={{maxWidth:520,margin:"0 auto",display:"flex",flexDirection:"column",gap:14}}>
+        <div style={{maxWidth:520,margin:"0 auto",display:"flex",flexDirection:"column",gap:12}}>
           {MODES.map((m,i)=>(
             <div key={m.id} onClick={()=>onSelect(m.id)} className="home-card"
               style={{animation:`fadeIn 0.4s ease ${i*0.08}s both`}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-                <div style={{display:"flex",alignItems:"center",gap:12}}>
-                  <div style={{fontSize:28}}>{m.emoji}</div>
+                <div style={{display:"flex",alignItems:"center",gap:14}}>
+                  <div style={{
+                    width:42,height:42,borderRadius:6,flexShrink:0,
+                    background:"rgba(201,168,76,0.08)",border:"1px solid rgba(201,168,76,0.2)",
+                    display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,
+                  }}>{m.emoji}</div>
                   <div>
-                    <div style={{fontSize:"1.05rem",fontWeight:700,color:"#78350f"}}>{m.title}</div>
-                    <div style={{fontSize:"0.78rem",color:"#a16207",marginTop:2}}>{m.sub}</div>
+                    <div style={{fontSize:"1rem",fontWeight:700,color:"#e6edf3"}}>{m.title}</div>
+                    <div style={{fontSize:"0.76rem",color:"#8b949e",marginTop:3}}>{m.sub}</div>
                   </div>
                 </div>
                 <div style={{
-                  fontSize:"0.68rem",fontWeight:700,padding:"3px 10px",borderRadius:20,
-                  background:m.badgeBg,color:m.badgeC,whiteSpace:"nowrap",flexShrink:0,marginLeft:8,
+                  fontSize:"0.62rem",fontWeight:700,padding:"3px 9px",borderRadius:4,
+                  background:m.badgeBg,color:m.badgeC,whiteSpace:"nowrap",flexShrink:0,
+                  marginLeft:8,letterSpacing:"0.08em",
                 }}>{m.badge}</div>
               </div>
-              <div style={{marginTop:12,paddingTop:12,borderTop:"1px solid #f3e8d8",fontSize:"0.75rem",color:"#92400e",lineHeight:1.6}}>
+              <div style={{
+                marginTop:14,paddingTop:12,
+                borderTop:"1px solid #2a3344",
+                fontSize:"0.73rem",color:"#4a5568",lineHeight:1.6,
+              }}>
                 {m.desc}
               </div>
             </div>
           ))}
         </div>
 
-        <div style={{maxWidth:520,margin:"20px auto 0",padding:"14px 20px",background:"rgba(255,255,255,0.6)",borderRadius:16,border:"1px solid #e8d5b0",fontSize:"0.75rem",color:"#a16207",lineHeight:1.8,textAlign:"center"}}>
-          💡 三個步驟各自獨立運作，不需依序操作。每步完成後生成 LINE 格式文字供複製使用。
+        <div style={{maxWidth:520,margin:"20px auto 0",padding:"12px 20px",background:"rgba(255,255,255,0.03)",borderRadius:6,border:"1px solid #2a3344",fontSize:"0.73rem",color:"#4a5568",lineHeight:1.8,textAlign:"center"}}>
+          三個步驟各自獨立運作，不需依序操作。每步完成後生成 LINE 格式文字供複製使用。
         </div>
 
         {/* Version history */}
-        <div style={{maxWidth:520,margin:"20px auto 0",fontSize:"0.68rem",color:"#c4a97a",lineHeight:2,textAlign:"center"}}>
-          <div style={{fontWeight:700,marginBottom:4,letterSpacing:"0.05em"}}>版本紀錄</div>
-          <div><strong>v3.3</strong>｜2026-03-16　匯款欄位新增「匯款給」姓名欄；香港帳號改為僅供參考不進入訂單文字</div>
-          <div><strong>v3.2</strong>｜2026-03-16　移除個人匯款帳號，改為詢問介紹人；新增公司香港美金帳戶資訊</div>
-          <div><strong>v3.1</strong>｜2026-03-16　修正推薦人／安置人編號範例格式為 TW123456</div>
-          <div><strong>v3.0</strong>｜2026-03-16　產品改為數量加減模式，支援同品項多台選購</div>
-          <div><strong>v2.0</strong>｜2026-03-16　新增訂單更新與入單資訊更新，重構三模式首頁</div>
-          <div><strong>v1.0</strong>｜2026-03-16　初版上線，支援新訂單填寫與 LINE 格式生成</div>
+        <div style={{maxWidth:520,margin:"20px auto 0",fontSize:"0.65rem",color:"#3a4558",lineHeight:2,textAlign:"center"}}>
+          <div style={{fontWeight:700,marginBottom:4,letterSpacing:"0.08em",color:"#4a5568"}}>VERSION HISTORY</div>
+          <div><strong style={{color:"#4a5568"}}>v4.0</strong>　全面重設計：深色科技感主題，香檳金點綴</div>
+          <div><strong style={{color:"#3a4558"}}>v3.4</strong>　統一 LINE 輸出格式；產品小計換行；刷卡欄位標籤修正</div>
+          <div><strong style={{color:"#3a4558"}}>v3.3</strong>　新增「匯款給」欄位；香港帳號改為參考用</div>
+          <div><strong style={{color:"#3a4558"}}>v3.2</strong>　移除個人匯款帳號；新增公司香港美金帳戶</div>
+          <div><strong style={{color:"#3a4558"}}>v3.1</strong>　推薦人編號範例改為 TW123456</div>
+          <div><strong style={{color:"#3a4558"}}>v3.0</strong>　產品改為數量加減，支援同品項多台</div>
+          <div><strong style={{color:"#3a4558"}}>v2.0</strong>　新增訂單更新與入單資訊更新三模式首頁</div>
+          <div><strong style={{color:"#3a4558"}}>v1.0</strong>　初版上線</div>
         </div>
       </div>
     );
