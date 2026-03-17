@@ -166,6 +166,7 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
   </style>
+</head>
 <body>
 <div id="root"></div>
 
@@ -368,7 +369,6 @@
       const pay = form.payMethod==="transfer"
         ? `▶️匯款信息\n中國信託(822) 台中南屯分行 \n匯款帳號：045540435682 \n戶名：鄒震宇\n（備註欄空白，方便對帳）\n----------------------`
         : `▶️刷卡 \n(一台刷美金1000\n匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：${form.cardNumber}\n\n信用卡英文名字：${form.cardName}\n\n信用卡有效期（mm/yy）：${form.cardExpiry}\n\n安全碼(卡背面的三位數字)：${form.cardCVV}`;
-        : `▶️ 刷卡資訊\n信用卡號：${form.cardNumber}\n持卡人英文姓名：${form.cardName}\n有效期限（mm/yy）：${form.cardExpiry}\n安全碼：${form.cardCVV}`;
 
       const sn = form.sameAsPersonal?form.name:form.shipName;
       const si = form.sameAsPersonal?form.idNumber:form.shipId;
