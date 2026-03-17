@@ -171,19 +171,17 @@
   const { useState } = React;
 
   const LOGO = "https://olylife.com/Main/assets/company/logo.png";
-  const BASE = "https://olylife.com/Main/assets/product/";
   const ADM  = "https://admin.olylifeint.com/Res/img/product/";
-  const GLB  = "https://olylifeglobal.com/wp-content/uploads/";
 
   const PRODUCTS = [
-    { id:"p90",      name:"P90",               price:1000, img: BASE+"OLY-HCA002.png" },
-    { id:"p90plus",  name:"P90 Plus",           price:2000, img: ADM+"OLY-HCA002A.png" },
-    { id:"shaken",   name:"甩脂儀 Shaken",      price:1000, img: GLB+"2025/11/olylife_shaken_massager.png" },
-    { id:"g1",       name:"護眼儀 G1",           price:500,  img: BASE+"OLY-PKG004.png", note:"兩組，送葉黃素" },
+    { id:"p90",      name:"P90",               price:1000, img: ADM+"OLY-HCA002.png" },
+    { id:"p90plus",  name:"P90 Plus",           price:2000, img: ADM+"OLY-PKG003.png" },
+    { id:"shaken",   name:"甩脂儀 Shaken",      price:1000, img: ADM+"OLY-SK-M3.png" },
+    { id:"g1",       name:"護眼儀 G1",           price:500,  img: ADM+"OLY-PKG004.png", note:"兩組，送葉黃素" },
     { id:"hydro",    name:"氫霸杯",              price:600,  img: ADM+"OLY-TPC002.png" },
     { id:"a9",       name:"A9 空氣淨化儀",       price:600,  img: ADM+"OLY-HCA005.png" },
-    { id:"slyline",  name:"雲感衛生棉 SlyLine",  price:500,  img: GLB+"2025/09/olylife-skyline-sl-6.jpg" },
-    { id:"miniblow", name:"小神吹",              price:600,  img: GLB+"2024/07/Vitality-Wand-copy-1-300x300.jpg" },
+    { id:"slyline",  name:"雲感衛生棉 SlyLine",  price:500,  img: ADM+"OLY-SL-6-P.png" },
+    { id:"miniblow", name:"小神吹",              price:600,  img: ADM+"OLY-TPC003.png" },
   ];
 
   const POSITIONS = [
@@ -864,6 +862,8 @@
         {/* ── Version ── */}
         <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#b8d9bb", lineHeight:2, textAlign:"center"}}>
           <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, marginBottom:4, letterSpacing:"0.12em", color:"#c8e6cb", textTransform:"uppercase"}}>Version History</div>
+          <div><strong style={{color:"#b8d9bb"}}>v5.5</strong>　SlyLine 換用官方圖片 OLY-SL-6-P；全產品圖片統一官方來源</div>
+          <div><strong style={{color:"#b8d9bb"}}>v5.4</strong>　換用官方後台圖片；修正 P90 Plus / Shaken / 小神吹 產品代碼</div>
           <div><strong style={{color:"#b8d9bb"}}>v5.3</strong>　修正：生成文字不再輸出舊匯款帳號</div>
           <div><strong style={{color:"#b8d9bb"}}>v5.2</strong>　對齊官網綠色主題；Logo 綠底顯示；標題改為「奇跡入單」</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.1</strong>　淺色底對齊官網；藍色系配色</div>
