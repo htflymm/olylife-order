@@ -7,75 +7,193 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --surface2: #1c2330;
-      --border: #2a3344;
-      --border2: #3a4558;
-      --gold: #c9a84c;
-      --gold-dim: #8a6f32;
-      --gold-bg: rgba(201,168,76,0.08);
-      --gold-glow: rgba(201,168,76,0.18);
-      --text: #e6edf3;
-      --text-dim: #8b949e;
-      --text-mute: #4a5568;
+      --bg:       #080c14;
+      --bg2:      #0c1220;
+      --surface:  #111827;
+      --surface2: #162032;
+      --border:   #1e2d45;
+      --border2:  #263650;
+      --blue:     #00aaff;
+      --blue-dim: #0066bb;
+      --blue-bg:  rgba(0,170,255,0.07);
+      --blue-glow:rgba(0,170,255,0.20);
+      --blue2:    #38beff;
+      --cyan:     #00e5ff;
+      --text:     #e8f0f8;
+      --text-dim: #7a9ab8;
+      --text-mute:#334d66;
+      --red:      #ff4d6a;
+      --green:    #00d68f;
+      --white:    #ffffff;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Noto Serif TC', serif; background: var(--bg); min-height: 100vh; color: var(--text); }
+
+    body {
+      font-family: 'Noto Serif TC', serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── Terahertz wave background ── */
     body::before {
-      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image: linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 40% at 50% -10%, rgba(0,120,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 30% at 80% 110%, rgba(0,80,200,0.08) 0%, transparent 60%);
     }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── Subtle scan-line texture ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,170,255,0.015) 3px, rgba(0,170,255,0.015) 4px
+      );
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pulse  { 0%,100% { opacity:.7; } 50% { opacity:1; } }
+    @keyframes waveIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
     .fade-in { animation: fadeIn 0.3s ease; position: relative; z-index: 1; }
+
     input, textarea {
-      width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 11px 14px;
-      background: var(--surface2); color: var(--text); font-size: 14px; font-family: 'Noto Serif TC', serif;
-      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 11px 14px;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Noto Serif TC', serif;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
+    input:focus, textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px var(--blue-glow);
+    }
     input::placeholder, textarea::placeholder { color: var(--text-mute); }
     textarea { resize: none; }
-    label { display: block; font-size: 10px; font-weight: 700; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+    label {
+      display: block;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue2);
+      margin-bottom: 6px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
 
     /* ── Product cards ── */
     .product-card {
-      transition: all 0.15s ease; cursor: pointer;
-      border: 1px solid var(--border); border-radius: 8px;
-      background: var(--surface2); overflow: hidden;
-      display: flex; flex-direction: column;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .product-card:hover { border-color: var(--gold-dim); transform: translateY(-1px); }
-    .product-card.has-qty { background: var(--gold-bg) !important; border-color: var(--gold) !important; box-shadow: 0 0 16px var(--gold-glow); }
-    .product-card.has-qty .prod-name { color: var(--gold) !important; }
-    .product-card.has-qty .prod-price { color: var(--gold) !important; }
+    .product-card:hover { border-color: var(--blue-dim); box-shadow: 0 0 12px rgba(0,120,255,0.15); }
+    .product-card.has-qty {
+      background: var(--blue-bg) !important;
+      border-color: var(--blue) !important;
+      box-shadow: 0 0 20px var(--blue-glow) !important;
+    }
+    .product-card.has-qty .prod-name  { color: var(--blue2) !important; }
+    .product-card.has-qty .prod-price { color: var(--cyan)  !important; }
 
-    /* Product image container */
     .prod-img-wrap {
-      width: 100%; aspect-ratio: 1/1; background: #1a2030;
+      width: 100%; aspect-ratio: 1/1;
+      background: linear-gradient(135deg, #0c1626, #0f1e35);
       display: flex; align-items: center; justify-content: center;
       overflow: hidden; border-bottom: 1px solid var(--border);
     }
     .prod-img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
     .prod-img-placeholder {
-      width: 100%; height: 100%; display: flex; align-items: center;
-      justify-content: center; font-size: 2rem; opacity: 0.4;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blue-dim); letter-spacing: 0.05em;
     }
 
-    .qty-btn { width: 28px; height: 28px; border-radius: 4px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.12s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    /* ── Qty buttons ── */
+    .qty-btn {
+      width: 28px; height: 28px; border-radius: 3px; border: none;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: all 0.12s; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+    }
     .qty-btn:active { transform: scale(0.88); }
-    .pos-section { border-left: 2px solid var(--gold-dim); padding-left: 16px; margin-bottom: 28px; }
+
+    /* ── Section divider ── */
+    .pos-section { border-left: 2px solid var(--blue-dim); padding-left: 16px; margin-bottom: 28px; }
+
+    /* ── Buttons ── */
     .step-btn { transition: all 0.18s; font-family: 'Noto Serif TC', serif; }
     .step-btn:hover:not(:disabled) { transform: translateY(-1px); }
-    .line-output { font-family: monospace; background: #0d1117; color: #c9d1d9; border-radius: 6px; border: 1px solid var(--border); padding: 18px; white-space: pre-wrap; font-size: 12.5px; line-height: 1.8; max-height: 380px; overflow-y: auto; }
-    .home-card { cursor: pointer; border-radius: 8px; padding: 22px 20px; border: 1px solid var(--border); background: var(--surface); transition: all 0.2s ease; position: relative; overflow: hidden; }
-    .home-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dim), transparent); opacity: 0; transition: opacity 0.2s; }
-    .home-card:hover { border-color: var(--gold-dim); background: var(--surface2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+
+    /* ── LINE output ── */
+    .line-output {
+      font-family: monospace;
+      background: #050810;
+      color: #a8c8e8;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      padding: 18px;
+      white-space: pre-wrap;
+      font-size: 12.5px;
+      line-height: 1.8;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    /* ── Home cards ── */
+    .home-card {
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 22px 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .home-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--cyan), transparent);
+      opacity: 0; transition: opacity 0.2s;
+      transform-origin: left;
+    }
+    .home-card:hover { border-color: var(--blue-dim); background: var(--surface2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,100,255,0.15); }
     .home-card:hover::before { opacity: 1; }
+
+    /* ── Wave decoration ── */
+    .thz-wave {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; overflow: hidden;
+    }
+    .thz-wave::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, var(--blue) 30%, var(--cyan) 60%, transparent 100%);
+      animation: waveIn 0.6s ease forwards;
+    }
+
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
@@ -86,36 +204,36 @@
 <script type="text/babel">
   const { useState } = React;
 
+  const LOGO = "https://olylife.com/Main/assets/company/logo.png";
   const BASE = "https://olylife.com/Main/assets/product/";
+  const ADM  = "https://admin.olylifeint.com/Res/img/product/";
+  const GLB  = "https://olylifeglobal.com/wp-content/uploads/";
 
   const PRODUCTS = [
     { id:"p90",      name:"P90",               price:1000, img: BASE+"OLY-HCA002.png" },
-    { id:"p90plus",  name:"P90 Plus",           price:2000, img: "https://admin.olylifeint.com/Res/img/product/OLY-HCA002A.png" },
-    { id:"shaken",   name:"甩脂儀 Shaken",      price:1000, img: "https://olylifeglobal.com/wp-content/uploads/2025/11/olylife_shaken_massager.png" },
+    { id:"p90plus",  name:"P90 Plus",           price:2000, img: ADM+"OLY-HCA002A.png" },
+    { id:"shaken",   name:"甩脂儀 Shaken",      price:1000, img: GLB+"2025/11/olylife_shaken_massager.png" },
     { id:"g1",       name:"護眼儀 G1",           price:500,  img: BASE+"OLY-PKG004.png", note:"兩組，送葉黃素" },
-    { id:"hydro",    name:"氫霸杯",              price:600,  img: "https://admin.olylifeint.com/Res/img/product/OLY-TPC002.png" },
-    { id:"a9",       name:"A9 空氣淨化儀",       price:600,  img: "https://admin.olylifeint.com/Res/img/product/OLY-HCA005.png" },
-    { id:"slyline",  name:"雲感衛生棉 SlyLine",  price:500,  img: "https://olylifeglobal.com/wp-content/uploads/2025/09/olylife-skyline-sl-6.jpg" },
-    { id:"miniblow", name:"小神吹",              price:600,  img: "https://olylifeglobal.com/wp-content/uploads/2024/07/Vitality-Wand-copy-1-300x300.jpg" },
+    { id:"hydro",    name:"氫霸杯",              price:600,  img: ADM+"OLY-TPC002.png" },
+    { id:"a9",       name:"A9 空氣淨化儀",       price:600,  img: ADM+"OLY-HCA005.png" },
+    { id:"slyline",  name:"雲感衛生棉 SlyLine",  price:500,  img: GLB+"2025/09/olylife-skyline-sl-6.jpg" },
+    { id:"miniblow", name:"小神吹",              price:600,  img: GLB+"2024/07/Vitality-Wand-copy-1-300x300.jpg" },
   ];
 
   const POSITIONS = [
-    { key:"main",  label:"主球", icon:"▲", desc:"您的主要入單位置" },
+    { key:"main",  label:"主球", icon:"▲", desc:"主要入單位置" },
     { key:"left",  label:"左球", icon:"◣", desc:"主球左側下線" },
     { key:"right", label:"右球", icon:"◢", desc:"主球右側下線" },
   ];
   const MIN = 1000;
 
-  /* ── Product Image Component ── */
+  /* ── ProdImage ── */
   function ProdImage({src, name}) {
     const [failed, setFailed] = useState(false);
     if (!src || failed) {
       return (
         <div className="prod-img-wrap">
-          <div className="prod-img-placeholder"
-            style={{fontSize:"1.8rem", color:"#8a6f32", fontWeight:700, letterSpacing:"-0.05em"}}>
-            {name.charAt(0)}
-          </div>
+          <div className="prod-img-placeholder">{name.slice(0,2)}</div>
         </div>
       );
     }
@@ -126,29 +244,33 @@
     );
   }
 
-  /* ── Shared Components ── */
+  /* ── Shared UI ── */
   const Card = ({children}) => (
-    <div style={{maxWidth:520, margin:"0 auto", background:"#161b22", borderRadius:8, boxShadow:"0 8px 32px rgba(0,0,0,0.5)", padding:"28px 24px", border:"1px solid #2a3344"}}>
+    <div style={{maxWidth:520, margin:"0 auto", background:"#111827", borderRadius:6, boxShadow:"0 8px 40px rgba(0,0,0,0.6)", padding:"28px 24px", border:"1px solid #1e2d45", position:"relative", zIndex:1}}>
       {children}
     </div>
   );
 
   const PrimaryBtn = ({onClick, disabled, children, green}) => (
     <button onClick={onClick} disabled={disabled} className="step-btn" style={{
-      flex:2, padding:"14px", borderRadius:6, border:"none",
-      background: disabled ? "#1c2330" : (green ? "linear-gradient(135deg,#1a6b2a,#22863a)" : "linear-gradient(135deg,#9a7a2a,#c9a84c)"),
-      color: disabled ? "#4a5568" : (green ? "white" : "#0d1117"),
-      fontWeight:700, fontSize:"0.92rem",
+      flex:2, padding:"14px", borderRadius:4, border:"none",
+      background: disabled ? "#162032"
+        : green ? "linear-gradient(135deg,#006644,#00d68f)"
+        : "linear-gradient(135deg,#0055bb,#00aaff)",
+      color: disabled ? "#334d66" : "#fff",
+      fontWeight:700, fontSize:"0.9rem",
       cursor: disabled ? "not-allowed" : "pointer",
-      boxShadow: disabled ? "none" : (green ? "0 4px 16px rgba(34,134,58,0.3)" : "0 4px 16px rgba(201,168,76,0.3)"),
-      fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s", letterSpacing:"0.04em",
+      boxShadow: disabled ? "none" : (green ? "0 4px 18px rgba(0,214,143,0.3)" : "0 4px 18px rgba(0,140,255,0.35)"),
+      fontFamily:"'Noto Serif TC',serif", transition:"all 0.2s", letterSpacing:"0.03em",
     }}>{children}</button>
   );
 
   const SecondaryBtn = ({onClick, children}) => (
     <button onClick={onClick} className="step-btn" style={{
-      flex:1, padding:"14px", borderRadius:6, border:"1px solid #2a3344", background:"#161b22",
-      color:"#8b949e", fontWeight:600, fontSize:"0.88rem", cursor:"pointer", fontFamily:"'Noto Serif TC',serif",
+      flex:1, padding:"14px", borderRadius:4,
+      border:"1px solid #1e2d45", background:"#111827",
+      color:"#7a9ab8", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
+      fontFamily:"'Noto Serif TC',serif",
     }}>{children}</button>
   );
 
@@ -156,62 +278,62 @@
     const [copied, setCopied] = useState(false);
     return (
       <button onClick={() => { navigator.clipboard.writeText(getText()).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }); }} style={{
-        width:"100%", marginTop:16, padding:"14px", borderRadius:6, border:"none",
-        background: copied ? "linear-gradient(135deg,#1a6b2a,#22863a)" : "linear-gradient(135deg,#9a7a2a,#c9a84c)",
-        color: copied ? "white" : "#0d1117", fontWeight:700, fontSize:"0.95rem", cursor:"pointer",
-        boxShadow: copied ? "0 4px 16px rgba(34,134,58,0.3)" : "0 4px 16px rgba(201,168,76,0.3)",
-        transition:"all 0.3s", fontFamily:"'Noto Serif TC',serif", letterSpacing:"0.04em",
+        width:"100%", marginTop:16, padding:"14px", borderRadius:4, border:"none",
+        background: copied ? "linear-gradient(135deg,#006644,#00d68f)" : "linear-gradient(135deg,#0055bb,#00aaff)",
+        color:"#fff", fontWeight:700, fontSize:"0.95rem", cursor:"pointer",
+        boxShadow: copied ? "0 4px 18px rgba(0,214,143,0.3)" : "0 4px 18px rgba(0,140,255,0.35)",
+        transition:"all 0.3s", fontFamily:"'Noto Serif TC',serif", letterSpacing:"0.03em",
       }}>
-        {copied ? "✅ 已複製！貼到 LINE 吧" : "📋 一鍵複製 LINE 格式"}
+        {copied ? "已複製！貼到 LINE 吧" : "一鍵複製 LINE 格式"}
       </button>
     );
   };
 
   const ResetBtn = ({onClick}) => (
     <button onClick={onClick} style={{
-      width:"100%", marginTop:10, padding:"12px", borderRadius:6,
-      border:"1px solid #2a3344", background:"transparent",
-      color:"#8b949e", fontWeight:600, fontSize:"0.88rem", cursor:"pointer", fontFamily:"'Noto Serif TC',serif",
+      width:"100%", marginTop:10, padding:"12px", borderRadius:4,
+      border:"1px solid #1e2d45", background:"transparent",
+      color:"#7a9ab8", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
+      fontFamily:"'Noto Serif TC',serif",
     }}>↺ 重新操作</button>
   );
 
   const StepBar = ({steps, current}) => (
-    <div style={{maxWidth:520, margin:"0 auto 24px"}}>
+    <div style={{maxWidth:520, margin:"0 auto 24px", position:"relative", zIndex:1}}>
       <div style={{display:"flex", alignItems:"center", marginBottom:8}}>
         {steps.map((s, i) => (
           <React.Fragment key={i}>
             <div style={{
-              width:30, height:30, borderRadius:4, flexShrink:0,
+              width:30, height:30, borderRadius:3, flexShrink:0,
               display:"flex", alignItems:"center", justifyContent:"center",
-              fontSize:"0.7rem", fontWeight:700,
-              background: i < current ? "#9a7a2a" : (i === current ? "#c9a84c" : "#1c2330"),
-              color: i < current ? "white" : (i === current ? "#0d1117" : "#4a5568"),
-              border: "1px solid " + (i < current ? "#9a7a2a" : (i === current ? "#c9a84c" : "#2a3344")),
-              boxShadow: i === current ? "0 0 12px rgba(201,168,76,0.4)" : "none",
+              fontFamily:"'Rajdhani',sans-serif", fontSize:"0.72rem", fontWeight:700,
+              background: i < current ? "#0055bb" : (i === current ? "#00aaff" : "#162032"),
+              color: i < current ? "#fff" : (i === current ? "#fff" : "#334d66"),
+              border: "1px solid " + (i < current ? "#0055bb" : (i === current ? "#00aaff" : "#1e2d45")),
+              boxShadow: i === current ? "0 0 14px rgba(0,170,255,0.5)" : "none",
               transition:"all 0.3s",
             }}>{i < current ? "✓" : i + 1}</div>
             {i < steps.length - 1 && (
-              <div style={{flex:1, height:1, margin:"0 4px", background: i < current ? "#9a7a2a" : "#2a3344", transition:"background 0.3s"}} />
+              <div style={{flex:1, height:1, margin:"0 4px", background: i < current ? "#0055bb" : "#1e2d45", transition:"background 0.3s"}} />
             )}
           </React.Fragment>
         ))}
       </div>
       <div style={{textAlign:"center"}}>
-        <span style={{color:"#c9a84c", fontWeight:600, fontSize:"0.85rem", letterSpacing:"0.06em"}}>{steps[current]}</span>
+        <span style={{fontFamily:"'Rajdhani',sans-serif", color:"#00aaff", fontWeight:700, fontSize:"0.85rem", letterSpacing:"0.12em", textTransform:"uppercase"}}>{steps[current]}</span>
       </div>
     </div>
   );
 
   const InfoBox = ({color, children}) => {
     const C = {
-      yellow: {bg:"rgba(201,168,76,0.08)", border:"rgba(201,168,76,0.3)", text:"#c9a84c"},
-      red:    {bg:"rgba(248,81,73,0.08)",  border:"rgba(248,81,73,0.3)",  text:"#f85149"},
-      green:  {bg:"rgba(63,185,80,0.08)",  border:"rgba(63,185,80,0.3)",  text:"#3fb950"},
-      blue:   {bg:"rgba(88,166,255,0.08)", border:"rgba(88,166,255,0.25)",text:"#58a6ff"},
+      blue:  {bg:"rgba(0,170,255,0.07)", border:"rgba(0,170,255,0.3)", text:"#38beff"},
+      red:   {bg:"rgba(255,77,106,0.07)", border:"rgba(255,77,106,0.3)", text:"#ff4d6a"},
+      green: {bg:"rgba(0,214,143,0.07)", border:"rgba(0,214,143,0.3)", text:"#00d68f"},
     };
-    const c = C[color] || C.yellow;
+    const c = C[color] || C.blue;
     return (
-      <div style={{padding:"12px 16px", borderRadius:6, marginBottom:16, background:c.bg, border:"1px solid "+c.border, fontSize:"0.82rem", color:c.text, lineHeight:1.7}}>
+      <div style={{padding:"12px 16px", borderRadius:4, marginBottom:16, background:c.bg, border:"1px solid "+c.border, fontSize:"0.82rem", color:c.text, lineHeight:1.7}}>
         {children}
       </div>
     );
@@ -273,10 +395,10 @@
         paySection = "▶️刷卡 \n(一台刷美金1000\n匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：" + form.cardNumber + "\n\n信用卡英文名字：" + form.cardName + "\n\n信用卡有效期（mm/yy）：" + form.cardExpiry + "\n\n安全碼(卡背面的三位數字)：" + form.cardCVV;
       }
 
-      const sn = form.sameAsPersonal ? form.name : form.shipName;
+      const sn = form.sameAsPersonal ? form.name    : form.shipName;
       const si = form.sameAsPersonal ? form.idNumber : form.shipId;
-      const sp = form.sameAsPersonal ? form.phone : form.shipPhone;
-      const sa = form.sameAsPersonal ? form.address : form.shipAddress;
+      const sp = form.sameAsPersonal ? form.phone    : form.shipPhone;
+      const sa = form.sameAsPersonal ? form.address  : form.shipAddress;
 
       let out = "會員註冊資料(版本更新)\n🌟Olylife 註冊資料\n\n";
       out += "▶️中文姓名：" + form.name + "\n";
@@ -303,6 +425,15 @@
       return true;
     };
 
+    const tagStyle = (active) => ({
+      flex:1, padding:"13px", borderRadius:4, fontWeight:600, fontSize:"0.88rem",
+      border: "1px solid " + (active ? "#00aaff" : "#1e2d45"),
+      background: active ? "rgba(0,170,255,0.1)" : "transparent",
+      color: active ? "#38beff" : "#7a9ab8",
+      cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
+      boxShadow: active ? "0 0 10px rgba(0,170,255,0.15)" : "none",
+    });
+
     return (
       <div className="fade-in">
         <StepBar steps={["產品選擇","個人資料","付款方式","收貨資訊","確認訂單"]} current={step} />
@@ -311,29 +442,30 @@
           {/* Step 0 — Products */}
           {step === 0 && (
             <div>
-              <p style={{color:"#8b949e", fontSize:"0.82rem", marginBottom:20, lineHeight:1.7}}>
+              <p style={{color:"#7a9ab8", fontSize:"0.82rem", marginBottom:20, lineHeight:1.7}}>
                 每個位置可選多項產品，金額自動加總。主球必填，左右球可視情況選填。
-                <strong style={{color:"#c9a84c"}}> 每個球位最低 $1,000。</strong>
+                <strong style={{color:"#00aaff"}}> 每個球位最低 $1,000。</strong>
               </p>
               {POSITIONS.map(pos => {
                 const sub = posTotal(pos.key);
                 const hasSel = Object.keys(form.positions[pos.key]).length > 0;
                 const low = hasSel && sub < MIN;
                 return (
-                  <div key={pos.key} className="pos-section" style={{borderLeftColor: low ? "#f85149" : "#9a7a2a"}}>
+                  <div key={pos.key} className="pos-section" style={{borderLeftColor: low ? "#ff4d6a" : "#0066bb"}}>
                     <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12}}>
                       <div>
-                        <span style={{fontSize:"0.95rem", fontWeight:700, color:"#e6edf3"}}>{pos.icon} {pos.label}</span>
-                        <span style={{fontSize:"0.72rem", color:"#8b949e", marginLeft:8}}>{pos.desc}</span>
+                        <span style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.95rem", fontWeight:700, color:"#e8f0f8", letterSpacing:"0.05em"}}>{pos.icon} {pos.label}</span>
+                        <span style={{fontSize:"0.72rem", color:"#7a9ab8", marginLeft:8}}>{pos.desc}</span>
                       </div>
                       {hasSel && (
                         <div style={{
-                          fontSize:"0.75rem", fontWeight:700, padding:"3px 10px", borderRadius:4, whiteSpace:"nowrap",
-                          background: low ? "rgba(248,81,73,0.1)" : "rgba(201,168,76,0.1)",
-                          color: low ? "#f85149" : "#c9a84c",
-                          border: "1px solid " + (low ? "rgba(248,81,73,0.3)" : "rgba(201,168,76,0.3)"),
+                          fontFamily:"'Rajdhani',sans-serif",
+                          fontSize:"0.78rem", fontWeight:700, padding:"3px 10px", borderRadius:3, whiteSpace:"nowrap",
+                          background: low ? "rgba(255,77,106,0.1)" : "rgba(0,170,255,0.1)",
+                          color: low ? "#ff4d6a" : "#38beff",
+                          border: "1px solid " + (low ? "rgba(255,77,106,0.3)" : "rgba(0,170,255,0.3)"),
                         }}>
-                          {low ? ("⚠ $" + sub.toLocaleString() + " / 未達$1,000") : ("✓ $" + sub.toLocaleString())}
+                          {low ? ("⚠ $" + sub.toLocaleString() + " / 未達 $1,000") : ("✓ $" + sub.toLocaleString())}
                         </div>
                       )}
                     </div>
@@ -343,23 +475,22 @@
                         const active = qty > 0;
                         return (
                           <div key={prod.id} className={"product-card" + (active ? " has-qty" : "")}>
-                            {/* Product image */}
                             <ProdImage src={prod.img} name={prod.name} />
-                            {/* Product info */}
                             <div style={{padding:"10px 10px 12px"}}>
-                              <div className="prod-name" style={{fontSize:"0.76rem", fontWeight:600, lineHeight:1.35, color:"#e6edf3", minHeight:"2.2em"}}>{prod.name}</div>
-                              {prod.note && <div style={{fontSize:"0.62rem", color:"#8b949e", marginTop:2}}>{prod.note}</div>}
-                              <div className="prod-price" style={{fontSize:"0.85rem", fontWeight:700, marginTop:4, color:"#c9a84c"}}>${prod.price.toLocaleString()}</div>
-                              {/* Qty controls */}
+                              <div className="prod-name" style={{fontSize:"0.75rem", fontWeight:600, lineHeight:1.35, color:"#c8dcea", minHeight:"2.2em"}}>{prod.name}</div>
+                              {prod.note && <div style={{fontSize:"0.62rem", color:"#7a9ab8", marginTop:2}}>{prod.note}</div>}
+                              <div className="prod-price" style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.9rem", fontWeight:700, marginTop:4, color:"#00aaff"}}>
+                                ${prod.price.toLocaleString()}
+                              </div>
                               <div style={{display:"flex", alignItems:"center", gap:6, marginTop:8}}>
                                 {active ? (
                                   <>
-                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, -1); }} style={{background:"rgba(201,168,76,0.2)", color:"#c9a84c"}}>−</button>
-                                    <span style={{flex:1, textAlign:"center", fontWeight:700, fontSize:"0.95rem", color:"#c9a84c"}}>{qty}</span>
-                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(201,168,76,0.2)", color:"#c9a84c"}}>＋</button>
+                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, -1); }} style={{background:"rgba(0,170,255,0.15)", color:"#38beff"}}>−</button>
+                                    <span style={{flex:1, textAlign:"center", fontFamily:"'Rajdhani',sans-serif", fontWeight:700, fontSize:"1rem", color:"#38beff"}}>{qty}</span>
+                                    <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(0,170,255,0.15)", color:"#38beff"}}>＋</button>
                                   </>
                                 ) : (
-                                  <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(201,168,76,0.1)", color:"#8a6f32", fontSize:13, width:"100%", borderRadius:4}}>＋ 加入</button>
+                                  <button className="qty-btn" onClick={e => { e.stopPropagation(); changeQty(pos.key, prod.id, +1); }} style={{background:"rgba(0,100,200,0.12)", color:"#0066bb", fontSize:13, width:"100%", borderRadius:3}}>＋ 加入</button>
                                 )}
                               </div>
                             </div>
@@ -367,37 +498,36 @@
                         );
                       })}
                     </div>
-                    {low && <p style={{marginTop:8, fontSize:"0.75rem", color:"#f85149"}}>⚠ 此球位不足 $1,000，請再加選產品。</p>}
+                    {low && <p style={{marginTop:8, fontSize:"0.75rem", color:"#ff4d6a"}}>⚠ 此球位不足 $1,000，請再加選產品。</p>}
                   </div>
                 );
               })}
 
-              {/* Order summary */}
               {POSITIONS.some(p => Object.keys(form.positions[p.key]).length > 0) && (
-                <div style={{padding:"14px 16px", background:"rgba(201,168,76,0.06)", borderRadius:6, border:"1px solid rgba(201,168,76,0.2)"}}>
-                  <div style={{fontSize:"0.75rem", color:"#c9a84c", fontWeight:700, marginBottom:8, letterSpacing:"0.08em"}}>訂單總覽</div>
+                <div style={{padding:"14px 16px", background:"rgba(0,170,255,0.06)", borderRadius:4, border:"1px solid rgba(0,170,255,0.2)"}}>
+                  <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.72rem", color:"#38beff", fontWeight:700, marginBottom:8, letterSpacing:"0.12em", textTransform:"uppercase"}}>訂單總覽</div>
                   {POSITIONS.map(p => {
                     const entries = Object.entries(form.positions[p.key]);
                     if (!entries.length) return null;
                     return (
                       <div key={p.key} style={{marginBottom:6}}>
-                        <div style={{fontSize:"0.76rem", color:"#e6edf3", fontWeight:600, marginBottom:2}}>{p.icon} {p.label}</div>
+                        <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.78rem", color:"#c8dcea", fontWeight:600, marginBottom:2}}>{p.icon} {p.label}</div>
                         {entries.map(([id, qty]) => {
                           const pr = PRODUCTS.find(r => r.id === id);
                           return (
-                            <div key={id} style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", color:"#8b949e", paddingLeft:12}}>
+                            <div key={id} style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", color:"#7a9ab8", paddingLeft:12}}>
                               <span>{pr.name}{qty > 1 ? " ×" + qty : ""}</span>
                               <span>${(pr.price * qty).toLocaleString()}</span>
                             </div>
                           );
                         })}
-                        <div style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", fontWeight:600, color:"#c9a84c", paddingLeft:12, marginTop:2}}>
+                        <div style={{display:"flex", justifyContent:"space-between", fontSize:"0.76rem", fontWeight:600, color:"#38beff", paddingLeft:12, marginTop:2}}>
                           <span>小計</span><span>${posTotal(p.key).toLocaleString()}</span>
                         </div>
                       </div>
                     );
                   })}
-                  <div style={{borderTop:"1px solid rgba(201,168,76,0.2)", marginTop:8, paddingTop:8, display:"flex", justifyContent:"space-between", fontWeight:700, color:"#c9a84c", fontSize:"0.88rem"}}>
+                  <div style={{borderTop:"1px solid rgba(0,170,255,0.2)", marginTop:8, paddingTop:8, display:"flex", justifyContent:"space-between", fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#00e5ff", fontSize:"0.95rem"}}>
                     <span>訂單合計</span><span>${total.toLocaleString()}</span>
                   </div>
                 </div>
@@ -429,42 +559,34 @@
             <div>
               <div style={{display:"flex", gap:10, marginBottom:20}}>
                 {[{v:"transfer", l:"匯款"}, {v:"card", l:"刷卡"}].map(opt => (
-                  <button key={opt.v} onClick={() => set("payMethod", opt.v)} style={{
-                    flex:1, padding:"13px", borderRadius:6, fontWeight:600, fontSize:"0.88rem",
-                    border: "1px solid " + (form.payMethod === opt.v ? "#c9a84c" : "#2a3344"),
-                    background: form.payMethod === opt.v ? "rgba(201,168,76,0.12)" : "transparent",
-                    color: form.payMethod === opt.v ? "#c9a84c" : "#8b949e",
-                    cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
-                    boxShadow: form.payMethod === opt.v ? "0 0 12px rgba(201,168,76,0.15)" : "none",
-                  }}>{opt.l}</button>
+                  <button key={opt.v} onClick={() => set("payMethod", opt.v)} style={tagStyle(form.payMethod === opt.v)}>{opt.l}</button>
                 ))}
               </div>
               {form.payMethod === "transfer" && (
                 <div style={{display:"flex", flexDirection:"column", gap:12}}>
-                  <div style={{padding:"16px 20px", background:"rgba(201,168,76,0.06)", borderRadius:6, border:"1px solid rgba(201,168,76,0.2)"}}>
-                    <div style={{fontWeight:700, color:"#c9a84c", marginBottom:8, fontSize:"0.88rem"}}>台幣匯款</div>
-                    <div style={{fontSize:"0.8rem", color:"#8b949e", marginBottom:12}}>個別匯款帳號請詢問介紹人</div>
+                  <div style={{padding:"16px 20px", background:"rgba(0,170,255,0.06)", borderRadius:4, border:"1px solid rgba(0,170,255,0.2)"}}>
+                    <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#38beff", marginBottom:8, fontSize:"0.88rem", letterSpacing:"0.05em"}}>台幣匯款</div>
+                    <div style={{fontSize:"0.8rem", color:"#7a9ab8", marginBottom:12}}>個別匯款帳號請詢問介紹人</div>
                     <label>匯款給（姓名，可空白）</label>
                     <input placeholder="例：王小明" value={transferTo} onChange={e => setTransferTo(e.target.value)} />
                   </div>
-                  <div style={{padding:"16px 20px", background:"rgba(88,166,255,0.06)", borderRadius:6, border:"1px solid rgba(88,166,255,0.2)"}}>
-                    <div style={{fontWeight:700, color:"#58a6ff", marginBottom:4, fontSize:"0.88rem"}}>美金匯款參考（公司帳戶）</div>
-                    <div style={{fontSize:"0.7rem", color:"#8b949e", marginBottom:10}}>此欄僅供參考，不會出現在最終訂單文字中</div>
-                    <div style={{fontSize:"0.78rem", color:"#8b949e", lineHeight:2.1}}>
+                  <div style={{padding:"16px 20px", background:"rgba(0,229,255,0.04)", borderRadius:4, border:"1px solid rgba(0,229,255,0.15)"}}>
+                    <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, color:"#00e5ff", marginBottom:4, fontSize:"0.88rem", letterSpacing:"0.05em"}}>美金匯款參考（公司帳戶）</div>
+                    <div style={{fontSize:"0.7rem", color:"#7a9ab8", marginBottom:10}}>此欄僅供參考，不會出現在最終訂單文字中</div>
+                    <div style={{fontSize:"0.78rem", color:"#7a9ab8", lineHeight:2.1}}>
                       Company Name：Olylife Limited<br/>
                       Account Number：09000800682121<br/>
                       Bank Name：BANK SINOPAC Hong Kong Branch<br/>
                       Bank Address：18/F, One Peking, 1 Peking Road,<br/>
                       　　Tsim Sha Tsui, Kowloon, Hong Kong<br/>
-                      SWIFT Code：SINOHKHH<br/>
-                      Company Address：26G, Plaza 88, No. 88 Yeung Uk Road, Tsuen Wan
+                      SWIFT Code：SINOHKHH
                     </div>
                   </div>
                 </div>
               )}
               {form.payMethod === "card" && (
                 <div style={{display:"flex", flexDirection:"column", gap:14}}>
-                  <InfoBox color="yellow">一台刷美金1000，匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
+                  <InfoBox color="blue">一台刷美金1000，匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。</InfoBox>
                   {[
                     {k:"cardNumber", l:"信用卡號",              ph:"XXXX XXXX XXXX XXXX"},
                     {k:"cardName",   l:"信用卡英文名字",         ph:"如信用卡上所示"},
@@ -483,14 +605,19 @@
             <div>
               <div onClick={() => set("sameAsPersonal", !form.sameAsPersonal)} style={{
                 display:"flex", alignItems:"center", gap:10, cursor:"pointer",
-                padding:"13px 16px", borderRadius:6, marginBottom:20, transition:"all 0.2s",
-                background: form.sameAsPersonal ? "rgba(201,168,76,0.08)" : "transparent",
-                border: "1px solid " + (form.sameAsPersonal ? "rgba(201,168,76,0.3)" : "#2a3344"),
+                padding:"13px 16px", borderRadius:4, marginBottom:20, transition:"all 0.2s",
+                background: form.sameAsPersonal ? "rgba(0,170,255,0.07)" : "transparent",
+                border: "1px solid " + (form.sameAsPersonal ? "rgba(0,170,255,0.3)" : "#1e2d45"),
               }}>
-                <div style={{width:20, height:20, borderRadius:4, flexShrink:0, border:"2px solid "+(form.sameAsPersonal?"#c9a84c":"#3a4558"), background:form.sameAsPersonal?"#c9a84c":"transparent", display:"flex", alignItems:"center", justifyContent:"center"}}>
-                  {form.sameAsPersonal && <span style={{color:"#0d1117", fontSize:12, fontWeight:700}}>✓</span>}
+                <div style={{
+                  width:20, height:20, borderRadius:3, flexShrink:0,
+                  border: "2px solid " + (form.sameAsPersonal ? "#00aaff" : "#334d66"),
+                  background: form.sameAsPersonal ? "#00aaff" : "transparent",
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                }}>
+                  {form.sameAsPersonal && <span style={{color:"#fff", fontSize:12, fontWeight:700, lineHeight:1}}>✓</span>}
                 </div>
-                <span style={{fontSize:"0.85rem", color:form.sameAsPersonal?"#c9a84c":"#8b949e", fontWeight:600}}>收貨資訊與個人資料相同</span>
+                <span style={{fontSize:"0.85rem", color: form.sameAsPersonal ? "#38beff" : "#7a9ab8", fontWeight:600}}>收貨資訊與個人資料相同</span>
               </div>
               {!form.sameAsPersonal && (
                 <div style={{display:"flex", flexDirection:"column", gap:14, marginBottom:20}}>
@@ -504,14 +631,15 @@
                 <div style={{display:"flex", gap:8}}>
                   {["有","無","申請中"].map(v => (
                     <button key={v} onClick={() => set("ezway", v)} style={{
-                      flex:1, padding:"10px", borderRadius:6, fontSize:"0.85rem", fontWeight:600,
-                      border:"1px solid "+(form.ezway===v?"#c9a84c":"#2a3344"),
-                      background:form.ezway===v?"rgba(201,168,76,0.12)":"transparent",
-                      color:form.ezway===v?"#c9a84c":"#8b949e", cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
+                      flex:1, padding:"10px", borderRadius:4, fontSize:"0.85rem", fontWeight:600,
+                      border: "1px solid " + (form.ezway === v ? "#00aaff" : "#1e2d45"),
+                      background: form.ezway === v ? "rgba(0,170,255,0.1)" : "transparent",
+                      color: form.ezway === v ? "#38beff" : "#7a9ab8",
+                      cursor:"pointer", transition:"all 0.2s", fontFamily:"'Noto Serif TC',serif",
                     }}>{v}</button>
                   ))}
                 </div>
-                <p style={{fontSize:"0.7rem", color:"#4a5568", marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
+                <p style={{fontSize:"0.7rem", color:"#334d66", marginTop:6}}>申請 EZway 資料務必與收貨資訊相同</p>
               </div>
               <div><label>備註</label><textarea rows={3} placeholder="其他需要說明的事項…" value={form.remarks} onChange={e => set("remarks", e.target.value)} /></div>
             </div>
@@ -528,15 +656,11 @@
           )}
         </Card>
 
-        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10}}>
+        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10, position:"relative", zIndex:1}}>
           <SecondaryBtn onClick={() => step === 0 ? onBack() : setStep(s => s - 1)}>
             {step === 0 ? "← 返回首頁" : "← 上一步"}
           </SecondaryBtn>
-          {step < 4 && (
-            <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={!canNext()}>
-              {step === 3 ? "生成訂單 →" : "下一步 →"}
-            </PrimaryBtn>
-          )}
+          {step < 4 && <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={!canNext()}>{step === 3 ? "生成訂單 →" : "下一步 →"}</PrimaryBtn>}
         </div>
       </div>
     );
@@ -566,17 +690,11 @@
       t = t.replace(/▶️安置人\+編號：.*/, "▶️安置人+編號：" + placeName + " " + placeNo);
       if (!isCard) {
         t = t.replace(/匯款帳號末五碼：.*/, "匯款帳號末五碼：" + last5);
-        if (t.includes("匯款時間")) {
-          t = t.replace(/▶️匯款時間：.*/, "▶️匯款時間：" + xferTime);
-        } else {
-          t = t.replace(/匯款帳號末五碼：[^\n]*/, "匯款帳號末五碼：" + last5 + "\n▶️匯款時間：" + xferTime);
-        }
+        if (t.includes("匯款時間")) t = t.replace(/▶️匯款時間：.*/, "▶️匯款時間：" + xferTime);
+        else t = t.replace(/匯款帳號末五碼：[^\n]*/, "匯款帳號末五碼：" + last5 + "\n▶️匯款時間：" + xferTime);
       } else {
-        if (t.includes("刷卡金額")) {
-          t = t.replace(/▶️刷卡金額：.*/, "▶️刷卡金額：" + cardAmt);
-        } else {
-          t += "\n▶️刷卡金額：" + cardAmt;
-        }
+        if (t.includes("刷卡金額")) t = t.replace(/▶️刷卡金額：.*/, "▶️刷卡金額：" + cardAmt);
+        else t += "\n▶️刷卡金額：" + cardAmt;
       }
       return t;
     };
@@ -589,23 +707,23 @@
         <Card>
           {step === 0 && (
             <div>
-              <InfoBox color="yellow">請將「新訂單」產生的 LINE 文字完整貼入下方。</InfoBox>
+              <InfoBox color="blue">請將「新訂單」產生的 LINE 文字完整貼入下方。</InfoBox>
               <label>貼上新訂單文字</label>
               <textarea rows={12} placeholder="將 LINE 訂單文字貼在這裡…" value={pasted} onChange={e => setPasted(e.target.value)} style={{fontSize:13, lineHeight:1.7}} />
-              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", color:"#3fb950", fontWeight:600}}>✓ 已偵測到{isCard ? "刷卡" : "匯款"}訂單，請繼續。</p>}
+              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", color:"#00d68f", fontWeight:600}}>✓ 已偵測到{isCard ? "刷卡" : "匯款"}訂單，請繼續。</p>}
             </div>
           )}
           {step === 1 && (
             <div style={{display:"flex", flexDirection:"column", gap:16}}>
-              <InfoBox color="yellow">請填寫推薦人、安置人，以及付款確認細節。</InfoBox>
+              <InfoBox color="blue">請填寫推薦人、安置人，以及付款確認細節。</InfoBox>
               <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
                 <div><label>推薦人姓名</label><input placeholder="例：王小明" value={refName} onChange={e => setRefName(e.target.value)} /></div>
                 <div><label>推薦人編號</label><input placeholder="例：TW123456" value={refNo} onChange={e => setRefNo(e.target.value)} /></div>
                 <div><label>安置人姓名</label><input placeholder="例：李大華" value={placeName} onChange={e => setPlaceName(e.target.value)} /></div>
                 <div><label>安置人編號</label><input placeholder="例：TW123456" value={placeNo} onChange={e => setPlaceNo(e.target.value)} /></div>
               </div>
-              <div style={{borderTop:"1px solid #2a3344", paddingTop:16}}>
-                <p style={{fontSize:"0.82rem", fontWeight:700, color:"#e6edf3", marginBottom:14}}>{isCard ? "刷卡確認資訊" : "匯款確認資訊"}</p>
+              <div style={{borderTop:"1px solid #1e2d45", paddingTop:16}}>
+                <p style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.85rem", fontWeight:700, color:"#e8f0f8", marginBottom:14, letterSpacing:"0.05em"}}>{isCard ? "刷卡確認資訊" : "匯款確認資訊"}</p>
                 {!isCard ? (
                   <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
                     <div><label>匯款帳號末五碼</label><input placeholder="例：35682" value={last5} onChange={e => setLast5(e.target.value)} /></div>
@@ -619,7 +737,7 @@
           )}
           {step === 2 && (
             <div>
-              <InfoBox color={isCard ? "yellow" : "green"}>
+              <InfoBox color={isCard ? "blue" : "green"}>
                 {isCard ? "訂單已更新！因含有刷卡資訊，請再使用「入單資訊更新」移除卡號後再公開分享。" : "訂單已更新！複製後傳給上線確認即可。"}
               </InfoBox>
               <div className="line-output">{generate()}</div>
@@ -628,7 +746,7 @@
             </div>
           )}
         </Card>
-        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10}}>
+        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10, position:"relative", zIndex:1}}>
           <SecondaryBtn onClick={() => step === 0 ? onBack() : setStep(s => s - 1)}>{step === 0 ? "← 返回首頁" : "← 上一步"}</SecondaryBtn>
           {step < 2 && <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={step === 0 ? !canFill : !canGen}>{step === 1 ? "生成更新 →" : "填寫資料 →"}</PrimaryBtn>}
         </div>
@@ -655,10 +773,10 @@
         <Card>
           {step === 0 && (
             <div>
-              <InfoBox color="yellow">將「訂單更新」產生的文字貼入。系統會自動移除刷卡敏感資訊，產生可公開分享的乾淨版本。</InfoBox>
+              <InfoBox color="blue">將「訂單更新」產生的文字貼入。系統會自動移除刷卡敏感資訊，產生可公開分享的乾淨版本。</InfoBox>
               <label>貼上訂單更新文字</label>
               <textarea rows={12} placeholder="將含有刷卡資訊的訂單文字貼在這裡…" value={pasted} onChange={e => setPasted(e.target.value)} style={{fontSize:13, lineHeight:1.7}} />
-              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", fontWeight:600, color:hasCard?"#f85149":"#3fb950"}}>{hasCard?"⚠ 偵測到刷卡資訊，下一步將自動移除。":"✓ 未偵測到刷卡資訊，仍可繼續生成乾淨版本。"}</p>}
+              {pasted.length > 50 && <p style={{marginTop:10, fontSize:"0.78rem", fontWeight:600, color:hasCard?"#ff4d6a":"#00d68f"}}>{hasCard?"⚠ 偵測到刷卡資訊，下一步將自動移除。":"✓ 未偵測到刷卡資訊，仍可繼續生成乾淨版本。"}</p>}
             </div>
           )}
           {step === 1 && (
@@ -676,7 +794,7 @@
             </div>
           )}
         </Card>
-        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10}}>
+        <div style={{maxWidth:520, margin:"16px auto 0", display:"flex", gap:10, position:"relative", zIndex:1}}>
           <SecondaryBtn onClick={() => step === 0 ? onBack() : setStep(s => s - 1)}>{step === 0 ? "← 返回首頁" : "← 上一步"}</SecondaryBtn>
           {step < 2 && <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={!canGo}>{step === 1 ? "確認移除，生成 →" : "預覽移除項目 →"}</PrimaryBtn>}
         </div>
@@ -688,60 +806,86 @@
      HOME SCREEN
   ══════════════════════════════════════════ */
   const MODES = [
-    { id:"new",    emoji:"📝", title:"新訂單",      badge:"STEP 01", badgeC:"#c9a84c", badgeBg:"rgba(201,168,76,0.1)",  sub:"陪新朋友填寫產品選擇與個人資料",   desc:"選產品 → 填資料 → 選付款 → 生成 LINE 文字" },
-    { id:"update", emoji:"✏️", title:"訂單更新",     badge:"STEP 02", badgeC:"#58a6ff", badgeBg:"rgba(88,166,255,0.1)",  sub:"補上推薦人資訊與付款確認細節",     desc:"貼上新訂單 → 填推薦人 + 付款確認 → 生成更新版" },
-    { id:"entry",  emoji:"🔒", title:"入單資訊更新", badge:"STEP 03", badgeC:"#3fb950", badgeBg:"rgba(63,185,80,0.1)",   sub:"移除刷卡敏感資訊，產生可公開版本", desc:"貼上訂單更新 → 自動移除卡號 → 生成乾淨版本" },
+    { id:"new",    title:"新訂單",      badge:"STEP 01", sub:"陪新朋友填寫產品選擇與個人資料",   desc:"選產品 → 填資料 → 選付款 → 生成 LINE 文字",   accent:"#00aaff" },
+    { id:"update", title:"訂單更新",     badge:"STEP 02", sub:"補上推薦人資訊與付款確認細節",     desc:"貼上新訂單 → 填推薦人 + 付款確認 → 生成更新版", accent:"#38beff" },
+    { id:"entry",  title:"入單資訊更新", badge:"STEP 03", sub:"移除刷卡敏感資訊，產生可公開版本", desc:"貼上訂單更新 → 自動移除卡號 → 生成乾淨版本",   accent:"#00e5ff" },
   ];
 
   function Home({onSelect}) {
+    const [logoFailed, setLogoFailed] = useState(false);
+
     return (
       <div className="fade-in">
-        <div style={{maxWidth:520, margin:"0 auto 36px", textAlign:"center"}}>
-          <div style={{width:48, height:3, background:"linear-gradient(90deg,#9a7a2a,#c9a84c)", margin:"0 auto 20px", borderRadius:2}} />
-          <div style={{fontFamily:"'Cinzel',serif", fontSize:"1.6rem", fontWeight:700, background:"linear-gradient(135deg,#c9a84c,#e8d5a0)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", letterSpacing:"0.12em", marginBottom:6}}>
-            OLYLIFE
+        {/* Header */}
+        <div style={{maxWidth:520, margin:"0 auto 40px", textAlign:"center", position:"relative"}}>
+          {/* Logo */}
+          <div style={{marginBottom:16}}>
+            {!logoFailed ? (
+              <img
+                src={LOGO}
+                alt="OlyLife"
+                style={{height:40, objectFit:"contain"}}
+                onError={() => setLogoFailed(true)}
+              />
+            ) : (
+              <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"1.8rem", fontWeight:700, color:"#fff", letterSpacing:"0.2em"}}>OLYLIFE</div>
+            )}
           </div>
-          <div style={{fontSize:"0.78rem", color:"#8b949e", letterSpacing:"0.2em", textTransform:"uppercase"}}>訂單管理系統</div>
+
+          {/* Tagline */}
+          <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"0.72rem", color:"#00aaff", letterSpacing:"0.3em", textTransform:"uppercase", marginBottom:6}}>
+            CHAMPION'S CHOICE
+          </div>
+          <div style={{fontSize:"0.8rem", color:"#7a9ab8", letterSpacing:"0.1em"}}>訂單管理系統</div>
+
+          {/* Terahertz wave divider */}
+          <div style={{marginTop:20, height:1, background:"linear-gradient(90deg, transparent, #0066bb, #00aaff, #00e5ff, #0066bb, transparent)"}} />
         </div>
 
-        <div style={{maxWidth:520, margin:"0 auto", display:"flex", flexDirection:"column", gap:12}}>
+        {/* Mode cards */}
+        <div style={{maxWidth:520, margin:"0 auto", display:"flex", flexDirection:"column", gap:12, position:"relative", zIndex:1}}>
           {MODES.map((m, i) => (
             <div key={m.id} onClick={() => onSelect(m.id)} className="home-card" style={{animation:"fadeIn 0.4s ease "+(i*0.08)+"s both"}}>
+              {/* Accent top line on hover - handled by CSS */}
+              <div className="thz-wave" />
               <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start"}}>
-                <div style={{display:"flex", alignItems:"center", gap:14}}>
-                  <div style={{width:42, height:42, borderRadius:6, flexShrink:0, background:"rgba(201,168,76,0.08)", border:"1px solid rgba(201,168,76,0.2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20}}>
-                    {m.emoji}
-                  </div>
-                  <div>
-                    <div style={{fontSize:"1rem", fontWeight:700, color:"#e6edf3"}}>{m.title}</div>
-                    <div style={{fontSize:"0.76rem", color:"#8b949e", marginTop:3}}>{m.sub}</div>
-                  </div>
+                <div>
+                  <div style={{fontFamily:"'Rajdhani',sans-serif", fontSize:"1.05rem", fontWeight:700, color:"#e8f0f8", letterSpacing:"0.05em"}}>{m.title}</div>
+                  <div style={{fontSize:"0.76rem", color:"#7a9ab8", marginTop:3}}>{m.sub}</div>
                 </div>
-                <div style={{fontSize:"0.62rem", fontWeight:700, padding:"3px 9px", borderRadius:4, background:m.badgeBg, color:m.badgeC, whiteSpace:"nowrap", flexShrink:0, marginLeft:8, letterSpacing:"0.08em"}}>
+                <div style={{
+                  fontFamily:"'Rajdhani',sans-serif",
+                  fontSize:"0.65rem", fontWeight:700, padding:"3px 9px", borderRadius:3,
+                  background: "rgba(0,170,255,0.1)",
+                  color: m.accent,
+                  border: "1px solid rgba(0,170,255,0.25)",
+                  whiteSpace:"nowrap", flexShrink:0, marginLeft:8, letterSpacing:"0.1em",
+                }}>
                   {m.badge}
                 </div>
               </div>
-              <div style={{marginTop:14, paddingTop:12, borderTop:"1px solid #2a3344", fontSize:"0.73rem", color:"#4a5568", lineHeight:1.6}}>
+              <div style={{marginTop:14, paddingTop:12, borderTop:"1px solid #1e2d45", fontSize:"0.73rem", color:"#334d66", lineHeight:1.6}}>
                 {m.desc}
               </div>
             </div>
           ))}
         </div>
 
-        <div style={{maxWidth:520, margin:"20px auto 0", padding:"12px 20px", background:"rgba(255,255,255,0.03)", borderRadius:6, border:"1px solid #2a3344", fontSize:"0.73rem", color:"#4a5568", lineHeight:1.8, textAlign:"center"}}>
+        {/* Info */}
+        <div style={{maxWidth:520, margin:"20px auto 0", padding:"12px 20px", background:"rgba(0,170,255,0.04)", borderRadius:4, border:"1px solid #1e2d45", fontSize:"0.73rem", color:"#334d66", lineHeight:1.8, textAlign:"center", position:"relative", zIndex:1}}>
           三個步驟各自獨立運作，不需依序操作。每步完成後生成 LINE 格式文字供複製使用。
         </div>
 
-        <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#3a4558", lineHeight:2, textAlign:"center"}}>
-          <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#4a5568"}}>VERSION HISTORY</div>
-          <div><strong style={{color:"#4a5568"}}>v4.2</strong>　補齊所有 8 款產品圖片（搜尋官網及授權經銷商圖庫）</div>
-          <div><strong style={{color:"#4a5568"}}>v4.1</strong>　新增官網商品圖片；移除 emoji 開頭</div>
-          <div><strong style={{color:"#3a4558"}}>v4.0</strong>　全面重設計：深色科技感主題，香檳金點綴</div>
-          <div><strong style={{color:"#3a4558"}}>v3.4</strong>　統一 LINE 輸出格式；產品小計換行；刷卡欄位標籤修正</div>
-          <div><strong style={{color:"#3a4558"}}>v3.3</strong>　新增「匯款給」欄位；香港帳號改為參考用</div>
-          <div><strong style={{color:"#3a4558"}}>v3.0</strong>　產品改為數量加減，支援同品項多台</div>
-          <div><strong style={{color:"#3a4558"}}>v2.0</strong>　新增訂單更新與入單資訊更新三模式首頁</div>
-          <div><strong style={{color:"#3a4558"}}>v1.0</strong>　初版上線</div>
+        {/* Version history */}
+        <div style={{maxWidth:520, margin:"20px auto 0", fontSize:"0.63rem", color:"#1e2d45", lineHeight:2, textAlign:"center", position:"relative", zIndex:1}}>
+          <div style={{fontFamily:"'Rajdhani',sans-serif", fontWeight:700, marginBottom:4, letterSpacing:"0.12em", color:"#263650", textTransform:"uppercase"}}>Version History</div>
+          <div><strong style={{color:"#263650"}}>v5.0</strong>　全面對齊 OlyLife 官方品牌風格：太赫茲藍色主題</div>
+          <div><strong style={{color:"#1e2d45"}}>v4.2</strong>　補齊所有 8 款產品圖片</div>
+          <div><strong style={{color:"#1e2d45"}}>v4.1</strong>　新增官網商品圖片；移除 emoji 開頭</div>
+          <div><strong style={{color:"#1e2d45"}}>v4.0</strong>　深色科技感主題</div>
+          <div><strong style={{color:"#1e2d45"}}>v3.0</strong>　產品改為數量加減，支援同品項多台</div>
+          <div><strong style={{color:"#1e2d45"}}>v2.0</strong>　三模式首頁架構</div>
+          <div><strong style={{color:"#1e2d45"}}>v1.0</strong>　初版上線</div>
         </div>
       </div>
     );
