@@ -153,7 +153,7 @@
   const PRODUCTS = [
     {
       id:"p90",
-      name:"Tera-P90足電熱儀",
+      name:"Tera-P90 足墊熱儀",
       eng:"OlyLife Tera-P90",
       price:1000,
       img: ADM+"OLY-HCA002.png",
@@ -165,7 +165,8 @@
       price:2000,
       img: ADM+"OLY-PKG003.png",
       note:"附凝膠套組：",
-      note2:"青春亮采凝膠 x14 ＋ 舒緩凝膠 x14",
+      note2:"青春亮彩凝膠 x14 ＋",
+      note3:"舒緩凝膠 x14",
     },
     {
       id:"shaken",
@@ -177,7 +178,7 @@
     },
     {
       id:"g1",
-      name:"Galaxy G-One護眼儀",
+      name:"Galaxy G-One 護眼儀",
       eng:"OlyLife Galaxy G-One",
       price:500,
       img: ADM+"OLY-PKG004.png",
@@ -547,8 +548,8 @@
               <div>
                 <p style={{color:"#3d6644", fontSize:"0.82rem", marginBottom:20, lineHeight:1.9}}>
                   每個位置可選多項產品，金額自動加總。<br/>
-                  　主球必填，左右球可視情況選填。<br/>
-                  　每個球位最低 $1,000美金。
+                  主球必填，左右球可視情況選填。<br/>
+                  每個球位最低 $1,000美金。
                 </p>
 
                 {POSITIONS.map(pos => {
@@ -599,9 +600,10 @@
                                   lineHeight:1.4, color:"#0f1f12", minHeight:"2.4em",
                                 }}>{prod.name}</div>
                                 {prod.note && (
-                                  <div style={{fontSize:"0.6rem", color:"#7ea882", marginTop:2, lineHeight:1.4}}>
+                                  <div style={{fontSize:"0.6rem", color:"#7ea882", marginTop:2, lineHeight:1.5}}>
                                     {prod.note}
                                     {prod.note2 && <><br/>{prod.note2}</>}
+                                    {prod.note3 && <><br/>{prod.note3}</>}
                                   </div>
                                 )}
                                 <div className="prod-price" style={{
@@ -926,7 +928,8 @@
           <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
             VERSION HISTORY
           </div>
-          <div><strong style={{color:"#b8d9bb"}}>v6.1</strong>　標題改為「訂單輔助系統」；產品名稱校正；金額加美金；說明排版調整</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.2</strong>　說明文字對齊；名稱修正；凝膠備註各自一行</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.1</strong>　標題改為「訂單輔助系統」；產品名稱校正；金額加美金</div>
           <div><strong style={{color:"#c8e6cb"}}>v6.0</strong>　簡化為單一入單流程；Noto Sans TC 字體；LINE 14字排版</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.6</strong>　產品排版優化：每項各自一行、縮排對齊</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.5</strong>　全產品圖片統一官方來源</div>
