@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>奇跡入單 | OlyLife</title>
+  <title>訂單輔助系統 | OlyLife</title>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -153,7 +153,7 @@
   const PRODUCTS = [
     {
       id:"p90",
-      name:"太赫茲兆能儀",
+      name:"Tera-P90足電熱儀",
       eng:"OlyLife Tera-P90",
       price:1000,
       img: ADM+"OLY-HCA002.png",
@@ -164,8 +164,8 @@
       eng:"OlyLife THZ Tera-P90+",
       price:2000,
       img: ADM+"OLY-PKG003.png",
-      note:"附凝膠套組：青春亮采凝膠 x14",
-      note2:"＋舒緩凝膠 x14",
+      note:"附凝膠套組：",
+      note2:"青春亮采凝膠 x14 ＋ 舒緩凝膠 x14",
     },
     {
       id:"shaken",
@@ -173,7 +173,7 @@
       eng:"OlyLife Shaken Massager",
       price:1000,
       img: ADM+"OLY-SK-M3.png",
-      note:"附Ai智能手錶",
+      note:"贈送Ai智能手錶",
     },
     {
       id:"g1",
@@ -181,11 +181,11 @@
       eng:"OlyLife Galaxy G-One",
       price:500,
       img: ADM+"OLY-PKG004.png",
-      note:"兩組，送葉黃素",
+      note:"買兩組，贈送葉黃素一盒",
     },
     {
       id:"hydro",
-      name:"H+ Bar氫吧杯",
+      name:"H+ Bar 氫吧杯",
       eng:"OlyLife H+ Bar",
       price:600,
       img: ADM+"OLY-TPC002.png",
@@ -199,7 +199,7 @@
     },
     {
       id:"slyline",
-      name:"Skyline SL-6 智能雲感衛生棉",
+      name:"SkyLine 智能雲感衛生棉",
       eng:"OlyLife Skyline Package",
       price:500,
       img: ADM+"OLY-SL-6-P.png",
@@ -409,17 +409,16 @@
         const entries = Object.entries(form.positions[p.key]);
         if (!entries.length) return p.label + "：（未選擇）";
 
-        // Each product: name line then price line, indented
         const productLines = entries.map(([id, qty], idx) => {
           const pr = PRODUCTS.find(r => r.id === id);
           const nameLine = (idx === 0 ? p.label + "：" : INDENT) + pr.name;
           const priceText = qty > 1
-            ? INDENT + "x" + qty + "　$" + (pr.price * qty).toLocaleString()
-            : INDENT + "　$" + pr.price.toLocaleString();
+            ? INDENT + "x" + qty + "　$" + (pr.price * qty).toLocaleString() + " 美金"
+            : INDENT + "　$" + pr.price.toLocaleString() + " 美金";
           return nameLine + "\n" + priceText;
         }).join("\n");
 
-        const subtotalLine = INDENT + "小計 $" + posTotal(p.key).toLocaleString();
+        const subtotalLine = INDENT + "小計 $" + posTotal(p.key).toLocaleString() + " 美金";
         return productLines + "\n" + subtotalLine;
       }).join("\n\n"); // blank line between positions
 
@@ -447,7 +446,7 @@
       out += "▶️手機號碼：" + form.phone + "\n";
       out += "▶️郵遞區號：" + form.postalCode + "\n";
       out += "▶️地址：" + form.address + "\n\n";
-      out += "▶️產品選擇（合計 $" + grandTotal.toLocaleString() + "）\n";
+      out += "▶️產品選擇（合計 $" + grandTotal.toLocaleString() + " 美金）\n";
       out += posLine + "\n\n";
       out += paySection + "\n\n";
       out += "▶️收貨信息\n";
@@ -531,10 +530,7 @@
           marginBottom:24,
           boxShadow:"0 2px 10px rgba(0,60,20,0.06)",
         }}>
-          <div style={{fontSize:"1.3rem", fontWeight:700, color:"#0f1f12"}}>奇跡入單</div>
-          <div style={{fontSize:"0.78rem", color:"#7ea882", marginTop:4}}>
-            OlyLife 奇跡團隊 · 入單引導工具
-          </div>
+          <div style={{fontSize:"1.3rem", fontWeight:700, color:"#0f1f12"}}>訂單輔助系統</div>
         </div>
 
         {/* ── Step bar ── */}
@@ -549,9 +545,10 @@
             {/* STEP 0 ── Product selection */}
             {step === 0 && (
               <div>
-                <p style={{color:"#3d6644", fontSize:"0.82rem", marginBottom:20, lineHeight:1.7}}>
-                  每個位置可選多項產品，金額自動加總。主球必填，左右球可視情況選填。
-                  <strong style={{color:"#2a8a3e"}}> 每個球位最低 $1,000。</strong>
+                <p style={{color:"#3d6644", fontSize:"0.82rem", marginBottom:20, lineHeight:1.9}}>
+                  每個位置可選多項產品，金額自動加總。<br/>
+                  　主球必填，左右球可視情況選填。<br/>
+                  　每個球位最低 $1,000美金。
                 </p>
 
                 {POSITIONS.map(pos => {
@@ -611,7 +608,7 @@
                                   fontSize:"0.88rem", fontWeight:700,
                                   marginTop:5, color:"#2a8a3e",
                                 }}>
-                                  ${prod.price.toLocaleString()}
+                                  ${prod.price.toLocaleString()} 美金
                                 </div>
                                 {/* Quantity controls */}
                                 <div style={{display:"flex", alignItems:"center", gap:6, marginTop:8}}>
@@ -679,7 +676,7 @@
                                 fontSize:"0.76rem", color:"#3d6644", paddingLeft:12,
                               }}>
                                 <span>{pr.name}{qty>1?" ×"+qty:""}</span>
-                                <span>${(pr.price*qty).toLocaleString()}</span>
+                                <span>${(pr.price*qty).toLocaleString()} 美金</span>
                               </div>
                             );
                           })}
@@ -689,7 +686,7 @@
                             color:"#2a8a3e", paddingLeft:12, marginTop:2,
                           }}>
                             <span>小計</span>
-                            <span>${posTotal(p.key).toLocaleString()}</span>
+                            <span>${posTotal(p.key).toLocaleString()} 美金</span>
                           </div>
                         </div>
                       );
@@ -701,7 +698,7 @@
                       fontWeight:700, color:"#2a8a3e", fontSize:"0.92rem",
                     }}>
                       <span>訂單合計</span>
-                      <span>${grandTotal.toLocaleString()}</span>
+                      <span>${grandTotal.toLocaleString()} 美金</span>
                     </div>
                   </div>
                 )}
@@ -929,7 +926,8 @@
           <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
             VERSION HISTORY
           </div>
-          <div><strong style={{color:"#b8d9bb"}}>v6.0</strong>　簡化為單一入單流程；校正產品名稱；Noto Sans TC 字體；LINE 14字排版</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.1</strong>　標題改為「訂單輔助系統」；產品名稱校正；金額加美金；說明排版調整</div>
+          <div><strong style={{color:"#c8e6cb"}}>v6.0</strong>　簡化為單一入單流程；Noto Sans TC 字體；LINE 14字排版</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.6</strong>　產品排版優化：每項各自一行、縮排對齊</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.5</strong>　全產品圖片統一官方來源</div>
           <div><strong style={{color:"#c8e6cb"}}>v5.2</strong>　對齊官網綠色主題；奇跡入單</div>
