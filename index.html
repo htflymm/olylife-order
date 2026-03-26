@@ -195,7 +195,7 @@
       id:"a9",
       name:"A9 巴馬負離子智能淨化儀",
       eng:"OlyLife A9 Smart Anion BamaAir",
-      price:600,
+      price:500,
       img: ADM+"OLY-HCA005.png",
     },
     {
@@ -361,7 +361,7 @@
     name:"", idNumber:"", email:"", phone:"", postalCode:"", address:"",
     payMethod:"transfer",
     cardNumber:"", cardName:"", cardExpiry:"", cardCVV:"",
-    sameAsPersonal:true,
+    sameAsPersonal:false,
     shipName:"", shipId:"", shipPhone:"", shipAddress:"",
     ezway:"", remarks:"",
   };
@@ -429,7 +429,7 @@
         paySection = "▶️匯款信息\n個別匯款帳號請詢問介紹人";
         if (transferTo) paySection += "\n匯款給：" + transferTo;
       } else {
-        paySection = "▶️刷卡\n(一台刷美金1000\n匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：" + form.cardNumber
+        paySection = "▶️刷卡\n(匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：" + form.cardNumber
           + "\n\n信用卡英文名字：" + form.cardName
           + "\n\n信用卡有效期（mm/yy）：" + form.cardExpiry
           + "\n\n安全碼(卡背面的三位數字)：" + form.cardCVV;
@@ -765,34 +765,13 @@
                         onChange={e => setTransferTo(e.target.value)}
                       />
                     </div>
-                    <div style={{
-                      padding:"16px 20px",
-                      background:"#f4f7fb",
-                      borderRadius:8,
-                      border:"1px solid #dbe6f2",
-                    }}>
-                      <div style={{fontWeight:700, color:"#4a6080", marginBottom:4, fontSize:"0.88rem"}}>
-                        美金匯款參考（公司帳戶）
-                      </div>
-                      <div style={{fontSize:"0.7rem", color:"#7ea882", marginBottom:10}}>
-                        此欄僅供參考，不會出現在最終訂單文字中
-                      </div>
-                      <div style={{fontSize:"0.78rem", color:"#4a6080", lineHeight:2.1}}>
-                        Company Name：Olylife Limited<br/>
-                        Account Number：09000800682121<br/>
-                        Bank Name：BANK SINOPAC Hong Kong Branch<br/>
-                        Bank Address：18/F, One Peking, 1 Peking Road,<br/>
-                        　　Tsim Sha Tsui, Kowloon, Hong Kong<br/>
-                        SWIFT Code：SINOHKHH
-                      </div>
-                    </div>
                   </div>
                 )}
 
                 {form.payMethod === "card" && (
                   <div style={{display:"flex", flexDirection:"column", gap:14}}>
                     <InfoBox color="green">
-                      一台刷美金1000，匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。
+                      匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。
                     </InfoBox>
                     {[
                       {k:"cardNumber", l:"信用卡號",              ph:"XXXX XXXX XXXX XXXX"},
@@ -928,6 +907,8 @@
           <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
             VERSION HISTORY
           </div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.4</strong>　修正 A9 價格為 $500 美金</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.3</strong>　移除美金匯款資訊；刷卡說明移除金額；收貨預設不勾選</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.2</strong>　說明文字對齊；名稱修正；凝膠備註各自一行</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.1</strong>　標題改為「訂單輔助系統」；產品名稱校正；金額加美金</div>
           <div><strong style={{color:"#c8e6cb"}}>v6.0</strong>　簡化為單一入單流程；Noto Sans TC 字體；LINE 14字排版</div>
