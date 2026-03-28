@@ -216,9 +216,9 @@
   ];
 
   const POSITIONS = [
-    { key:"main",  label:"主球", desc:"主要入單位置" },
-    { key:"left",  label:"左球", desc:"主球左側下線" },
-    { key:"right", label:"右球", desc:"主球右側下線" },
+    { key:"main",  label:"第一球", desc:"主要入單位置" },
+    { key:"left",  label:"第二球", desc:"第一球左側下線" },
+    { key:"right", label:"第三球", desc:"第一球右側下線" },
   ];
 
   const MIN = 1000; // minimum USD per active position
@@ -548,7 +548,7 @@
               <div>
                 <p style={{color:"#3d6644", fontSize:"0.82rem", marginBottom:20, lineHeight:1.9}}>
                   每個位置可選多項產品，金額自動加總。<br/>
-                  主球必填，左右球可視情況選填。<br/>
+                  第一球必填，第二球和第三球可視情況選填。<br/>
                   每個球位最低 $1,000美金。
                 </p>
 
@@ -907,6 +907,7 @@
           <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
             VERSION HISTORY
           </div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.5</strong>　球位名稱改為第一球、第二球、第三球</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.4</strong>　修正 A9 價格為 $500 美金</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.3</strong>　移除美金匯款資訊；刷卡說明移除金額；收貨預設不勾選</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.2</strong>　說明文字對齊；名稱修正；凝膠備註各自一行</div>
