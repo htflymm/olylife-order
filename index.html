@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
@@ -30,117 +29,114 @@
       --red:         #c62828;
     }
 
-```
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-  /* Noto Sans TC: clean, modern, matches OlyLife official site */
-  font-family: 'Noto Sans TC', sans-serif;
-  background: var(--bg);
-  min-height: 100vh;
-  color: var(--text);
-}
+    body {
+      /* Noto Sans TC: clean, modern, matches OlyLife official site */
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text);
+    }
 
-@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-.fade-in { animation: fadeIn 0.28s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .fade-in { animation: fadeIn 0.28s ease; }
 
-input, textarea {
-  width: 100%;
-  border: 1.5px solid var(--border);
-  border-radius: 6px;
-  padding: 11px 14px;
-  background: var(--white);
-  color: var(--text);
-  font-size: 14px;
-  font-family: 'Noto Sans TC', sans-serif;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-input:focus, textarea:focus {
-  border-color: var(--green-light);
-  box-shadow: 0 0 0 3px var(--green-glow);
-}
-input::placeholder, textarea::placeholder { color: var(--text-mute); }
-textarea { resize: none; }
+    input, textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 11px 14px;
+      background: var(--white);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Noto Sans TC', sans-serif;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--green-light);
+      box-shadow: 0 0 0 3px var(--green-glow);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-mute); }
+    textarea { resize: none; }
 
-label {
-  display: block;
-  font-family: 'Noto Sans TC', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--green);
-  margin-bottom: 6px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+    label {
+      display: block;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 6px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
 
-/* ── Product cards ── */
-.product-card {
-  transition: all 0.15s ease;
-  cursor: pointer;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  background: var(--white);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-.product-card:hover { border-color: var(--green-light); box-shadow: 0 4px 16px rgba(42,138,62,0.12); transform: translateY(-1px); }
-.product-card.has-qty {
-  border-color: var(--green) !important;
-  background: var(--green-bg) !important;
-  box-shadow: 0 4px 18px rgba(42,138,62,0.18) !important;
-}
-.product-card.has-qty .prod-name  { color: var(--green) !important; }
-.product-card.has-qty .prod-price { color: var(--green-light) !important; }
+    /* ── Product cards ── */
+    .product-card {
+      transition: all 0.15s ease;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--white);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover { border-color: var(--green-light); box-shadow: 0 4px 16px rgba(42,138,62,0.12); transform: translateY(-1px); }
+    .product-card.has-qty {
+      border-color: var(--green) !important;
+      background: var(--green-bg) !important;
+      box-shadow: 0 4px 18px rgba(42,138,62,0.18) !important;
+    }
+    .product-card.has-qty .prod-name  { color: var(--green) !important; }
+    .product-card.has-qty .prod-price { color: var(--green-light) !important; }
 
-.prod-img-wrap {
-  width: 100%; aspect-ratio: 1/1;
-  background: var(--surface2);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; border-bottom: 1px solid var(--border);
-}
-.prod-img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
-.prod-img-placeholder {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; font-weight: 700;
-  color: var(--green-dim);
-}
+    .prod-img-wrap {
+      width: 100%; aspect-ratio: 1/1;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; border-bottom: 1px solid var(--border);
+    }
+    .prod-img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+    .prod-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--green-dim);
+    }
 
-.qty-btn {
-  width: 28px; height: 28px; border-radius: 4px; border: none;
-  font-size: 16px; font-weight: 700; cursor: pointer;
-  transition: all 0.12s; display: flex;
-  align-items: center; justify-content: center; flex-shrink: 0;
-}
-.qty-btn:active { transform: scale(0.88); }
+    .qty-btn {
+      width: 28px; height: 28px; border-radius: 4px; border: none;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: all 0.12s; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .qty-btn:active { transform: scale(0.88); }
 
-.pos-section { border-left: 3px solid var(--green-dim); padding-left: 16px; margin-bottom: 28px; }
+    .pos-section { border-left: 3px solid var(--green-dim); padding-left: 16px; margin-bottom: 28px; }
 
-.step-btn { transition: all 0.18s; font-family: 'Noto Sans TC', sans-serif; }
-.step-btn:hover:not(:disabled) { transform: translateY(-1px); }
+    .step-btn { transition: all 0.18s; font-family: 'Noto Sans TC', sans-serif; }
+    .step-btn:hover:not(:disabled) { transform: translateY(-1px); }
 
-/* LINE output: dark background mimics LINE message bubble */
-.line-output {
-  font-family: monospace;
-  background: #1a2f1c;
-  color: #c8e6cb;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  padding: 18px;
-  white-space: pre-wrap;
-  font-size: 13px;
-  line-height: 1.9;
-  max-height: 420px;
-  overflow-y: auto;
-}
+    /* LINE output: dark background mimics LINE message bubble */
+    .line-output {
+      font-family: monospace;
+      background: #1a2f1c;
+      color: #c8e6cb;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      padding: 18px;
+      white-space: pre-wrap;
+      font-size: 13px;
+      line-height: 1.9;
+      max-height: 420px;
+      overflow-y: auto;
+    }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
-```
-
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -148,909 +144,905 @@ label {
 <script type="text/babel">
   const { useState } = React;
 
-const LOGO = “https://olylife.com/Main/assets/company/logo.png”;
-const ADM  = “https://admin.olylifeint.com/Res/img/product/”;
+  const LOGO = "https://olylife.com/Main/assets/company/logo.png";
+  const ADM  = "https://admin.olylifeint.com/Res/img/product/";
 
-// ── Product catalogue ─────────────────────────────────────────────
-// Names aligned with official OlyLife product codes
-// note2: second line of note for long descriptions (displayed separately in card)
-const PRODUCTS = [
-{
-id:“p90”,
-name:“Tera-P90 足墊熱儀”,
-eng:“OlyLife Tera-P90”,
-price:1000,
-img: ADM+“OLY-HCA002.png”,
-desc:“結合生物電磁能量（1 MHz）與太赫茲能量雙重技術，由內而外加熱組織，促進微循環與新陳代謝。如同一台「細胞充電器」，疏通經絡、排除寒氣與體內廢物，舒緩疲勞與疼痛不適。”,
-},
-{
-id:“p90plus”,
-name:“THZ Tera-P90+”,
-eng:“OlyLife THZ Tera-P90+”,
-price:2000,
-img: ADM+“OLY-PKG003.png”,
-note:“附凝膠套組：”,
-note2:“青春亮彩凝膠 x14 ＋”,
-note3:“舒緩凝膠 x14”,
-desc:“P90 進階三合一套組。主機延續太赫茲與 PEMF 雙能量；附加凍齡美顏儀整合 RF 與 EMS，深層提升肌膚彈性；活力按摩棒搭載紅光療法，促進頭皮與全身健康。20 段強度調節，附紅外線遙控器。”,
-},
-{
-id:“shaken”,
-name:“PEMF 智能甩脂儀”,
-eng:“OlyLife Shaken Massager”,
-price:1000,
-img: ADM+“OLY-SK-M3.png”,
-note:“贈送Ai智能手錶”,
-desc:“針對腰腹部位設計的智能健康裝置，整合 PEMF、紅光、射頻、熱療、震動與氣流按摩多種模式，支援腹部循環與舒適體驗。可搭配 Ai 智能手錶控制，建議與 P90 / P90+ 組合使用效果更佳。”,
-},
-{
-id:“g1”,
-name:“Galaxy G-One 護眼儀”,
-eng:“OlyLife Galaxy G-One”,
-price:500,
-img: ADM+“OLY-PKG004.png”,
-note:“買兩組，贈送葉黃素一盒”,
-desc:“以低頻 PEMF 技術為核心的智慧護眼按摩儀，集 6 區 3D 氣囊揉捏、間歇低頻震動與石墨烯 42°C 恆溫熱敷三大功能，提供 7 種護眼模式。單鍵操作，輕巧可折疊，隨身攜帶方便。有助緩解眼部疲勞、舒緩乾眼症狀、淡化黑眼圈。”,
-},
-{
-id:“hydro”,
-name:“H+ Bar 氫吧杯”,
-eng:“OlyLife H+ Bar”,
-price:600,
-img: ADM+“OLY-TPC002.png”,
-desc:“集氫水製作與 MRET 低頻共振技術於一身的隨身水瓶。氫水富含溶解氫氣（H₂），具抗氧化特性；MRET 技術主張讓水分子更易被細胞吸收。雙腔設計、強化質子交換膜，可適用於各種飲品，耐熱防水易攜帶。”,
-},
-{
-id:“a9”,
-name:“A9 巴馬負離子智能淨化儀”,
-eng:“OlyLife A9 Smart Anion BamaAir”,
-price:500,
-img: ADM+“OLY-HCA005.png”,
-desc:“靈感來自廣西巴馬「長壽村」，透過高濃度負離子（每立方公分 2 億個）與 HEPA 濾網淨化空氣，有效過濾灰塵與過敏原。提供 3 種模式（自動、睡眠、驅蚊）、7 種自然光色、14 首舒眠音樂，支援手機 App 遠端控制。”,
-},
-{
-id:“slyline”,
-name:“SkyLine 智能雲感衛生棉”,
-eng:“OlyLife Skyline Package”,
-price:500,
-img: ADM+“OLY-SL-6-P.png”,
-note:“5大組共30盒540片”,
-desc:“採竹纖維表層、超薄吸收芯（約 0.8mm）與專利懸浮設計，柔軟透氣，快速吸收不回滲，有效防止側漏。內含磁性微元件、遠紅外陶瓷晶體與石墨烯材料，強調在經期間提供更舒適的貼身體驗。”,
-},
-{
-id:“miniblow”,
-name:“健康養護儀（小神吹）”,
-eng:“OlyLife Vitality Wand”,
-price:600,
-img: ADM+“OLY-TPC003.png”,
-desc:“結合太赫茲波、PEMF 超長波、熱能傳導與氣流按摩四項技術，透過可控氣流提供均勻壓力，有助支援健康循環、舒緩疼痛與肌肉放鬆、排除寒氣與濕氣。附智能支架免手持設計，一鍵溫度選擇，操作便利。”,
-},
-];
+  // ── Product catalogue ─────────────────────────────────────────────
+  // Names aligned with official OlyLife product codes
+  // note2: second line of note for long descriptions (displayed separately in card)
+  const PRODUCTS = [
+    {
+      id:"p90",
+      name:"Tera-P90 足墊熱儀",
+      eng:"OlyLife Tera-P90",
+      price:1000,
+      img: ADM+"OLY-HCA002.png",
+      desc:"結合生物電磁能量（1 MHz）與太赫茲能量雙重技術，由內而外加熱組織，促進微循環與新陳代謝。如同一台「細胞充電器」，疏通經絡、排除寒氣與體內廢物，舒緩疲勞與疼痛不適。",
+    },
+    {
+      id:"p90plus",
+      name:"THZ Tera-P90+",
+      eng:"OlyLife THZ Tera-P90+",
+      price:2000,
+      img: ADM+"OLY-PKG003.png",
+      note:"附凝膠套組：",
+      note2:"青春亮彩凝膠 x14 ＋",
+      note3:"舒緩凝膠 x14",
+      desc:"P90 進階三合一套組。主機延續太赫茲與 PEMF 雙能量；附加凍齡美顏儀整合 RF 與 EMS，深層提升肌膚彈性；活力按摩棒搭載紅光療法，促進頭皮與全身健康。20 段強度調節，附紅外線遙控器。",
+    },
+    {
+      id:"shaken",
+      name:"PEMF 智能甩脂儀",
+      eng:"OlyLife Shaken Massager",
+      price:1000,
+      img: ADM+"OLY-SK-M3.png",
+      note:"贈送Ai智能手錶",
+      desc:"針對腰腹部位設計的智能健康裝置，整合 PEMF、紅光、射頻、熱療、震動與氣流按摩多種模式，支援腹部循環與舒適體驗。可搭配 Ai 智能手錶控制，建議與 P90 / P90+ 組合使用效果更佳。",
+    },
+    {
+      id:"g1",
+      name:"Galaxy G-One 護眼儀",
+      eng:"OlyLife Galaxy G-One",
+      price:500,
+      img: ADM+"OLY-PKG004.png",
+      note:"買兩組，贈送葉黃素一盒",
+      desc:"以低頻 PEMF 技術為核心的智慧護眼按摩儀，集 6 區 3D 氣囊揉捏、間歇低頻震動與石墨烯 42°C 恆溫熱敷三大功能，提供 7 種護眼模式。單鍵操作，輕巧可折疊，隨身攜帶方便。有助緩解眼部疲勞、舒緩乾眼症狀、淡化黑眼圈。",
+    },
+    {
+      id:"hydro",
+      name:"H+ Bar 氫吧杯",
+      eng:"OlyLife H+ Bar",
+      price:600,
+      img: ADM+"OLY-TPC002.png",
+      desc:"集氫水製作與 MRET 低頻共振技術於一身的隨身水瓶。氫水富含溶解氫氣（H₂），具抗氧化特性；MRET 技術主張讓水分子更易被細胞吸收。雙腔設計、強化質子交換膜，可適用於各種飲品，耐熱防水易攜帶。",
+    },
+    {
+      id:"a9",
+      name:"A9 巴馬負離子智能淨化儀",
+      eng:"OlyLife A9 Smart Anion BamaAir",
+      price:500,
+      img: ADM+"OLY-HCA005.png",
+      desc:"靈感來自廣西巴馬「長壽村」，透過高濃度負離子（每立方公分 2 億個）與 HEPA 濾網淨化空氣，有效過濾灰塵與過敏原。提供 3 種模式（自動、睡眠、驅蚊）、7 種自然光色、14 首舒眠音樂，支援手機 App 遠端控制。",
+    },
+    {
+      id:"slyline",
+      name:"SkyLine 智能雲感衛生棉",
+      eng:"OlyLife Skyline Package",
+      price:500,
+      img: ADM+"OLY-SL-6-P.png",
+      note:"5大組共30盒540片",
+      desc:"採竹纖維表層、超薄吸收芯（約 0.8mm）與專利懸浮設計，柔軟透氣，快速吸收不回滲，有效防止側漏。內含磁性微元件、遠紅外陶瓷晶體與石墨烯材料，強調在經期間提供更舒適的貼身體驗。",
+    },
+    {
+      id:"miniblow",
+      name:"健康養護儀（小神吹）",
+      eng:"OlyLife Vitality Wand",
+      price:600,
+      img: ADM+"OLY-TPC003.png",
+      desc:"結合太赫茲波、PEMF 超長波、熱能傳導與氣流按摩四項技術，透過可控氣流提供均勻壓力，有助支援健康循環、舒緩疼痛與肌肉放鬆、排除寒氣與濕氣。附智能支架免手持設計，一鍵溫度選擇，操作便利。",
+    },
+  ];
 
-const POSITIONS = [
-{ key:“main”,  label:“第一球”, desc:“主要入單位置” },
-{ key:“left”,  label:“第二球”, desc:“第一球左側下線” },
-{ key:“right”, label:“第三球”, desc:“第一球右側下線” },
-];
+  const POSITIONS = [
+    { key:"main",  label:"第一球", desc:"主要入單位置" },
+    { key:"left",  label:"第二球", desc:"第一球左側下線" },
+    { key:"right", label:"第三球", desc:"第一球右側下線" },
+  ];
 
-const MIN = 1000; // minimum USD per active position
+  const MIN = 1000; // minimum USD per active position
 
-// ── ProdImage: graceful fallback if image fails to load ───────────
-function ProdImage({src, name}) {
-const [failed, setFailed] = useState(false);
-if (!src || failed) {
-return (
-<div className="prod-img-wrap">
-<div className="prod-img-placeholder">{name.slice(0,2)}</div>
-</div>
-);
-}
-return (
-<div className="prod-img-wrap">
-<img src={src} alt={name} onError={() => setFailed(true)} />
-</div>
-);
-}
-
-// ── Shared UI components ──────────────────────────────────────────
-const Card = ({children}) => (
-<div style={{
-maxWidth:520, margin:“0 auto”,
-background:”#ffffff”, borderRadius:10,
-boxShadow:“0 2px 20px rgba(0,60,20,0.09)”,
-padding:“28px 24px”, border:“1.5px solid #d4e8d6”,
-}}>{children}</div>
-);
-
-const PrimaryBtn = ({onClick, disabled, children, green}) => (
-<button onClick={onClick} disabled={disabled} className=“step-btn” style={{
-flex:2, padding:“14px”, borderRadius:6, border:“none”,
-background: disabled ? “#e8f5e9”
-: green ? “linear-gradient(135deg,#1b6b2e,#2d9e45)”
-: “linear-gradient(135deg,#1e7a33,#35a84e)”,
-color: disabled ? “#a5c8a8” : “#ffffff”,
-fontWeight:700, fontSize:“0.92rem”,
-cursor: disabled ? “not-allowed” : “pointer”,
-boxShadow: disabled ? “none” : “0 4px 14px rgba(30,122,51,0.3)”,
-fontFamily:”‘Noto Sans TC’,sans-serif”,
-transition:“all 0.2s”,
-}}>{children}</button>
-);
-
-const SecondaryBtn = ({onClick, children}) => (
-<button onClick={onClick} className=“step-btn” style={{
-flex:1, padding:“14px”, borderRadius:6,
-border:“1.5px solid #d4e8d6”, background:”#ffffff”,
-color:”#4a6080”, fontWeight:600, fontSize:“0.88rem”, cursor:“pointer”,
-fontFamily:”‘Noto Sans TC’,sans-serif”,
-}}>{children}</button>
-);
-
-const CopyBtn = ({getText}) => {
-const [copied, setCopied] = useState(false);
-return (
-<button onClick={() => {
-navigator.clipboard.writeText(getText()).then(() => {
-setCopied(true); setTimeout(() => setCopied(false), 2500);
-});
-}} style={{
-width:“100%”, marginTop:16, padding:“14px”, borderRadius:6, border:“none”,
-background: copied
-? “linear-gradient(135deg,#1b6b2e,#2d9e45)”
-: “linear-gradient(135deg,#1e7a33,#35a84e)”,
-color:”#ffffff”, fontWeight:700, fontSize:“0.95rem”, cursor:“pointer”,
-boxShadow:“0 4px 14px rgba(30,122,51,0.3)”,
-transition:“all 0.3s”, fontFamily:”‘Noto Sans TC’,sans-serif”,
-}}>
-{copied ? “已複製！貼到 LINE 吧” : “一鍵複製 LINE 格式”}
-</button>
-);
-};
-
-const ResetBtn = ({onClick}) => (
-<button onClick={onClick} style={{
-width:“100%”, marginTop:10, padding:“12px”, borderRadius:6,
-border:“1.5px solid #d4e8d6”, background:“transparent”,
-color:”#7ea882”, fontWeight:600, fontSize:“0.88rem”, cursor:“pointer”,
-fontFamily:”‘Noto Sans TC’,sans-serif”,
-}}>↺ 重新填寫</button>
-);
-
-// Step progress bar
-const StepBar = ({steps, current}) => (
-<div style={{maxWidth:520, margin:“0 auto 24px”}}>
-<div style={{display:“flex”, alignItems:“center”, marginBottom:8}}>
-{steps.map((s, i) => (
-<React.Fragment key={i}>
-<div style={{
-width:30, height:30, borderRadius:“50%”, flexShrink:0,
-display:“flex”, alignItems:“center”, justifyContent:“center”,
-fontSize:“0.72rem”, fontWeight:700,
-background: i < current ? “#2a8a3e” : (i === current ? “#35a84e” : “#d4e8d6”),
-color: i <= current ? “#ffffff” : “#7ea882”,
-boxShadow: i === current ? “0 0 0 4px rgba(53,168,78,0.2)” : “none”,
-transition:“all 0.3s”,
-}}>{i < current ? “✓” : i + 1}</div>
-{i < steps.length - 1 && (
-<div style={{
-flex:1, height:2, margin:“0 4px”,
-background: i < current ? “#2a8a3e” : “#d4e8d6”,
-transition:“background 0.3s”,
-}} />
-)}
-</React.Fragment>
-))}
-</div>
-<div style={{textAlign:“center”}}>
-<span style={{color:”#2a8a3e”, fontWeight:700, fontSize:“0.85rem”, letterSpacing:“0.06em”}}>
-{steps[current]}
-</span>
-</div>
-</div>
-);
-
-const InfoBox = ({color, children}) => {
-const C = {
-green: {bg:“rgba(42,138,62,0.07)”,  border:“rgba(42,138,62,0.2)”,  text:”#2a8a3e”},
-red:   {bg:“rgba(198,40,40,0.07)”,  border:“rgba(198,40,40,0.2)”,  text:”#c62828”},
-blue:  {bg:“rgba(21,101,192,0.06)”, border:“rgba(21,101,192,0.2)”, text:”#1565c0”},
-};
-const c = C[color] || C.green;
-return (
-<div style={{
-padding:“12px 16px”, borderRadius:6, marginBottom:16,
-background:c.bg, border:“1px solid “+c.border,
-fontSize:“0.82rem”, color:c.text, lineHeight:1.7,
-}}>{children}</div>
-);
-};
-
-// ══════════════════════════════════════════════════════════════════
-//  MAIN FORM
-// ══════════════════════════════════════════════════════════════════
-const emptyForm = {
-positions: {main:{}, left:{}, right:{}},
-name:””, idNumber:””, email:””, phone:””, postalCode:””, address:””,
-payMethod:“transfer”,
-cardNumber:””, cardName:””, cardExpiry:””, cardCVV:””,
-sameAsPersonal:false,
-shipName:””, shipId:””, shipPhone:””, shipAddress:””,
-ezway:””, remarks:””,
-};
-
-function App() {
-const [step, setStep]             = useState(0);
-const [form, setForm]             = useState(emptyForm);
-const [transferTo, setTransferTo] = useState(””);
-const [logoFailed, setLogoFailed] = useState(false);
-const [expandedDesc, setExpandedDesc] = useState(new Set());
-// Paste-to-fill states for step 1
-const [pasteOpen, setPasteOpen]   = useState(false);
-const [pasteText, setPasteText]   = useState(””);
-
-```
-const toggleDesc = (id) => setExpandedDesc(prev => {
-  const next = new Set(prev);
-  next.has(id) ? next.delete(id) : next.add(id);
-  return next;
-});
-
-// Parse personal info fields from old order text
-const parseOldOrder = (text) => {
-  const extract = (pattern) => {
-    const m = text.match(pattern);
-    return m ? m[1].trim() : "";
-  };
-  const parsed = {
-    name:       extract(/▶️中文姓名：(.+)/),
-    idNumber:   extract(/▶️身分證字號：(.+)/),
-    email:      extract(/▶️電子郵箱：(.+)/),
-    phone:      extract(/▶️手機號碼：(.+)/),
-    postalCode: extract(/▶️郵遞區號：(.+)/),
-    address:    extract(/▶️地址：(.+)/),
-  };
-  // Only update fields that were successfully parsed
-  if (Object.values(parsed).some(v => v)) {
-    setForm(f => ({...f, ...Object.fromEntries(
-      Object.entries(parsed).filter(([,v]) => v)
-    )}));
+  // ── ProdImage: graceful fallback if image fails to load ───────────
+  function ProdImage({src, name}) {
+    const [failed, setFailed] = useState(false);
+    if (!src || failed) {
+      return (
+        <div className="prod-img-wrap">
+          <div className="prod-img-placeholder">{name.slice(0,2)}</div>
+        </div>
+      );
+    }
+    return (
+      <div className="prod-img-wrap">
+        <img src={src} alt={name} onError={() => setFailed(true)} />
+      </div>
+    );
   }
-};
 
-const set = (k, v) => setForm(f => ({...f, [k]: v}));
-
-// Toggle quantity for a product in a position
-const changeQty = (pos, id, delta) => setForm(f => {
-  const cur = f.positions[pos][id] || 0;
-  const next = Math.max(0, cur + delta);
-  const updated = {...f.positions[pos]};
-  if (next === 0) delete updated[id]; else updated[id] = next;
-  return {...f, positions: {...f.positions, [pos]: updated}};
-});
-
-// Sum total price for one position
-const posTotal = (pk) => Object.entries(form.positions[pk]).reduce((s, [id, qty]) => {
-  const p = PRODUCTS.find(pr => pr.id === id);
-  return s + (p ? p.price * qty : 0);
-}, 0);
-
-const grandTotal = POSITIONS.reduce((s, p) => s + posTotal(p.key), 0);
-
-// Validation: main must have items; any active position must reach $1,000
-const posOk = () =>
-  Object.keys(form.positions.main).length > 0 &&
-  POSITIONS.every(p =>
-    Object.keys(form.positions[p.key]).length === 0 || posTotal(p.key) >= MIN
+  // ── Shared UI components ──────────────────────────────────────────
+  const Card = ({children}) => (
+    <div style={{
+      maxWidth:520, margin:"0 auto",
+      background:"#ffffff", borderRadius:10,
+      boxShadow:"0 2px 20px rgba(0,60,20,0.09)",
+      padding:"28px 24px", border:"1.5px solid #d4e8d6",
+    }}>{children}</div>
   );
 
-// ── LINE output generator ────────────────────────────────────────
-// LINE wraps at ~14 Chinese chars wide.
-// Strategy: product name on its own line, price on next indented line,
-// so long names like "A9 巴馬負離子智能淨化儀" don't create awkward mid-word wraps.
-// Indent = 4 full-width spaces ≈ "主球：" width
-const INDENT = "　　　　"; // 4 full-width spaces
+  const PrimaryBtn = ({onClick, disabled, children, green}) => (
+    <button onClick={onClick} disabled={disabled} className="step-btn" style={{
+      flex:2, padding:"14px", borderRadius:6, border:"none",
+      background: disabled ? "#e8f5e9"
+        : green ? "linear-gradient(135deg,#1b6b2e,#2d9e45)"
+        : "linear-gradient(135deg,#1e7a33,#35a84e)",
+      color: disabled ? "#a5c8a8" : "#ffffff",
+      fontWeight:700, fontSize:"0.92rem",
+      cursor: disabled ? "not-allowed" : "pointer",
+      boxShadow: disabled ? "none" : "0 4px 14px rgba(30,122,51,0.3)",
+      fontFamily:"'Noto Sans TC',sans-serif",
+      transition:"all 0.2s",
+    }}>{children}</button>
+  );
 
-const generateLine = () => {
-  const posLine = POSITIONS.map(p => {
-    const entries = Object.entries(form.positions[p.key]);
-    if (!entries.length) return p.label + "：（未選擇）";
+  const SecondaryBtn = ({onClick, children}) => (
+    <button onClick={onClick} className="step-btn" style={{
+      flex:1, padding:"14px", borderRadius:6,
+      border:"1.5px solid #d4e8d6", background:"#ffffff",
+      color:"#4a6080", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
+      fontFamily:"'Noto Sans TC',sans-serif",
+    }}>{children}</button>
+  );
 
-    const productLines = entries.map(([id, qty], idx) => {
-      const pr = PRODUCTS.find(r => r.id === id);
-      const nameLine = (idx === 0 ? p.label + "：" : INDENT) + pr.name;
-      const priceText = qty > 1
-        ? INDENT + "x" + qty + "　$" + (pr.price * qty).toLocaleString() + " 美金"
-        : INDENT + "　$" + pr.price.toLocaleString() + " 美金";
-      return nameLine + "\n" + priceText;
-    }).join("\n");
+  const CopyBtn = ({getText}) => {
+    const [copied, setCopied] = useState(false);
+    return (
+      <button onClick={() => {
+        navigator.clipboard.writeText(getText()).then(() => {
+          setCopied(true); setTimeout(() => setCopied(false), 2500);
+        });
+      }} style={{
+        width:"100%", marginTop:16, padding:"14px", borderRadius:6, border:"none",
+        background: copied
+          ? "linear-gradient(135deg,#1b6b2e,#2d9e45)"
+          : "linear-gradient(135deg,#1e7a33,#35a84e)",
+        color:"#ffffff", fontWeight:700, fontSize:"0.95rem", cursor:"pointer",
+        boxShadow:"0 4px 14px rgba(30,122,51,0.3)",
+        transition:"all 0.3s", fontFamily:"'Noto Sans TC',sans-serif",
+      }}>
+        {copied ? "已複製！貼到 LINE 吧" : "一鍵複製 LINE 格式"}
+      </button>
+    );
+  };
 
-    const subtotalLine = INDENT + "小計 $" + posTotal(p.key).toLocaleString() + " 美金";
-    return productLines + "\n" + subtotalLine;
-  }).join("\n\n"); // blank line between positions
+  const ResetBtn = ({onClick}) => (
+    <button onClick={onClick} style={{
+      width:"100%", marginTop:10, padding:"12px", borderRadius:6,
+      border:"1.5px solid #d4e8d6", background:"transparent",
+      color:"#7ea882", fontWeight:600, fontSize:"0.88rem", cursor:"pointer",
+      fontFamily:"'Noto Sans TC',sans-serif",
+    }}>↺ 重新填寫</button>
+  );
 
-  // Payment section
-  let paySection;
-  if (form.payMethod === "transfer") {
-    paySection = "▶️匯款信息\n個別匯款帳號請詢問介紹人";
-    if (transferTo) paySection += "\n匯款給：" + transferTo;
-  } else {
-    paySection = "▶️刷卡\n(匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：" + form.cardNumber
-      + "\n\n信用卡英文名字：" + form.cardName
-      + "\n\n信用卡有效期（mm/yy）：" + form.cardExpiry
-      + "\n\n安全碼(卡背面的三位數字)：" + form.cardCVV;
-  }
-
-  const sn = form.sameAsPersonal ? form.name    : form.shipName;
-  const si = form.sameAsPersonal ? form.idNumber : form.shipId;
-  const sp = form.sameAsPersonal ? form.phone    : form.shipPhone;
-  const sa = form.sameAsPersonal ? form.address  : form.shipAddress;
-
-  let out = "會員註冊資料(版本更新)\n🌟Olylife 註冊資料\n\n";
-  out += "▶️中文姓名：" + form.name + "\n";
-  out += "▶️身分證字號：" + form.idNumber + "\n";
-  out += "▶️電子郵箱：" + form.email + "\n";
-  out += "▶️手機號碼：" + form.phone + "\n";
-  out += "▶️郵遞區號：" + form.postalCode + "\n";
-  out += "▶️地址：" + form.address + "\n\n";
-  out += "▶️產品選擇（合計 $" + grandTotal.toLocaleString() + " 美金）\n";
-  out += posLine + "\n\n";
-  out += paySection + "\n\n";
-  out += "▶️收貨信息\n";
-  out += " 姓名：" + sn + "\n";
-  out += " 身分證號：" + si + "\n";
-  out += " 電話：" + sp + "\n";
-  out += " 地址：" + sa + "\n\n";
-  out += "▶️有無申請EZway：" + (form.ezway || "未填") + "\n";
-  out += "(申請EZway資料，務必和上面\n收貨信息相同！）\n";
-  if (form.remarks) out += "\n▶️備註：" + form.remarks + "\n";
-  if (form.payMethod === "transfer") out += "\n▶️備註：\n匯款帳號末五碼：\n";
-  out += "\n以下客戶免填\n▶️推薦人+編號：\n▶️安置人+編號：";
-  return out;
-};
-
-const canNext = () => {
-  if (step === 0) return posOk();
-  if (step === 1) return form.name && form.idNumber && form.email && form.phone && form.address;
-  if (step === 2) return form.payMethod === "transfer"
-    || (form.cardNumber && form.cardName && form.cardExpiry && form.cardCVV);
-  if (step === 3) return form.sameAsPersonal
-    || (form.shipName && form.shipId && form.shipPhone && form.shipAddress);
-  return true;
-};
-
-const STEPS = ["產品選擇", "個人資料", "付款方式", "收貨資訊", "確認訂單"];
-
-const tabStyle = (active) => ({
-  flex:1, padding:"13px", borderRadius:6, fontWeight:600, fontSize:"0.88rem",
-  border: active ? "1.5px solid #35a84e" : "1.5px solid #d4e8d6",
-  background: active ? "rgba(42,138,62,0.08)" : "#ffffff",
-  color: active ? "#2a8a3e" : "#7ea882",
-  cursor:"pointer", transition:"all 0.2s",
-  fontFamily:"'Noto Sans TC',sans-serif",
-  boxShadow: active ? "0 2px 8px rgba(42,138,62,0.12)" : "none",
-});
-
-return (
-  <div style={{padding:"0 0 80px"}}>
-
-    {/* ── Logo banner (mint green background like official site) ── */}
-    <div style={{
-      background: "#d6edd8",
-      padding:"16px 24px",
-      display:"flex", alignItems:"center", justifyContent:"center",
-      marginBottom:0,
-    }}>
-      {!logoFailed ? (
-        <img
-          src={LOGO} alt="OlyLife"
-          style={{height:42, objectFit:"contain"}}
-          onError={() => setLogoFailed(true)}
-        />
-      ) : (
-        <div style={{fontWeight:700, fontSize:"1.6rem", color:"#1e7a33", letterSpacing:"0.15em"}}>
-          OLYLIFE
-        </div>
-      )}
+  // Step progress bar
+  const StepBar = ({steps, current}) => (
+    <div style={{maxWidth:520, margin:"0 auto 24px"}}>
+      <div style={{display:"flex", alignItems:"center", marginBottom:8}}>
+        {steps.map((s, i) => (
+          <React.Fragment key={i}>
+            <div style={{
+              width:30, height:30, borderRadius:"50%", flexShrink:0,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              fontSize:"0.72rem", fontWeight:700,
+              background: i < current ? "#2a8a3e" : (i === current ? "#35a84e" : "#d4e8d6"),
+              color: i <= current ? "#ffffff" : "#7ea882",
+              boxShadow: i === current ? "0 0 0 4px rgba(53,168,78,0.2)" : "none",
+              transition:"all 0.3s",
+            }}>{i < current ? "✓" : i + 1}</div>
+            {i < steps.length - 1 && (
+              <div style={{
+                flex:1, height:2, margin:"0 4px",
+                background: i < current ? "#2a8a3e" : "#d4e8d6",
+                transition:"background 0.3s",
+              }} />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+      <div style={{textAlign:"center"}}>
+        <span style={{color:"#2a8a3e", fontWeight:700, fontSize:"0.85rem", letterSpacing:"0.06em"}}>
+          {steps[current]}
+        </span>
+      </div>
     </div>
+  );
 
-    {/* ── CHAMPION'S CHOICE green banner ── */}
-    <div style={{
-      background:"#25a244",
-      padding:"12px 24px",
-      textAlign:"center",
-      marginBottom:0,
-    }}>
+  const InfoBox = ({color, children}) => {
+    const C = {
+      green: {bg:"rgba(42,138,62,0.07)",  border:"rgba(42,138,62,0.2)",  text:"#2a8a3e"},
+      red:   {bg:"rgba(198,40,40,0.07)",  border:"rgba(198,40,40,0.2)",  text:"#c62828"},
+      blue:  {bg:"rgba(21,101,192,0.06)", border:"rgba(21,101,192,0.2)", text:"#1565c0"},
+    };
+    const c = C[color] || C.green;
+    return (
       <div style={{
-        fontFamily:"'Rajdhani',sans-serif",
-        fontSize:"1.25rem", fontWeight:700,
-        color:"#ffffff", letterSpacing:"0.22em",
-      }}>CHAMPION'S CHOICE</div>
-    </div>
+        padding:"12px 16px", borderRadius:6, marginBottom:16,
+        background:c.bg, border:"1px solid "+c.border,
+        fontSize:"0.82rem", color:c.text, lineHeight:1.7,
+      }}>{children}</div>
+    );
+  };
 
-    {/* ── Title ── */}
-    <div style={{
-      background:"#ffffff",
-      padding:"16px 24px 18px",
-      textAlign:"center",
-      borderBottom:"1.5px solid #d4e8d6",
-      marginBottom:24,
-      boxShadow:"0 2px 10px rgba(0,60,20,0.06)",
-    }}>
-      <div style={{fontSize:"1.3rem", fontWeight:700, color:"#0f1f12"}}>訂單輔助系統</div>
-    </div>
+  // ══════════════════════════════════════════════════════════════════
+  //  MAIN FORM
+  // ══════════════════════════════════════════════════════════════════
+  const emptyForm = {
+    positions: {main:{}, left:{}, right:{}},
+    name:"", idNumber:"", email:"", phone:"", postalCode:"", address:"",
+    payMethod:"transfer",
+    cardNumber:"", cardName:"", cardExpiry:"", cardCVV:"",
+    sameAsPersonal:false,
+    shipName:"", shipId:"", shipPhone:"", shipAddress:"",
+    ezway:"", remarks:"",
+  };
 
-    {/* ── Step bar ── */}
-    <div style={{padding:"0 16px"}}>
-      <StepBar steps={STEPS} current={step} />
-    </div>
+  function App() {
+    const [step, setStep]             = useState(0);
+    const [form, setForm]             = useState(emptyForm);
+    const [transferTo, setTransferTo] = useState("");
+    const [logoFailed, setLogoFailed] = useState(false);
+    const [expandedDesc, setExpandedDesc] = useState(new Set());
+    // Paste-to-fill states for step 1
+    const [pasteOpen, setPasteOpen]   = useState(false);
+    const [pasteText, setPasteText]   = useState("");
 
-    {/* ── Main card ── */}
-    <div style={{padding:"0 16px"}}>
-      <Card>
+    const toggleDesc = (id) => setExpandedDesc(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
 
-        {/* STEP 0 ── Product selection */}
-        {step === 0 && (
-          <div>
-            <p style={{color:"#3d6644", fontSize:"0.82rem", marginBottom:20, lineHeight:1.9}}>
-              每個位置可選多項產品，金額自動加總。<br/>
-              第一球必填，第二球和第三球可視情況選填。<br/>
-              每個球位最低 $1,000美金。
-            </p>
+    // Parse personal info fields from old order text
+    const parseOldOrder = (text) => {
+      const extract = (pattern) => {
+        const m = text.match(pattern);
+        return m ? m[1].trim() : "";
+      };
+      const parsed = {
+        name:       extract(/▶️中文姓名：(.+)/),
+        idNumber:   extract(/▶️身分證字號：(.+)/),
+        email:      extract(/▶️電子郵箱：(.+)/),
+        phone:      extract(/▶️手機號碼：(.+)/),
+        postalCode: extract(/▶️郵遞區號：(.+)/),
+        address:    extract(/▶️地址：(.+)/),
+      };
+      // Only update fields that were successfully parsed
+      if (Object.values(parsed).some(v => v)) {
+        setForm(f => ({...f, ...Object.fromEntries(
+          Object.entries(parsed).filter(([,v]) => v)
+        )}));
+      }
+    };
 
-            {POSITIONS.map(pos => {
-              const sub    = posTotal(pos.key);
-              const hasSel = Object.keys(form.positions[pos.key]).length > 0;
-              const low    = hasSel && sub < MIN;
-              return (
-                <div key={pos.key} className="pos-section"
-                  style={{borderLeftColor: low ? "#c62828" : "#35a84e"}}>
+    const set = (k, v) => setForm(f => ({...f, [k]: v}));
 
-                  {/* Position header */}
-                  <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12}}>
-                    <div>
-                      <span style={{fontSize:"0.95rem", fontWeight:700, color:"#0f1f12"}}>
-                        {pos.label}
-                      </span>
-                      <span style={{fontSize:"0.72rem", color:"#7ea882", marginLeft:8}}>
-                        {pos.desc}
-                      </span>
-                    </div>
-                    {hasSel && (
-                      <div style={{
-                        fontSize:"0.75rem", fontWeight:700,
-                        padding:"3px 10px", borderRadius:20, whiteSpace:"nowrap",
-                        background: low ? "rgba(198,40,40,0.08)" : "rgba(42,138,62,0.08)",
-                        color: low ? "#c62828" : "#2a8a3e",
-                        border:"1px solid "+(low?"rgba(198,40,40,0.25)":"rgba(42,138,62,0.25)"),
-                      }}>
-                        {low
-                          ? ("⚠ $"+sub.toLocaleString()+" / 未達 $1,000")
-                          : ("✓ $"+sub.toLocaleString())}
+    // Toggle quantity for a product in a position
+    const changeQty = (pos, id, delta) => setForm(f => {
+      const cur = f.positions[pos][id] || 0;
+      const next = Math.max(0, cur + delta);
+      const updated = {...f.positions[pos]};
+      if (next === 0) delete updated[id]; else updated[id] = next;
+      return {...f, positions: {...f.positions, [pos]: updated}};
+    });
+
+    // Sum total price for one position
+    const posTotal = (pk) => Object.entries(form.positions[pk]).reduce((s, [id, qty]) => {
+      const p = PRODUCTS.find(pr => pr.id === id);
+      return s + (p ? p.price * qty : 0);
+    }, 0);
+
+    const grandTotal = POSITIONS.reduce((s, p) => s + posTotal(p.key), 0);
+
+    // Validation: main must have items; any active position must reach $1,000
+    const posOk = () =>
+      Object.keys(form.positions.main).length > 0 &&
+      POSITIONS.every(p =>
+        Object.keys(form.positions[p.key]).length === 0 || posTotal(p.key) >= MIN
+      );
+
+    // ── LINE output generator ────────────────────────────────────────
+    // LINE wraps at ~14 Chinese chars wide.
+    // Strategy: product name on its own line, price on next indented line,
+    // so long names like "A9 巴馬負離子智能淨化儀" don't create awkward mid-word wraps.
+    // Indent = 4 full-width spaces ≈ "主球：" width
+    const INDENT = "　　　　"; // 4 full-width spaces
+
+    const generateLine = () => {
+      const posLine = POSITIONS.map(p => {
+        const entries = Object.entries(form.positions[p.key]);
+        if (!entries.length) return p.label + "：（未選擇）";
+
+        const productLines = entries.map(([id, qty], idx) => {
+          const pr = PRODUCTS.find(r => r.id === id);
+          const nameLine = (idx === 0 ? p.label + "：" : INDENT) + pr.name;
+          const priceText = qty > 1
+            ? INDENT + "x" + qty + "　$" + (pr.price * qty).toLocaleString() + " 美金"
+            : INDENT + "　$" + pr.price.toLocaleString() + " 美金";
+          return nameLine + "\n" + priceText;
+        }).join("\n");
+
+        const subtotalLine = INDENT + "小計 $" + posTotal(p.key).toLocaleString() + " 美金";
+        return productLines + "\n" + subtotalLine;
+      }).join("\n\n"); // blank line between positions
+
+      // Payment section
+      let paySection;
+      if (form.payMethod === "transfer") {
+        paySection = "▶️匯款信息\n個別匯款帳號請詢問介紹人";
+        if (transferTo) paySection += "\n匯款給：" + transferTo;
+      } else {
+        paySection = "▶️刷卡\n(匯率和手續費視銀行而定\n若少刷外幣，請先照會銀行\n以免被拒！)\n\n信用卡號：" + form.cardNumber
+          + "\n\n信用卡英文名字：" + form.cardName
+          + "\n\n信用卡有效期（mm/yy）：" + form.cardExpiry
+          + "\n\n安全碼(卡背面的三位數字)：" + form.cardCVV;
+      }
+
+      const sn = form.sameAsPersonal ? form.name    : form.shipName;
+      const si = form.sameAsPersonal ? form.idNumber : form.shipId;
+      const sp = form.sameAsPersonal ? form.phone    : form.shipPhone;
+      const sa = form.sameAsPersonal ? form.address  : form.shipAddress;
+
+      let out = "會員註冊資料(版本更新)\n🌟Olylife 註冊資料\n\n";
+      out += "▶️中文姓名：" + form.name + "\n";
+      out += "▶️身分證字號：" + form.idNumber + "\n";
+      out += "▶️電子郵箱：" + form.email + "\n";
+      out += "▶️手機號碼：" + form.phone + "\n";
+      out += "▶️郵遞區號：" + form.postalCode + "\n";
+      out += "▶️地址：" + form.address + "\n\n";
+      out += "▶️產品選擇（合計 $" + grandTotal.toLocaleString() + " 美金）\n";
+      out += posLine + "\n\n";
+      out += paySection + "\n\n";
+      out += "▶️收貨信息\n";
+      out += " 姓名：" + sn + "\n";
+      out += " 身分證號：" + si + "\n";
+      out += " 電話：" + sp + "\n";
+      out += " 地址：" + sa + "\n\n";
+      out += "▶️有無申請EZway：" + (form.ezway || "未填") + "\n";
+      out += "(申請EZway資料，務必和上面\n收貨信息相同！）\n";
+      if (form.remarks) out += "\n▶️備註：" + form.remarks + "\n";
+      if (form.payMethod === "transfer") out += "\n▶️備註：\n匯款帳號末五碼：\n";
+      out += "\n以下客戶免填\n▶️推薦人+編號：\n▶️安置人+編號：";
+      return out;
+    };
+
+    const canNext = () => {
+      if (step === 0) return posOk();
+      if (step === 1) return form.name && form.idNumber && form.email && form.phone && form.address;
+      if (step === 2) return form.payMethod === "transfer"
+        || (form.cardNumber && form.cardName && form.cardExpiry && form.cardCVV);
+      if (step === 3) return form.sameAsPersonal
+        || (form.shipName && form.shipId && form.shipPhone && form.shipAddress);
+      return true;
+    };
+
+    const STEPS = ["產品選擇", "個人資料", "付款方式", "收貨資訊", "確認訂單"];
+
+    const tabStyle = (active) => ({
+      flex:1, padding:"13px", borderRadius:6, fontWeight:600, fontSize:"0.88rem",
+      border: active ? "1.5px solid #35a84e" : "1.5px solid #d4e8d6",
+      background: active ? "rgba(42,138,62,0.08)" : "#ffffff",
+      color: active ? "#2a8a3e" : "#7ea882",
+      cursor:"pointer", transition:"all 0.2s",
+      fontFamily:"'Noto Sans TC',sans-serif",
+      boxShadow: active ? "0 2px 8px rgba(42,138,62,0.12)" : "none",
+    });
+
+    return (
+      <div style={{padding:"0 0 80px"}}>
+
+        {/* ── Logo banner (mint green background like official site) ── */}
+        <div style={{
+          background: "#d6edd8",
+          padding:"16px 24px",
+          display:"flex", alignItems:"center", justifyContent:"center",
+          marginBottom:0,
+        }}>
+          {!logoFailed ? (
+            <img
+              src={LOGO} alt="OlyLife"
+              style={{height:42, objectFit:"contain"}}
+              onError={() => setLogoFailed(true)}
+            />
+          ) : (
+            <div style={{fontWeight:700, fontSize:"1.6rem", color:"#1e7a33", letterSpacing:"0.15em"}}>
+              OLYLIFE
+            </div>
+          )}
+        </div>
+
+        {/* ── CHAMPION'S CHOICE green banner ── */}
+        <div style={{
+          background:"#25a244",
+          padding:"12px 24px",
+          textAlign:"center",
+          marginBottom:0,
+        }}>
+          <div style={{
+            fontFamily:"'Rajdhani',sans-serif",
+            fontSize:"1.25rem", fontWeight:700,
+            color:"#ffffff", letterSpacing:"0.22em",
+          }}>CHAMPION'S CHOICE</div>
+        </div>
+
+        {/* ── Title ── */}
+        <div style={{
+          background:"#ffffff",
+          padding:"16px 24px 18px",
+          textAlign:"center",
+          borderBottom:"1.5px solid #d4e8d6",
+          marginBottom:24,
+          boxShadow:"0 2px 10px rgba(0,60,20,0.06)",
+        }}>
+          <div style={{fontSize:"1.3rem", fontWeight:700, color:"#0f1f12"}}>訂單輔助系統</div>
+        </div>
+
+        {/* ── Step bar ── */}
+        <div style={{padding:"0 16px"}}>
+          <StepBar steps={STEPS} current={step} />
+        </div>
+
+        {/* ── Main card ── */}
+        <div style={{padding:"0 16px"}}>
+          <Card>
+
+            {/* STEP 0 ── Product selection */}
+            {step === 0 && (
+              <div>
+                <p style={{color:"#3d6644", fontSize:"0.82rem", marginBottom:20, lineHeight:1.9}}>
+                  每個位置可選多項產品，金額自動加總。<br/>
+                  第一球必填，第二球和第三球可視情況選填。<br/>
+                  每個球位最低 $1,000美金。
+                </p>
+
+                {POSITIONS.map(pos => {
+                  const sub    = posTotal(pos.key);
+                  const hasSel = Object.keys(form.positions[pos.key]).length > 0;
+                  const low    = hasSel && sub < MIN;
+                  return (
+                    <div key={pos.key} className="pos-section"
+                      style={{borderLeftColor: low ? "#c62828" : "#35a84e"}}>
+
+                      {/* Position header */}
+                      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12}}>
+                        <div>
+                          <span style={{fontSize:"0.95rem", fontWeight:700, color:"#0f1f12"}}>
+                            {pos.label}
+                          </span>
+                          <span style={{fontSize:"0.72rem", color:"#7ea882", marginLeft:8}}>
+                            {pos.desc}
+                          </span>
+                        </div>
+                        {hasSel && (
+                          <div style={{
+                            fontSize:"0.75rem", fontWeight:700,
+                            padding:"3px 10px", borderRadius:20, whiteSpace:"nowrap",
+                            background: low ? "rgba(198,40,40,0.08)" : "rgba(42,138,62,0.08)",
+                            color: low ? "#c62828" : "#2a8a3e",
+                            border:"1px solid "+(low?"rgba(198,40,40,0.25)":"rgba(42,138,62,0.25)"),
+                          }}>
+                            {low
+                              ? ("⚠ $"+sub.toLocaleString()+" / 未達 $1,000")
+                              : ("✓ $"+sub.toLocaleString())}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
 
-                  {/* Product grid: 2 columns */}
-                  <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:10}}>
-                    {PRODUCTS.map(prod => {
-                      const qty    = form.positions[pos.key][prod.id] || 0;
-                      const active = qty > 0;
-                      return (
-                        <div key={prod.id}
-                          className={"product-card"+(active?" has-qty":"")}>
-                          <ProdImage src={prod.img} name={prod.name} />
-                          <div style={{padding:"10px 10px 12px"}}>
-                            <div className="prod-name" style={{
-                              fontSize:"0.73rem", fontWeight:600,
-                              lineHeight:1.4, color:"#0f1f12", minHeight:"2.4em",
-                            }}>{prod.name}</div>
-                            {prod.note && (
-                              <div style={{fontSize:"0.6rem", color:"#7ea882", marginTop:2, lineHeight:1.5}}>
-                                {prod.note}
-                                {prod.note2 && <><br/>{prod.note2}</>}
-                                {prod.note3 && <><br/>{prod.note3}</>}
-                              </div>
-                            )}
-                            <div className="prod-price" style={{
-                              fontSize:"0.88rem", fontWeight:700,
-                              marginTop:5, color:"#2a8a3e",
-                            }}>
-                              ${prod.price.toLocaleString()} 美金
-                            </div>
-                            {/* Quantity controls */}
-                            <div style={{display:"flex", alignItems:"center", gap:6, marginTop:8}}>
-                              {active ? (
-                                <>
-                                  <button className="qty-btn"
-                                    onClick={e=>{e.stopPropagation(); changeQty(pos.key,prod.id,-1);}}
-                                    style={{background:"rgba(42,138,62,0.12)", color:"#2a8a3e"}}>−</button>
-                                  <span style={{
-                                    flex:1, textAlign:"center",
-                                    fontWeight:700, fontSize:"1rem", color:"#2a8a3e",
-                                  }}>{qty}</span>
-                                  <button className="qty-btn"
-                                    onClick={e=>{e.stopPropagation(); changeQty(pos.key,prod.id,+1);}}
-                                    style={{background:"rgba(42,138,62,0.12)", color:"#2a8a3e"}}>＋</button>
-                                </>
-                              ) : (
-                                <button className="qty-btn"
-                                  onClick={e=>{e.stopPropagation(); changeQty(pos.key,prod.id,+1);}}
-                                  style={{
-                                    background:"#f0f7f1", color:"#3d6644",
-                                    fontSize:13, width:"100%", borderRadius:4,
-                                  }}>＋ 加入</button>
-                              )}
-                            </div>
-                            {/* Collapsible description */}
-                            {prod.desc && (
-                              <div style={{marginTop:8, borderTop:"1px solid "+( active ? "rgba(42,138,62,0.2)" : "#eef5ef")}}>
-                                <button
-                                  onClick={e => { e.stopPropagation(); toggleDesc(prod.id); }}
-                                  style={{
-                                    display:"flex", alignItems:"center", justifyContent:"space-between",
-                                    width:"100%", background:"none", border:"none",
-                                    padding:"6px 0 2px", cursor:"pointer",
-                                    color: active ? "#2a8a3e" : "#7ea882",
-                                    fontSize:"0.65rem", fontWeight:600,
-                                    fontFamily:"'Noto Sans TC',sans-serif",
-                                  }}>
-                                  <span>了解產品</span>
-                                  <span style={{
-                                    width:16, height:16, borderRadius:"50%",
-                                    background: active ? "rgba(42,138,62,0.15)" : "#f0f7f1",
-                                    display:"flex", alignItems:"center", justifyContent:"center",
-                                    fontSize:"0.75rem", fontWeight:700, flexShrink:0,
-                                    color: active ? "#2a8a3e" : "#7ea882",
-                                  }}>
-                                    {expandedDesc.has(prod.id) ? "−" : "+"}
-                                  </span>
-                                </button>
-                                {expandedDesc.has(prod.id) && (
-                                  <div style={{
-                                    fontSize:"0.67rem", color: active ? "#2a8a3e" : "#3d6644",
-                                    lineHeight:1.7, paddingBottom:4,
-                                  }}>
-                                    {prod.desc}
+                      {/* Product grid: 2 columns */}
+                      <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:10}}>
+                        {PRODUCTS.map(prod => {
+                          const qty    = form.positions[pos.key][prod.id] || 0;
+                          const active = qty > 0;
+                          return (
+                            <div key={prod.id}
+                              className={"product-card"+(active?" has-qty":"")}>
+                              <ProdImage src={prod.img} name={prod.name} />
+                              <div style={{padding:"10px 10px 12px"}}>
+                                <div className="prod-name" style={{
+                                  fontSize:"0.73rem", fontWeight:600,
+                                  lineHeight:1.4, color:"#0f1f12", minHeight:"2.4em",
+                                }}>{prod.name}</div>
+                                {prod.note && (
+                                  <div style={{fontSize:"0.6rem", color:"#7ea882", marginTop:2, lineHeight:1.5}}>
+                                    {prod.note}
+                                    {prod.note2 && <><br/>{prod.note2}</>}
+                                    {prod.note3 && <><br/>{prod.note3}</>}
+                                  </div>
+                                )}
+                                <div className="prod-price" style={{
+                                  fontSize:"0.88rem", fontWeight:700,
+                                  marginTop:5, color:"#2a8a3e",
+                                }}>
+                                  ${prod.price.toLocaleString()} 美金
+                                </div>
+                                {/* Quantity controls */}
+                                <div style={{display:"flex", alignItems:"center", gap:6, marginTop:8}}>
+                                  {active ? (
+                                    <>
+                                      <button className="qty-btn"
+                                        onClick={e=>{e.stopPropagation(); changeQty(pos.key,prod.id,-1);}}
+                                        style={{background:"rgba(42,138,62,0.12)", color:"#2a8a3e"}}>−</button>
+                                      <span style={{
+                                        flex:1, textAlign:"center",
+                                        fontWeight:700, fontSize:"1rem", color:"#2a8a3e",
+                                      }}>{qty}</span>
+                                      <button className="qty-btn"
+                                        onClick={e=>{e.stopPropagation(); changeQty(pos.key,prod.id,+1);}}
+                                        style={{background:"rgba(42,138,62,0.12)", color:"#2a8a3e"}}>＋</button>
+                                    </>
+                                  ) : (
+                                    <button className="qty-btn"
+                                      onClick={e=>{e.stopPropagation(); changeQty(pos.key,prod.id,+1);}}
+                                      style={{
+                                        background:"#f0f7f1", color:"#3d6644",
+                                        fontSize:13, width:"100%", borderRadius:4,
+                                      }}>＋ 加入</button>
+                                  )}
+                                </div>
+                                {/* Collapsible description */}
+                                {prod.desc && (
+                                  <div style={{marginTop:8, borderTop:"1px solid "+( active ? "rgba(42,138,62,0.2)" : "#eef5ef")}}>
+                                    <button
+                                      onClick={e => { e.stopPropagation(); toggleDesc(prod.id); }}
+                                      style={{
+                                        display:"flex", alignItems:"center", justifyContent:"space-between",
+                                        width:"100%", background:"none", border:"none",
+                                        padding:"6px 0 2px", cursor:"pointer",
+                                        color: active ? "#2a8a3e" : "#7ea882",
+                                        fontSize:"0.65rem", fontWeight:600,
+                                        fontFamily:"'Noto Sans TC',sans-serif",
+                                      }}>
+                                      <span>了解產品</span>
+                                      <span style={{
+                                        width:16, height:16, borderRadius:"50%",
+                                        background: active ? "rgba(42,138,62,0.15)" : "#f0f7f1",
+                                        display:"flex", alignItems:"center", justifyContent:"center",
+                                        fontSize:"0.75rem", fontWeight:700, flexShrink:0,
+                                        color: active ? "#2a8a3e" : "#7ea882",
+                                      }}>
+                                        {expandedDesc.has(prod.id) ? "−" : "+"}
+                                      </span>
+                                    </button>
+                                    {expandedDesc.has(prod.id) && (
+                                      <div style={{
+                                        fontSize:"0.67rem", color: active ? "#2a8a3e" : "#3d6644",
+                                        lineHeight:1.7, paddingBottom:4,
+                                      }}>
+                                        {prod.desc}
+                                      </div>
+                                    )}
                                   </div>
                                 )}
                               </div>
-                            )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {low && (
+                        <p style={{marginTop:8, fontSize:"0.75rem", color:"#c62828"}}>
+                          ⚠ 此球位不足 $1,000，請再加選產品。
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {/* Order summary */}
+                {POSITIONS.some(p => Object.keys(form.positions[p.key]).length > 0) && (
+                  <div style={{
+                    padding:"14px 16px",
+                    background:"rgba(42,138,62,0.05)",
+                    borderRadius:8,
+                    border:"1px solid rgba(42,138,62,0.15)",
+                  }}>
+                    <div style={{
+                      fontSize:"0.72rem", color:"#2a8a3e",
+                      fontWeight:700, marginBottom:8, letterSpacing:"0.08em",
+                    }}>訂單總覽</div>
+                    {POSITIONS.map(p => {
+                      const entries = Object.entries(form.positions[p.key]);
+                      if (!entries.length) return null;
+                      return (
+                        <div key={p.key} style={{marginBottom:6}}>
+                          <div style={{fontSize:"0.78rem", color:"#0f1f12", fontWeight:600, marginBottom:2}}>
+                            {p.label}
+                          </div>
+                          {entries.map(([id, qty]) => {
+                            const pr = PRODUCTS.find(r => r.id === id);
+                            return (
+                              <div key={id} style={{
+                                display:"flex", justifyContent:"space-between",
+                                fontSize:"0.76rem", color:"#3d6644", paddingLeft:12,
+                              }}>
+                                <span>{pr.name}{qty>1?" ×"+qty:""}</span>
+                                <span>${(pr.price*qty).toLocaleString()} 美金</span>
+                              </div>
+                            );
+                          })}
+                          <div style={{
+                            display:"flex", justifyContent:"space-between",
+                            fontSize:"0.76rem", fontWeight:600,
+                            color:"#2a8a3e", paddingLeft:12, marginTop:2,
+                          }}>
+                            <span>小計</span>
+                            <span>${posTotal(p.key).toLocaleString()} 美金</span>
                           </div>
                         </div>
                       );
                     })}
-                  </div>
-                  {low && (
-                    <p style={{marginTop:8, fontSize:"0.75rem", color:"#c62828"}}>
-                      ⚠ 此球位不足 $1,000，請再加選產品。
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-
-            {/* Order summary */}
-            {POSITIONS.some(p => Object.keys(form.positions[p.key]).length > 0) && (
-              <div style={{
-                padding:"14px 16px",
-                background:"rgba(42,138,62,0.05)",
-                borderRadius:8,
-                border:"1px solid rgba(42,138,62,0.15)",
-              }}>
-                <div style={{
-                  fontSize:"0.72rem", color:"#2a8a3e",
-                  fontWeight:700, marginBottom:8, letterSpacing:"0.08em",
-                }}>訂單總覽</div>
-                {POSITIONS.map(p => {
-                  const entries = Object.entries(form.positions[p.key]);
-                  if (!entries.length) return null;
-                  return (
-                    <div key={p.key} style={{marginBottom:6}}>
-                      <div style={{fontSize:"0.78rem", color:"#0f1f12", fontWeight:600, marginBottom:2}}>
-                        {p.label}
-                      </div>
-                      {entries.map(([id, qty]) => {
-                        const pr = PRODUCTS.find(r => r.id === id);
-                        return (
-                          <div key={id} style={{
-                            display:"flex", justifyContent:"space-between",
-                            fontSize:"0.76rem", color:"#3d6644", paddingLeft:12,
-                          }}>
-                            <span>{pr.name}{qty>1?" ×"+qty:""}</span>
-                            <span>${(pr.price*qty).toLocaleString()} 美金</span>
-                          </div>
-                        );
-                      })}
-                      <div style={{
-                        display:"flex", justifyContent:"space-between",
-                        fontSize:"0.76rem", fontWeight:600,
-                        color:"#2a8a3e", paddingLeft:12, marginTop:2,
-                      }}>
-                        <span>小計</span>
-                        <span>${posTotal(p.key).toLocaleString()} 美金</span>
-                      </div>
+                    <div style={{
+                      borderTop:"1px solid rgba(42,138,62,0.15)",
+                      marginTop:8, paddingTop:8,
+                      display:"flex", justifyContent:"space-between",
+                      fontWeight:700, color:"#2a8a3e", fontSize:"0.92rem",
+                    }}>
+                      <span>訂單合計</span>
+                      <span>${grandTotal.toLocaleString()} 美金</span>
                     </div>
-                  );
-                })}
-                <div style={{
-                  borderTop:"1px solid rgba(42,138,62,0.15)",
-                  marginTop:8, paddingTop:8,
-                  display:"flex", justifyContent:"space-between",
-                  fontWeight:700, color:"#2a8a3e", fontSize:"0.92rem",
-                }}>
-                  <span>訂單合計</span>
-                  <span>${grandTotal.toLocaleString()} 美金</span>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* STEP 1 ── Personal info */}
-        {step === 1 && (
-          <div style={{display:"flex", flexDirection:"column", gap:16}}>
-            {[
-              {k:"name",       l:"中文姓名",   ph:"請輸入真實姓名"},
-              {k:"idNumber",   l:"身分證字號", ph:"A123456789"},
-              {k:"email",      l:"電子郵箱",   ph:"example@email.com", t:"email"},
-              {k:"phone",      l:"手機號碼",   ph:"09xxxxxxxx", t:"tel"},
-              {k:"postalCode", l:"郵遞區號",   ph:"例：407"},
-              {k:"address",    l:"地址",       ph:"縣市 / 區 / 街道門號"},
-            ].map(f => (
-              <div key={f.k}>
-                <label>{f.l}</label>
-                <input
-                  type={f.t || "text"}
-                  placeholder={f.ph}
-                  value={form[f.k]}
-                  onChange={e => set(f.k, e.target.value)}
-                />
-              </div>
-            ))}
-
-            {/* ── Subtle paste-to-fill area (camouflaged for experienced users) ── */}
-            <div style={{marginTop:4}}>
-              {/* Trigger: nearly invisible against the background */}
-              <button
-                onClick={() => setPasteOpen(o => !o)}
-                style={{
-                  background:"none", border:"none", cursor:"pointer",
-                  padding:"4px 0", width:"100%", textAlign:"left",
-                  fontSize:"0.68rem",
-                  // Near-invisible: matches page background colour
-                  color:"#ccdece",
-                  fontFamily:"'Noto Sans TC',sans-serif",
-                }}>
-                {pasteOpen ? "▲ 收起" : "▼ 貼上舊訂單資料自動填入"}
-              </button>
-
-              {pasteOpen && (
-                <div style={{marginTop:4}}>
-                  <textarea
-                    rows={6}
-                    placeholder={"將舊訂單文字貼入，系統會自動擷取個人資料…"}
-                    value={pasteText}
-                    onChange={e => {
-                      setPasteText(e.target.value);
-                      parseOldOrder(e.target.value);
-                    }}
-                    style={{
-                      fontSize:"12px", lineHeight:1.6,
-                      color:"#3d6644", background:"#f0f7f1",
-                      border:"1px dashed #b8d9bb",
-                    }}
-                  />
-                  {pasteText.length > 20 && (
-                    <p style={{fontSize:"0.7rem", color:"#2a8a3e", marginTop:4}}>
-                      ✓ 已解析，欄位已自動填入（可手動修正）
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* STEP 2 ── Payment method */}
-        {step === 2 && (
-          <div>
-            <div style={{display:"flex", gap:10, marginBottom:20}}>
-              {[{v:"transfer",l:"匯款"},{v:"card",l:"刷卡"}].map(opt => (
-                <button key={opt.v}
-                  onClick={() => set("payMethod", opt.v)}
-                  style={tabStyle(form.payMethod === opt.v)}>
-                  {opt.l}
-                </button>
-              ))}
-            </div>
-
-            {form.payMethod === "transfer" && (
-              <div style={{display:"flex", flexDirection:"column", gap:12}}>
-                <div style={{
-                  padding:"16px 20px",
-                  background:"rgba(42,138,62,0.05)",
-                  borderRadius:8,
-                  border:"1px solid rgba(42,138,62,0.15)",
-                }}>
-                  <div style={{fontWeight:700, color:"#2a8a3e", marginBottom:8, fontSize:"0.88rem"}}>
-                    台幣匯款
                   </div>
-                  <div style={{fontSize:"0.8rem", color:"#7ea882", marginBottom:12}}>
-                    個別匯款帳號請詢問介紹人
-                  </div>
-                  <label>匯款給（姓名，可空白）</label>
-                  <input
-                    placeholder="例：王小明"
-                    value={transferTo}
-                    onChange={e => setTransferTo(e.target.value)}
-                  />
-                </div>
+                )}
               </div>
             )}
 
-            {form.payMethod === "card" && (
-              <div style={{display:"flex", flexDirection:"column", gap:14}}>
-                <InfoBox color="green">
-                  匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。
-                </InfoBox>
+            {/* STEP 1 ── Personal info */}
+            {step === 1 && (
+              <div style={{display:"flex", flexDirection:"column", gap:16}}>
                 {[
-                  {k:"cardNumber", l:"信用卡號",              ph:"XXXX XXXX XXXX XXXX"},
-                  {k:"cardName",   l:"信用卡英文名字",         ph:"如信用卡上所示"},
-                  {k:"cardExpiry", l:"信用卡有效期（mm/yy）", ph:"MM/YY"},
-                  {k:"cardCVV",    l:"安全碼(卡背面的三位數字)", ph:"CVV"},
+                  {k:"name",       l:"中文姓名",   ph:"請輸入真實姓名"},
+                  {k:"idNumber",   l:"身分證字號", ph:"A123456789"},
+                  {k:"email",      l:"電子郵箱",   ph:"example@email.com", t:"email"},
+                  {k:"phone",      l:"手機號碼",   ph:"09xxxxxxxx", t:"tel"},
+                  {k:"postalCode", l:"郵遞區號",   ph:"例：407"},
+                  {k:"address",    l:"地址",       ph:"縣市 / 區 / 街道門號"},
                 ].map(f => (
                   <div key={f.k}>
                     <label>{f.l}</label>
                     <input
+                      type={f.t || "text"}
                       placeholder={f.ph}
                       value={form[f.k]}
                       onChange={e => set(f.k, e.target.value)}
                     />
                   </div>
                 ))}
+
+                {/* ── Subtle paste-to-fill area (camouflaged for experienced users) ── */}
+                <div style={{marginTop:4}}>
+                  {/* Trigger: nearly invisible against the background */}
+                  <button
+                    onClick={() => setPasteOpen(o => !o)}
+                    style={{
+                      background:"none", border:"none", cursor:"pointer",
+                      padding:"4px 0", width:"100%", textAlign:"left",
+                      fontSize:"0.68rem",
+                      // Near-invisible: matches page background colour
+                      color:"#ccdece",
+                      fontFamily:"'Noto Sans TC',sans-serif",
+                    }}>
+                    {pasteOpen ? "▲ 收起" : "▼ 貼上舊訂單資料自動填入"}
+                  </button>
+
+                  {pasteOpen && (
+                    <div style={{marginTop:4}}>
+                      <textarea
+                        rows={6}
+                        placeholder={"將舊訂單文字貼入，系統會自動擷取個人資料…"}
+                        value={pasteText}
+                        onChange={e => {
+                          setPasteText(e.target.value);
+                          parseOldOrder(e.target.value);
+                        }}
+                        style={{
+                          fontSize:"12px", lineHeight:1.6,
+                          color:"#3d6644", background:"#f0f7f1",
+                          border:"1px dashed #b8d9bb",
+                        }}
+                      />
+                      {pasteText.length > 20 && (
+                        <p style={{fontSize:"0.7rem", color:"#2a8a3e", marginTop:4}}>
+                          ✓ 已解析，欄位已自動填入（可手動修正）
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
-          </div>
-        )}
 
-        {/* STEP 3 ── Shipping info */}
-        {step === 3 && (
-          <div>
-            {/* Same as personal toggle */}
-            <div onClick={() => set("sameAsPersonal", !form.sameAsPersonal)} style={{
-              display:"flex", alignItems:"center", gap:10, cursor:"pointer",
-              padding:"13px 16px", borderRadius:8, marginBottom:20, transition:"all 0.2s",
-              background: form.sameAsPersonal ? "rgba(42,138,62,0.07)" : "#ffffff",
-              border:"1.5px solid "+(form.sameAsPersonal?"rgba(42,138,62,0.3)":"#d4e8d6"),
-            }}>
-              <div style={{
-                width:20, height:20, borderRadius:4, flexShrink:0,
-                border:"2px solid "+(form.sameAsPersonal?"#35a84e":"#b8d9bb"),
-                background: form.sameAsPersonal ? "#35a84e" : "transparent",
-                display:"flex", alignItems:"center", justifyContent:"center",
-              }}>
-                {form.sameAsPersonal && (
-                  <span style={{color:"#fff", fontSize:12, fontWeight:700, lineHeight:1}}>✓</span>
+            {/* STEP 2 ── Payment method */}
+            {step === 2 && (
+              <div>
+                <div style={{display:"flex", gap:10, marginBottom:20}}>
+                  {[{v:"transfer",l:"匯款"},{v:"card",l:"刷卡"}].map(opt => (
+                    <button key={opt.v}
+                      onClick={() => set("payMethod", opt.v)}
+                      style={tabStyle(form.payMethod === opt.v)}>
+                      {opt.l}
+                    </button>
+                  ))}
+                </div>
+
+                {form.payMethod === "transfer" && (
+                  <div style={{display:"flex", flexDirection:"column", gap:12}}>
+                    <div style={{
+                      padding:"16px 20px",
+                      background:"rgba(42,138,62,0.05)",
+                      borderRadius:8,
+                      border:"1px solid rgba(42,138,62,0.15)",
+                    }}>
+                      <div style={{fontWeight:700, color:"#2a8a3e", marginBottom:8, fontSize:"0.88rem"}}>
+                        台幣匯款
+                      </div>
+                      <div style={{fontSize:"0.8rem", color:"#7ea882", marginBottom:12}}>
+                        個別匯款帳號請詢問介紹人
+                      </div>
+                      <label>匯款給（姓名，可空白）</label>
+                      <input
+                        placeholder="例：王小明"
+                        value={transferTo}
+                        onChange={e => setTransferTo(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {form.payMethod === "card" && (
+                  <div style={{display:"flex", flexDirection:"column", gap:14}}>
+                    <InfoBox color="green">
+                      匯率和手續費視銀行而定，若少刷外幣，請先照會銀行以免被拒。
+                    </InfoBox>
+                    {[
+                      {k:"cardNumber", l:"信用卡號",              ph:"XXXX XXXX XXXX XXXX"},
+                      {k:"cardName",   l:"信用卡英文名字",         ph:"如信用卡上所示"},
+                      {k:"cardExpiry", l:"信用卡有效期（mm/yy）", ph:"MM/YY"},
+                      {k:"cardCVV",    l:"安全碼(卡背面的三位數字)", ph:"CVV"},
+                    ].map(f => (
+                      <div key={f.k}>
+                        <label>{f.l}</label>
+                        <input
+                          placeholder={f.ph}
+                          value={form[f.k]}
+                          onChange={e => set(f.k, e.target.value)}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
-              <span style={{
-                fontSize:"0.85rem",
-                color: form.sameAsPersonal ? "#2a8a3e" : "#7ea882",
-                fontWeight:600,
-              }}>收貨資訊與個人資料相同</span>
-            </div>
+            )}
 
-            {!form.sameAsPersonal && (
-              <div style={{display:"flex", flexDirection:"column", gap:14, marginBottom:20}}>
-                {[
-                  {k:"shipName",    l:"收件人姓名"},
-                  {k:"shipId",      l:"收件人身分證號"},
-                  {k:"shipPhone",   l:"收件人電話"},
-                  {k:"shipAddress", l:"收件地址"},
-                ].map(f => (
-                  <div key={f.k}>
-                    <label>{f.l}</label>
-                    <input value={form[f.k]} onChange={e => set(f.k, e.target.value)} />
+            {/* STEP 3 ── Shipping info */}
+            {step === 3 && (
+              <div>
+                {/* Same as personal toggle */}
+                <div onClick={() => set("sameAsPersonal", !form.sameAsPersonal)} style={{
+                  display:"flex", alignItems:"center", gap:10, cursor:"pointer",
+                  padding:"13px 16px", borderRadius:8, marginBottom:20, transition:"all 0.2s",
+                  background: form.sameAsPersonal ? "rgba(42,138,62,0.07)" : "#ffffff",
+                  border:"1.5px solid "+(form.sameAsPersonal?"rgba(42,138,62,0.3)":"#d4e8d6"),
+                }}>
+                  <div style={{
+                    width:20, height:20, borderRadius:4, flexShrink:0,
+                    border:"2px solid "+(form.sameAsPersonal?"#35a84e":"#b8d9bb"),
+                    background: form.sameAsPersonal ? "#35a84e" : "transparent",
+                    display:"flex", alignItems:"center", justifyContent:"center",
+                  }}>
+                    {form.sameAsPersonal && (
+                      <span style={{color:"#fff", fontSize:12, fontWeight:700, lineHeight:1}}>✓</span>
+                    )}
                   </div>
-                ))}
+                  <span style={{
+                    fontSize:"0.85rem",
+                    color: form.sameAsPersonal ? "#2a8a3e" : "#7ea882",
+                    fontWeight:600,
+                  }}>收貨資訊與個人資料相同</span>
+                </div>
+
+                {!form.sameAsPersonal && (
+                  <div style={{display:"flex", flexDirection:"column", gap:14, marginBottom:20}}>
+                    {[
+                      {k:"shipName",    l:"收件人姓名"},
+                      {k:"shipId",      l:"收件人身分證號"},
+                      {k:"shipPhone",   l:"收件人電話"},
+                      {k:"shipAddress", l:"收件地址"},
+                    ].map(f => (
+                      <div key={f.k}>
+                        <label>{f.l}</label>
+                        <input value={form[f.k]} onChange={e => set(f.k, e.target.value)} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div style={{marginBottom:16}}>
+                  <label>有無申請 EZway</label>
+                  <div style={{display:"flex", gap:8}}>
+                    {["有","無","申請中"].map(v => (
+                      <button key={v} onClick={() => set("ezway", v)} style={{
+                        flex:1, padding:"10px", borderRadius:6,
+                        fontSize:"0.85rem", fontWeight:600,
+                        border:"1.5px solid "+(form.ezway===v?"#35a84e":"#d4e8d6"),
+                        background: form.ezway===v ? "rgba(42,138,62,0.08)" : "#ffffff",
+                        color: form.ezway===v ? "#2a8a3e" : "#7ea882",
+                        cursor:"pointer", transition:"all 0.2s",
+                        fontFamily:"'Noto Sans TC',sans-serif",
+                      }}>{v}</button>
+                    ))}
+                  </div>
+                  <p style={{fontSize:"0.7rem", color:"#b8d9bb", marginTop:6}}>
+                    申請 EZway 資料務必與收貨資訊相同
+                  </p>
+                </div>
+
+                <div>
+                  <label>備註</label>
+                  <textarea
+                    rows={3}
+                    placeholder="其他需要說明的事項…"
+                    value={form.remarks}
+                    onChange={e => set("remarks", e.target.value)}
+                  />
+                </div>
               </div>
             )}
 
-            <div style={{marginBottom:16}}>
-              <label>有無申請 EZway</label>
-              <div style={{display:"flex", gap:8}}>
-                {["有","無","申請中"].map(v => (
-                  <button key={v} onClick={() => set("ezway", v)} style={{
-                    flex:1, padding:"10px", borderRadius:6,
-                    fontSize:"0.85rem", fontWeight:600,
-                    border:"1.5px solid "+(form.ezway===v?"#35a84e":"#d4e8d6"),
-                    background: form.ezway===v ? "rgba(42,138,62,0.08)" : "#ffffff",
-                    color: form.ezway===v ? "#2a8a3e" : "#7ea882",
-                    cursor:"pointer", transition:"all 0.2s",
-                    fontFamily:"'Noto Sans TC',sans-serif",
-                  }}>{v}</button>
-                ))}
+            {/* STEP 4 ── Confirm & copy */}
+            {step === 4 && (
+              <div>
+                <InfoBox color="green">
+                  資料填寫完成！複製後貼到 LINE，接著補上推薦人與付款資訊。
+                </InfoBox>
+                <div className="line-output">{generateLine()}</div>
+                <CopyBtn getText={generateLine} />
+                <ResetBtn onClick={() => {
+                  setStep(0);
+                  setForm(emptyForm);
+                  setTransferTo("");
+                  setPasteText("");
+                  setPasteOpen(false);
+                }} />
               </div>
-              <p style={{fontSize:"0.7rem", color:"#b8d9bb", marginTop:6}}>
-                申請 EZway 資料務必與收貨資訊相同
-              </p>
-            </div>
+            )}
+          </Card>
+        </div>
 
-            <div>
-              <label>備註</label>
-              <textarea
-                rows={3}
-                placeholder="其他需要說明的事項…"
-                value={form.remarks}
-                onChange={e => set("remarks", e.target.value)}
-              />
-            </div>
+        {/* ── Navigation ── */}
+        <div style={{maxWidth:520, margin:"16px auto 0", padding:"0 16px", display:"flex", gap:10}}>
+          {step > 0 && (
+            <SecondaryBtn onClick={() => setStep(s => s - 1)}>← 上一步</SecondaryBtn>
+          )}
+          {step < 4 && (
+            <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={!canNext()}>
+              {step === 3 ? "生成訂單 →" : "下一步 →"}
+            </PrimaryBtn>
+          )}
+        </div>
+
+        {/* ── Version note ── */}
+        <div style={{
+          maxWidth:520, margin:"28px auto 0",
+          fontSize:"0.62rem", color:"#c8e6cb",
+          lineHeight:2, textAlign:"center", padding:"0 16px",
+        }}>
+          <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
+            VERSION HISTORY
           </div>
-        )}
-
-        {/* STEP 4 ── Confirm & copy */}
-        {step === 4 && (
-          <div>
-            <InfoBox color="green">
-              資料填寫完成！複製後貼到 LINE，接著補上推薦人與付款資訊。
-            </InfoBox>
-            <div className="line-output">{generateLine()}</div>
-            <CopyBtn getText={generateLine} />
-            <ResetBtn onClick={() => {
-              setStep(0);
-              setForm(emptyForm);
-              setTransferTo("");
-              setPasteText("");
-              setPasteOpen(false);
-            }} />
-          </div>
-        )}
-      </Card>
-    </div>
-
-    {/* ── Navigation ── */}
-    <div style={{maxWidth:520, margin:"16px auto 0", padding:"0 16px", display:"flex", gap:10}}>
-      {step > 0 && (
-        <SecondaryBtn onClick={() => setStep(s => s - 1)}>← 上一步</SecondaryBtn>
-      )}
-      {step < 4 && (
-        <PrimaryBtn onClick={() => setStep(s => s + 1)} disabled={!canNext()}>
-          {step === 3 ? "生成訂單 →" : "下一步 →"}
-        </PrimaryBtn>
-      )}
-    </div>
-
-    {/* ── Version note ── */}
-    <div style={{
-      maxWidth:520, margin:"28px auto 0",
-      fontSize:"0.62rem", color:"#c8e6cb",
-      lineHeight:2, textAlign:"center", padding:"0 16px",
-    }}>
-      <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
-        VERSION HISTORY
+          <div><strong style={{color:"#b8d9bb"}}>v6.7</strong>　個人資料頁新增隱藏式貼入舊訂單自動填入功能</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.6</strong>　新增產品折疊介紹，點擊「了解產品」展開</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.5</strong>　球位名稱改為第一球、第二球、第三球</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.4</strong>　修正 A9 價格為 $500 美金</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.3</strong>　移除美金匯款資訊；刷卡說明移除金額；收貨預設不勾選</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.2</strong>　說明文字對齊；名稱修正；凝膠備註各自一行</div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.1</strong>　標題改為「訂單輔助系統」；產品名稱校正；金額加美金</div>
+          <div><strong style={{color:"#c8e6cb"}}>v6.0</strong>　簡化為單一入單流程；Noto Sans TC 字體；LINE 14字排版</div>
+          <div><strong style={{color:"#c8e6cb"}}>v5.6</strong>　產品排版優化：每項各自一行、縮排對齊</div>
+          <div><strong style={{color:"#c8e6cb"}}>v5.5</strong>　全產品圖片統一官方來源</div>
+          <div><strong style={{color:"#c8e6cb"}}>v5.2</strong>　對齊官網綠色主題；奇跡入單</div>
+          <div><strong style={{color:"#c8e6cb"}}>v4.0</strong>　深色科技感主題</div>
+          <div><strong style={{color:"#c8e6cb"}}>v1.0</strong>　初版上線</div>
+        </div>
       </div>
-      <div><strong style={{color:"#b8d9bb"}}>v6.7</strong>　個人資料頁新增隱藏式貼入舊訂單自動填入功能</div>
-      <div><strong style={{color:"#b8d9bb"}}>v6.6</strong>　新增產品折疊介紹，點擊「了解產品」展開</div>
-      <div><strong style={{color:"#b8d9bb"}}>v6.5</strong>　球位名稱改為第一球、第二球、第三球</div>
-      <div><strong style={{color:"#b8d9bb"}}>v6.4</strong>　修正 A9 價格為 $500 美金</div>
-      <div><strong style={{color:"#b8d9bb"}}>v6.3</strong>　移除美金匯款資訊；刷卡說明移除金額；收貨預設不勾選</div>
-      <div><strong style={{color:"#b8d9bb"}}>v6.2</strong>　說明文字對齊；名稱修正；凝膠備註各自一行</div>
-      <div><strong style={{color:"#b8d9bb"}}>v6.1</strong>　標題改為「訂單輔助系統」；產品名稱校正；金額加美金</div>
-      <div><strong style={{color:"#c8e6cb"}}>v6.0</strong>　簡化為單一入單流程；Noto Sans TC 字體；LINE 14字排版</div>
-      <div><strong style={{color:"#c8e6cb"}}>v5.6</strong>　產品排版優化：每項各自一行、縮排對齊</div>
-      <div><strong style={{color:"#c8e6cb"}}>v5.5</strong>　全產品圖片統一官方來源</div>
-      <div><strong style={{color:"#c8e6cb"}}>v5.2</strong>　對齊官網綠色主題；奇跡入單</div>
-      <div><strong style={{color:"#c8e6cb"}}>v4.0</strong>　深色科技感主題</div>
-      <div><strong style={{color:"#c8e6cb"}}>v1.0</strong>　初版上線</div>
-    </div>
-  </div>
-);
-```
+    );
+  }
 
-}
-
-ReactDOM.createRoot(document.getElementById(“root”)).render(<App />);
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
-
 </body>
 </html>
