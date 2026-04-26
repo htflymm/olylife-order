@@ -150,6 +150,11 @@
   // ── Product catalogue ─────────────────────────────────────────────
   // Names aligned with official OlyLife product codes
   // note2: second line of note for long descriptions (displayed separately in card)
+  // ── 影片欄位說明 ──────────────────────────────────────────────────
+  // videos 陣列：每個元素為 { id: "YouTube影片ID", label: "顯示標籤" }
+  // 空陣列 [] 表示此產品無影片，不會顯示「觀看影片」按鈕
+  // 單支影片直接播放；多支影片時展開後出現分頁標籤切換
+  // ─────────────────────────────────────────────────────────────────
   const PRODUCTS = [
     {
       id:"p90",
@@ -157,6 +162,10 @@
       eng:"OlyLife Tera-P90",
       price:1000,
       img: ADM+"OLY-HCA002.png",
+      videos:[
+        { id:"3JhU1aJfuRs", label:"產品介紹" },
+        { id:"QMGAafnWtoc", label:"P90 & P90+" },
+      ],
       desc:"結合生物電磁能量（1 MHz）與太赫茲能量雙重技術，由內而外加熱組織，促進微循環與新陳代謝。如同一台「細胞充電器」，疏通經絡、排除寒氣與體內廢物，舒緩疲勞與疼痛不適。",
     },
     {
@@ -168,6 +177,11 @@
       note:"附凝膠套組：",
       note2:"青春亮彩凝膠 x14 ＋",
       note3:"舒緩凝膠 x14",
+      videos:[
+        { id:"QMGAafnWtoc", label:"P90 & P90+" },
+        { id:"Gnbl3eNrjDU", label:"三爪按摩棒" },
+        { id:"a1uJ9Yl6Imo", label:"凍齡美顏儀" },
+      ],
       desc:"P90 進階三合一套組。主機延續太赫茲與 PEMF 雙能量；附加凍齡美顏儀整合 RF 與 EMS，深層提升肌膚彈性；活力按摩棒搭載紅光療法，促進頭皮與全身健康。20 段強度調節，附紅外線遙控器。",
     },
     {
@@ -177,6 +191,7 @@
       price:1000,
       img: ADM+"OLY-SK-M3.png",
       note:"贈送Ai智能手錶",
+      videos:[],
       desc:"針對腰腹部位設計的智能健康裝置，整合 PEMF、紅光、射頻、熱療、震動與氣流按摩多種模式，支援腹部循環與舒適體驗。可搭配 Ai 智能手錶控制，建議與 P90 / P90+ 組合使用效果更佳。",
     },
     {
@@ -186,6 +201,9 @@
       price:500,
       img: ADM+"OLY-PKG004.png",
       note:"買兩組，贈送葉黃素一盒",
+      videos:[
+        { id:"hSWOlvgGPcU", label:"產品介紹" },
+      ],
       desc:"以低頻 PEMF 技術為核心的智慧護眼按摩儀，集 6 區 3D 氣囊揉捏、間歇低頻震動與石墨烯 42°C 恆溫熱敷三大功能，提供 7 種護眼模式。單鍵操作，輕巧可折疊，隨身攜帶方便。有助緩解眼部疲勞、舒緩乾眼症狀、淡化黑眼圈。",
     },
     {
@@ -194,6 +212,9 @@
       eng:"OlyLife H+ Bar",
       price:600,
       img: ADM+"OLY-TPC002.png",
+      videos:[
+        { id:"VamRnveTJLE", label:"產品介紹" },
+      ],
       desc:"集氫水製作與 MRET 低頻共振技術於一身的隨身水瓶。氫水富含溶解氫氣（H₂），具抗氧化特性；MRET 技術主張讓水分子更易被細胞吸收。雙腔設計、強化質子交換膜，可適用於各種飲品，耐熱防水易攜帶。",
     },
     {
@@ -202,6 +223,9 @@
       eng:"OlyLife A9 Smart Anion BamaAir",
       price:500,
       img: ADM+"OLY-HCA005.png",
+      videos:[
+        { id:"VbENzaOff_4", label:"產品介紹" },
+      ],
       desc:"靈感來自廣西巴馬「長壽村」，透過高濃度負離子（每立方公分 2 億個）與 HEPA 濾網淨化空氣，有效過濾灰塵與過敏原。提供 3 種模式（自動、睡眠、驅蚊）、7 種自然光色、14 首舒眠音樂，支援手機 App 遠端控制。",
     },
     {
@@ -211,6 +235,7 @@
       price:500,
       img: ADM+"OLY-SL-6-P.png",
       note:"5大組共30盒540片",
+      videos:[],
       desc:"採竹纖維表層、超薄吸收芯（約 0.8mm）與專利懸浮設計，柔軟透氣，快速吸收不回滲，有效防止側漏。內含磁性微元件、遠紅外陶瓷晶體與石墨烯材料，強調在經期間提供更舒適的貼身體驗。",
     },
     {
@@ -219,6 +244,9 @@
       eng:"OlyLife Vitality Wand",
       price:600,
       img: ADM+"OLY-TPC003.png",
+      videos:[
+        { id:"RbWHGBCGxXA", label:"產品介紹" },
+      ],
       desc:"結合太赫茲波、PEMF 超長波、熱能傳導與氣流按摩四項技術，透過可控氣流提供均勻壓力，有助支援健康循環、舒緩疼痛與肌肉放鬆、排除寒氣與濕氣。附智能支架免手持設計，一鍵溫度選擇，操作便利。",
     },
   ];
@@ -380,11 +408,22 @@
     const [transferTo, setTransferTo] = useState("");
     const [logoFailed, setLogoFailed] = useState(false);
     const [expandedDesc, setExpandedDesc] = useState(new Set());
+    // Video expand state: same pattern as expandedDesc, tracks which product's video is open
+    const [expandedVideo, setExpandedVideo] = useState(new Set());
+    // videoTab: maps productId → currently selected video index (for multi-video products)
+    const [videoTab, setVideoTab] = useState({});
     // Paste-to-fill states for step 1
     const [pasteOpen, setPasteOpen]   = useState(false);
     const [pasteText, setPasteText]   = useState("");
 
     const toggleDesc = (id) => setExpandedDesc(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+
+    // Toggle YouTube video section for a product card
+    const toggleVideo = (id) => setExpandedVideo(prev => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
@@ -710,6 +749,162 @@
                                     )}
                                   </div>
                                 )}
+
+                                {/* ── YouTube video section ───────────────────────────────
+                                    只在 prod.videos 非空陣列時顯示「觀看影片」按鈕
+                                    單支影片：展開後直接播放
+                                    多支影片：展開後顯示分頁標籤，點選切換
+                                    videoTab[prod.id] 記錄目前選中的分頁索引
+                                    ─────────────────────────────────────────────────── */}
+                                {prod.videos && prod.videos.length > 0 && (
+                                  <div style={{marginTop:6, borderTop:"1px solid "+(active?"rgba(42,138,62,0.2)":"#eef5ef")}}>
+                                    {/* 展開收起按鈕 */}
+                                    <button
+                                      onClick={e => { e.stopPropagation(); toggleVideo(prod.id); }}
+                                      style={{
+                                        display:"flex", alignItems:"center", justifyContent:"space-between",
+                                        width:"100%", background:"none", border:"none",
+                                        padding:"6px 0 2px", cursor:"pointer",
+                                        color: active ? "#2a8a3e" : "#7ea882",
+                                        fontSize:"0.65rem", fontWeight:600,
+                                        fontFamily:"'Noto Sans TC',sans-serif",
+                                      }}>
+                                      <span style={{display:"flex", alignItems:"center", gap:3}}>
+                                        <span style={{fontSize:"0.6rem", color: active ? "#25a244" : "#35a84e"}}>▶</span>
+                                        <span>
+                                          {expandedVideo.has(prod.id) ? "收起影片" : "觀看影片"}
+                                          {/* 多支影片時提示數量，讓使用者知道有得選 */}
+                                          {prod.videos.length > 1 && !expandedVideo.has(prod.id) && (
+                                            <span style={{
+                                              marginLeft:4,
+                                              background: active ? "rgba(42,138,62,0.15)" : "#f0f7f1",
+                                              color: active ? "#2a8a3e" : "#7ea882",
+                                              borderRadius:10, padding:"1px 5px",
+                                              fontSize:"0.6rem", fontWeight:700,
+                                            }}>{prod.videos.length}</span>
+                                          )}
+                                        </span>
+                                      </span>
+                                      <span style={{
+                                        width:16, height:16, borderRadius:"50%",
+                                        background: active ? "rgba(42,138,62,0.15)" : "#f0f7f1",
+                                        display:"flex", alignItems:"center", justifyContent:"center",
+                                        fontSize:"0.75rem", fontWeight:700, flexShrink:0,
+                                        color: active ? "#2a8a3e" : "#7ea882",
+                                      }}>
+                                        {expandedVideo.has(prod.id) ? "−" : "+"}
+                                      </span>
+                                    </button>
+
+                                    {expandedVideo.has(prod.id) && (() => {
+                                      const tabIdx = videoTab[prod.id] || 0;
+                                      const currentVideo = prod.videos[tabIdx];
+                                      return (
+                                        <div style={{paddingBottom:6}}>
+                                          {/* 多支影片才顯示分頁標籤列 */}
+                                          {prod.videos.length > 1 && (
+                                            <div style={{display:"flex", gap:4, marginBottom:6, flexWrap:"wrap"}}>
+                                              {prod.videos.map((v, i) => (
+                                                <button key={i}
+                                                  onClick={e => {
+                                                    e.stopPropagation();
+                                                    setVideoTab(t => ({...t, [prod.id]: i}));
+                                                  }}
+                                                  style={{
+                                                    padding:"3px 9px", borderRadius:20,
+                                                    fontSize:"0.6rem", fontWeight:600,
+                                                    cursor:"pointer", transition:"all 0.15s",
+                                                    fontFamily:"'Noto Sans TC',sans-serif",
+                                                    border:"1px solid "+(i===tabIdx
+                                                      ? (active?"#2a8a3e":"#35a84e")
+                                                      : (active?"rgba(42,138,62,0.25)":"#d4e8d6")),
+                                                    background: i===tabIdx
+                                                      ? (active?"rgba(42,138,62,0.18)":"rgba(53,168,78,0.1)")
+                                                      : "transparent",
+                                                    color: i===tabIdx
+                                                      ? (active?"#2a8a3e":"#35a84e")
+                                                      : (active?"#3d6644":"#7ea882"),
+                                                  }}>
+                                                  {v.label}
+                                                </button>
+                                              ))}
+                                            </div>
+                                          )}
+                                          {/* 縮圖＋播放按鈕設計
+                                              YouTube 每支影片都有公開縮圖，不受「允許嵌入」設定影響
+                                              mqdefault.jpg = 320×180，適合卡片寬度，載入快
+                                              點擊後在新分頁開啟，手機會直接啟動 YouTube App */}
+                                          <a
+                                            href={"https://www.youtube.com/watch?v="+currentVideo.id}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={e => e.stopPropagation()}
+                                            style={{
+                                              display:"block",
+                                              position:"relative",
+                                              borderRadius:6,
+                                              overflow:"hidden",
+                                              // 固定 16:9，用 aspect-ratio 比 paddingBottom 技法更直觀
+                                              aspectRatio:"16/9",
+                                              background:"#000",
+                                              boxShadow: active
+                                                ? "0 2px 8px rgba(42,138,62,0.2)"
+                                                : "0 2px 8px rgba(0,0,0,0.15)",
+                                              textDecoration:"none",
+                                            }}>
+                                            {/* YouTube 縮圖：mqdefault 是中等解析度，穩定存在於每支影片 */}
+                                            <img
+                                              src={"https://img.youtube.com/vi/"+currentVideo.id+"/mqdefault.jpg"}
+                                              alt={prod.name+" — "+currentVideo.label}
+                                              style={{
+                                                width:"100%", height:"100%",
+                                                objectFit:"cover",
+                                                display:"block",
+                                              }}
+                                            />
+                                            {/* 半透明黑色遮罩，讓播放按鈕更明顯 */}
+                                            <div style={{
+                                              position:"absolute", inset:0,
+                                              background:"rgba(0,0,0,0.28)",
+                                              transition:"background 0.2s",
+                                            }} />
+                                            {/* 播放按鈕：YouTube 紅色圓角矩形＋三角形 */}
+                                            <div style={{
+                                              position:"absolute",
+                                              top:"50%", left:"50%",
+                                              transform:"translate(-50%,-50%)",
+                                              width:40, height:28,
+                                              background:"#FF0000",
+                                              borderRadius:6,
+                                              display:"flex", alignItems:"center", justifyContent:"center",
+                                              boxShadow:"0 2px 8px rgba(0,0,0,0.4)",
+                                            }}>
+                                              {/* 三角形用 border-trick 製作，不需要 SVG */}
+                                              <div style={{
+                                                width:0, height:0,
+                                                borderTop:"6px solid transparent",
+                                                borderBottom:"6px solid transparent",
+                                                borderLeft:"11px solid #fff",
+                                                marginLeft:2,
+                                              }} />
+                                            </div>
+                                            {/* 底部標籤說明這是連結 */}
+                                            <div style={{
+                                              position:"absolute", bottom:0, left:0, right:0,
+                                              padding:"4px 8px",
+                                              background:"linear-gradient(transparent,rgba(0,0,0,0.65))",
+                                              fontSize:"0.6rem", color:"rgba(255,255,255,0.9)",
+                                              fontWeight:600,
+                                              fontFamily:"'Noto Sans TC',sans-serif",
+                                            }}>
+                                              ▶ 點擊前往 YouTube 觀看
+                                            </div>
+                                          </a>
+                                        </div>
+                                      );
+                                    })()}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           );
@@ -1024,6 +1219,7 @@
           <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
             VERSION HISTORY
           </div>
+          <div><strong style={{color:"#b8d9bb"}}>v6.8</strong>　產品卡片新增「觀看影片」功能，點擊展開 YouTube 內嵌播放器</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.7</strong>　個人資料頁新增隱藏式貼入舊訂單自動填入功能</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.6</strong>　新增產品折疊介紹，點擊「了解產品」展開</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.5</strong>　球位名稱改為第一球、第二球、第三球</div>
