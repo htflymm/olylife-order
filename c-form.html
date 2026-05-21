@@ -289,7 +289,7 @@
     <div class="row"><label class="field-label">地點</label><input type="text" id="f-location" placeholder="填寫地點" /></div>
     <div class="two-col">
       <div class="row"><label class="field-label">日期</label><input type="date" id="f-date" /></div>
-      <div class="row"><label class="field-label">時間</label><input type="time" id="f-time" /></div>
+      <div class="row"><label class="field-label">時間</label><input type="text" id="f-time" placeholder="例：14:30" /></div>
     </div>
   </div>
 
@@ -527,5 +527,36 @@
     }, 2500);
   }
 </script>
+
+<div class="wrap" style="margin-top: 40px;">
+  <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+    <div style="font-size: 12px; font-weight: 600; color: var(--text-hint); letter-spacing: 0.08em; margin-bottom: 14px;">版本紀錄</div>
+
+    <div style="margin-bottom: 16px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <span style="font-size: 13px; font-weight: 600; color: var(--text);">v1.1</span>
+        <span style="font-size: 12px; color: var(--text-hint);">2026-05-22</span>
+        <span style="font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #FFF3EE; color: #9A3B15; border: 1px solid #E85D2630;">修復</span>
+      </div>
+      <div style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 4px;">
+        <strong style="color: var(--text); font-weight: 500;">時間欄位未顯示</strong>
+        ── <code style="font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border);">input[type="time"]</code>
+        在 LINE 內建瀏覽器與部分 Android 手機上無法讀取 <code style="font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border);">.value</code>，導致輸出永遠顯示「—」。改為文字輸入修復。
+      </div>
+    </div>
+
+    <div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <span style="font-size: 13px; font-weight: 600; color: var(--text);">v1.0</span>
+        <span style="font-size: 12px; color: var(--text-hint);">2026-05-22</span>
+        <span style="font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #EAF3DE; color: #3B6D11; border: 1px solid #63992230;">初版</span>
+      </div>
+      <div style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 4px;">
+        六大填寫區塊、影響力評分、radio pill 選擇、一鍵產生 Line 格式、深色模式支援、無外部依賴。
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
