@@ -212,6 +212,7 @@
       eng:"OlyLife H+ Bar",
       price:600,
       img: ADM+"OLY-TPC002.png",
+      discontinued: true,  // ← 停售：顯示停售標籤，禁止加入購物清單
       videos:[
         { id:"VamRnveTJLE", label:"產品介紹" },
       ],
@@ -398,7 +399,7 @@
     payMethod:"transfer",
     cardNumber:"", cardName:"", cardExpiry:"", cardCVV:"",
     sameAsPersonal:false,
-    shipName:"", shipId:"", shipPhone:"", shipAddress:"",
+    shipName:"", shipId:"", shipPhone:"", shipAddress:"", shipZip:"",
     ezway:"", remarks:"",
   };
 
@@ -514,10 +515,11 @@
           + "\n\n安全碼(卡背面的三位數字)：" + form.cardCVV;
       }
 
-      const sn = form.sameAsPersonal ? form.name    : form.shipName;
-      const si = form.sameAsPersonal ? form.idNumber : form.shipId;
-      const sp = form.sameAsPersonal ? form.phone    : form.shipPhone;
-      const sa = form.sameAsPersonal ? form.address  : form.shipAddress;
+      const sn  = form.sameAsPersonal ? form.name       : form.shipName;
+      const si  = form.sameAsPersonal ? form.idNumber   : form.shipId;
+      const sp  = form.sameAsPersonal ? form.phone      : form.shipPhone;
+      const szp = form.sameAsPersonal ? form.postalCode : form.shipZip;
+      const sa  = form.sameAsPersonal ? form.address    : form.shipAddress;
 
       let out = "會員註冊資料(版本更新)\n🌟Olylife 註冊資料\n\n";
       out += "▶️中文姓名：" + form.name + "\n";
@@ -533,6 +535,7 @@
       out += " 姓名：" + sn + "\n";
       out += " 身分證號：" + si + "\n";
       out += " 電話：" + sp + "\n";
+      out += " 郵遞區號：" + szp + "\n";
       out += " 地址：" + sa + "\n\n";
       out += "▶️有無申請EZway：" + (form.ezway || "未填") + "\n";
       out += "(申請EZway資料，務必和上面\n收貨信息相同！）\n";
@@ -548,7 +551,7 @@
       if (step === 2) return form.payMethod === "transfer"
         || (form.cardNumber && form.cardName && form.cardExpiry && form.cardCVV);
       if (step === 3) return form.sameAsPersonal
-        || (form.shipName && form.shipId && form.shipPhone && form.shipAddress);
+        || (form.shipName && form.shipId && form.shipPhone && form.shipZip && form.shipAddress);
       return true;
     };
 
@@ -669,9 +672,23 @@
                         {PRODUCTS.map(prod => {
                           const qty    = form.positions[pos.key][prod.id] || 0;
                           const active = qty > 0;
+                          const disc   = !!prod.discontinued; // 停售旗標
                           return (
                             <div key={prod.id}
-                              className={"product-card"+(active?" has-qty":"")}>
+                              className={"product-card"+(active?" has-qty":"")}
+                              style={disc ? {opacity:0.6, filter:"grayscale(40%)"} : {}}>
+                              {/* 停售角標：右上角紅色標籤 */}
+                              {disc && (
+                                <div style={{
+                                  position:"absolute", top:6, right:6, zIndex:2,
+                                  background:"#c62828", color:"#fff",
+                                  fontSize:"0.58rem", fontWeight:700,
+                                  padding:"2px 7px", borderRadius:20,
+                                  fontFamily:"'Noto Sans TC',sans-serif",
+                                  letterSpacing:"0.04em",
+                                  boxShadow:"0 1px 4px rgba(198,40,40,0.35)",
+                                }}>停售</div>
+                              )}
                               <ProdImage src={prod.img} name={prod.name} />
                               <div style={{padding:"10px 10px 12px"}}>
                                 <div className="prod-name" style={{
@@ -691,9 +708,17 @@
                                 }}>
                                   ${prod.price.toLocaleString()} 美金
                                 </div>
-                                {/* Quantity controls */}
+                                {/* Quantity controls — 停售商品顯示灰色佔位，無法點擊 */}
                                 <div style={{display:"flex", alignItems:"center", gap:6, marginTop:8}}>
-                                  {active ? (
+                                  {disc ? (
+                                    <div style={{
+                                      width:"100%", padding:"7px 0", borderRadius:4,
+                                      background:"#f0f0f0", color:"#bbb",
+                                      fontSize:"0.72rem", fontWeight:600, textAlign:"center",
+                                      fontFamily:"'Noto Sans TC',sans-serif",
+                                      border:"1px solid #e0e0e0",
+                                    }}>目前停售</div>
+                                  ) : active ? (
                                     <>
                                       <button className="qty-btn"
                                         onClick={e=>{e.stopPropagation(); changeQty(pos.key,prod.id,-1);}}
@@ -1136,11 +1161,12 @@
                       {k:"shipName",    l:"收件人姓名"},
                       {k:"shipId",      l:"收件人身分證號"},
                       {k:"shipPhone",   l:"收件人電話"},
+                      {k:"shipZip",     l:"收件人郵遞區號", ph:"例：407"},
                       {k:"shipAddress", l:"收件地址"},
                     ].map(f => (
                       <div key={f.k}>
                         <label>{f.l}</label>
-                        <input value={form[f.k]} onChange={e => set(f.k, e.target.value)} />
+                        <input value={form[f.k]} onChange={e => set(f.k, e.target.value)} placeholder={f.ph||""} />
                       </div>
                     ))}
                   </div>
