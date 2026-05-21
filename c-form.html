@@ -382,9 +382,9 @@
     <div class="row"><label class="field-label">直銷經驗</label><input type="text" id="f-mlm" placeholder="例：無、有（品牌名稱）" /></div>
     <div class="row"><label class="field-label">異議問題</label><textarea id="f-objection" placeholder="例：價格太高、時間不夠、家人反對"></textarea></div>
     <div class="row"><label class="field-label">需要上線協助的地方</label><textarea id="f-support" placeholder="例：產品說明、系統介紹、陪拜訪"></textarea></div>
-    <div class="row"><label class="field-label">上一次聯繫時間</label><input type="text" id="f-last-contact" placeholder="例：2026-05-20" /></div>
-    <div class="row"><label class="field-label">談話內容重點</label><textarea id="f-talk-notes" placeholder="上次聊了什麼、對方的反應"></textarea></div>
-    <div class="row"><label class="field-label">下次邀約時間</label><input type="text" id="f-next-invite" placeholder="例：下週三下午、待確認" /></div>
+    <div class="row"><label class="field-label">其他補充</label><textarea id="f-misc" placeholder="上一次聯繫時間：
+談話內容重點：
+下次邀約時間："></textarea></div>
     <div class="row"><label class="field-label">有多少時間</label><input type="text" id="f-time-avail" placeholder="例：每週10小時、下班後2小時" /></div>
   </div>
 
@@ -488,9 +488,7 @@
     lines.push('直銷經驗：'   + (v('f-mlm') || '—'));
     lines.push('異議問題：'   + (v('f-objection') || '—'));
     lines.push('需要協助：'   + (v('f-support') || '—'));
-    lines.push('上次聯繫：'   + (v('f-last-contact') || '—'));
-    lines.push('談話重點：'   + (v('f-talk-notes') || '—'));
-    lines.push('下次邀約：'   + (v('f-next-invite') || '—'));
+    lines.push('其他補充：'   + (v('f-misc') || '—'));
     lines.push('有多少時間：' + (v('f-time-avail') || '—'));
 
     lines.push('');
@@ -587,9 +585,7 @@
     set('f-mlm',        data['直銷經驗']);
     set('f-objection',  data['異議問題']);
     set('f-support',    data['需要協助']);
-    set('f-last-contact', data['上次聯繫']);
-    set('f-talk-notes',   data['談話重點']);
-    set('f-next-invite',  data['下次邀約']);
+    set('f-misc',       data['其他補充']);
     set('f-time-avail', data['有多少時間']);
 
     if (data['性別']) setRadio('gender', 'rg-gender', data['性別']);
