@@ -382,7 +382,9 @@
     <div class="row"><label class="field-label">直銷經驗</label><input type="text" id="f-mlm" placeholder="例：無、有（品牌名稱）" /></div>
     <div class="row"><label class="field-label">異議問題</label><textarea id="f-objection" placeholder="例：價格太高、時間不夠、家人反對"></textarea></div>
     <div class="row"><label class="field-label">需要上線協助的地方</label><textarea id="f-support" placeholder="例：產品說明、系統介紹、陪拜訪"></textarea></div>
-    <div class="row"><label class="field-label">其他補充</label><textarea id="f-misc" placeholder="其他值得記錄的資訊"></textarea></div>
+    <div class="row"><label class="field-label">上一次聯繫時間</label><input type="text" id="f-last-contact" placeholder="例：2026-05-20" /></div>
+    <div class="row"><label class="field-label">談話內容重點</label><textarea id="f-talk-notes" placeholder="上次聊了什麼、對方的反應"></textarea></div>
+    <div class="row"><label class="field-label">下次邀約時間</label><input type="text" id="f-next-invite" placeholder="例：下週三下午、待確認" /></div>
     <div class="row"><label class="field-label">有多少時間</label><input type="text" id="f-time-avail" placeholder="例：每週10小時、下班後2小時" /></div>
   </div>
 
@@ -486,7 +488,9 @@
     lines.push('直銷經驗：'   + (v('f-mlm') || '—'));
     lines.push('異議問題：'   + (v('f-objection') || '—'));
     lines.push('需要協助：'   + (v('f-support') || '—'));
-    lines.push('其他補充：'   + (v('f-misc') || '—'));
+    lines.push('上次聯繫：'   + (v('f-last-contact') || '—'));
+    lines.push('談話重點：'   + (v('f-talk-notes') || '—'));
+    lines.push('下次邀約：'   + (v('f-next-invite') || '—'));
     lines.push('有多少時間：' + (v('f-time-avail') || '—'));
 
     lines.push('');
@@ -583,7 +587,9 @@
     set('f-mlm',        data['直銷經驗']);
     set('f-objection',  data['異議問題']);
     set('f-support',    data['需要協助']);
-    set('f-misc',       data['其他補充']);
+    set('f-last-contact', data['上次聯繫']);
+    set('f-talk-notes',   data['談話重點']);
+    set('f-next-invite',  data['下次邀約']);
     set('f-time-avail', data['有多少時間']);
 
     if (data['性別']) setRadio('gender', 'rg-gender', data['性別']);
@@ -623,7 +629,7 @@
 
 <!-- 匯入舊 C 單 -->
 <div class="wrap" style="margin-top: 20px;">
-  <button onclick="toggleImport()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; color: var(--text-muted); cursor: pointer; font-family: inherit;">
+  <button onclick="toggleImport()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; color: var(--text-hint); cursor: pointer; font-family: inherit;">
     <span style="display:flex; align-items:center; gap:8px;">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       貼上舊 C 單 更新表單
@@ -647,42 +653,50 @@
 </div>
 
 <div class="wrap" style="margin-top: 40px;">
-  <div style="border-top: 1px solid var(--border); padding-top: 20px;">
-    <div style="font-size: 12px; font-weight: 600; color: var(--text-hint); letter-spacing: 0.08em; margin-bottom: 14px;">版本紀錄</div>
+  <div style="border-top: 1px solid var(--border); padding-top: 16px; opacity: 0.45;">
+    <div style="font-size: 10px; font-weight: 600; color: var(--text-hint); letter-spacing: 0.1em; margin-bottom: 10px;">版本紀錄</div>
 
-    <div style="margin-bottom: 16px;">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-        <span style="font-size: 13px; font-weight: 600; color: var(--text);">v1.2</span>
-        <span style="font-size: 12px; color: var(--text-hint);">2026-05-22</span>
-        <span style="font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #E6F1FB; color: #185FA5; border: 1px solid #378ADD30;">新增</span>
+    <div style="margin-bottom: 10px;">
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+        <span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">v1.3</span>
+        <span style="font-size: 10px; color: var(--text-hint);">2026-05-22</span>
+        <span style="font-size: 10px; padding: 1px 6px; border-radius: 20px; background: #E6F1FB; color: #185FA5; border: 1px solid #378ADD30;">新增</span>
       </div>
-      <div style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 4px;">
-        <strong style="color: var(--text); font-weight: 500;">匯入舊 C 單功能</strong>
-        ── 頁面下方新增折疊式貼上區塊，可將舊 Line 格式貼入後自動解析回填所有欄位，包含文字欄位、radio pill 狀態、影響力星星、家庭狀況複合格式（婚姻／小孩／決策者）。
+      <div style="font-size: 11px; color: var(--text-hint); line-height: 1.65; padding-left: 2px;">
+        其他補充拆分為三欄：上一次聯繫時間、談話內容重點、下次邀約時間。匯入按鈕文字調淡。版本紀錄縮小淡化。
       </div>
     </div>
 
-    <div style="margin-bottom: 16px;">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-        <span style="font-size: 13px; font-weight: 600; color: var(--text);">v1.1</span>
-        <span style="font-size: 12px; color: var(--text-hint);">2026-05-22</span>
-        <span style="font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #FFF3EE; color: #9A3B15; border: 1px solid #E85D2630;">修復</span>
+    <div style="margin-bottom: 10px;">
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+        <span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">v1.2</span>
+        <span style="font-size: 10px; color: var(--text-hint);">2026-05-22</span>
+        <span style="font-size: 10px; padding: 1px 6px; border-radius: 20px; background: #E6F1FB; color: #185FA5; border: 1px solid #378ADD30;">新增</span>
       </div>
-      <div style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 4px;">
-        <strong style="color: var(--text); font-weight: 500;">時間欄位未顯示</strong>
-        ── <code style="font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border);">input[type="time"]</code>
-        在 LINE 內建瀏覽器與部分 Android 手機上無法讀取 <code style="font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border);">.value</code>，導致輸出永遠顯示「—」。改為文字輸入修復。
+      <div style="font-size: 11px; color: var(--text-hint); line-height: 1.65; padding-left: 2px;">
+        匯入舊 C 單功能：折疊式貼上區塊，自動解析回填所有欄位（文字、radio、影響力、家庭狀況複合格式）。
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+        <span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">v1.1</span>
+        <span style="font-size: 10px; color: var(--text-hint);">2026-05-22</span>
+        <span style="font-size: 10px; padding: 1px 6px; border-radius: 20px; background: #FFF3EE; color: #9A3B15; border: 1px solid #E85D2630;">修復</span>
+      </div>
+      <div style="font-size: 11px; color: var(--text-hint); line-height: 1.65; padding-left: 2px;">
+        時間欄位未顯示：input[type="time"] 在 LINE 內建瀏覽器無法讀取 .value，改為文字輸入修復。
       </div>
     </div>
 
     <div>
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-        <span style="font-size: 13px; font-weight: 600; color: var(--text);">v1.0</span>
-        <span style="font-size: 12px; color: var(--text-hint);">2026-05-22</span>
-        <span style="font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #EAF3DE; color: #3B6D11; border: 1px solid #63992230;">初版</span>
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+        <span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">v1.0</span>
+        <span style="font-size: 10px; color: var(--text-hint);">2026-05-22</span>
+        <span style="font-size: 10px; padding: 1px 6px; border-radius: 20px; background: #EAF3DE; color: #3B6D11; border: 1px solid #63992230;">初版</span>
       </div>
-      <div style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 4px;">
-        六大填寫區塊、影響力評分、radio pill 選擇、一鍵產生 Line 格式、深色模式支援、無外部依賴。
+      <div style="font-size: 11px; color: var(--text-hint); line-height: 1.65; padding-left: 2px;">
+        六大填寫區塊、影響力評分、radio pill、一鍵產生 Line 格式、深色模式、無外部依賴。
       </div>
     </div>
   </div>
