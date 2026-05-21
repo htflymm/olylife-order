@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>新朋友 C 單</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brand: #E85D26;
+    --brand-dark: #C94D1E;
+    --brand-light: #FFF3EE;
+    --brand-border: #E85D2640;
+    --brand-text: #9A3B15;
+    --bg: #F5F4F0;
+    --surface: #FFFFFF;
+    --surface2: #F8F7F4;
+    --border: rgba(0,0,0,0.10);
+    --border-mid: rgba(0,0,0,0.18);
+    --text: #1A1917;
+    --text-muted: #6B6965;
+    --text-hint: #A8A5A0;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --success: #3B6D11;
+    --success-bg: #EAF3DE;
+    --success-border: #639922;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A1917;
+      --surface: #242220;
+      --surface2: #2C2A28;
+      --border: rgba(255,255,255,0.10);
+      --border-mid: rgba(255,255,255,0.18);
+      --text: #F0EDE8;
+      --text-muted: #A8A5A0;
+      --text-hint: #6B6965;
+      --brand-light: #2A1A12;
+      --brand-text: #F0A070;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+
+  .wrap {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .logo {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .header-text .title { font-size: 20px; font-weight: 600; color: var(--text); }
+  .header-text .sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Notice */
+  .notice {
+    background: var(--brand-light);
+    border: 1px solid var(--brand-border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--brand-text);
+    margin-bottom: 20px;
+    line-height: 1.65;
+  }
+
+  /* Section card */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .sec-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sec-title svg { width:15px; height:15px; flex-shrink:0; }
+
+  /* Form rows */
+  .row { margin-bottom: 13px; }
+  .row:last-child { margin-bottom: 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  label.field-label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+
+  input[type=text], input[type=date], input[type=time], textarea, select {
+    width: 100%;
+    padding: 8px 11px;
+    font-size: 14px;
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type=text]:focus, input[type=date]:focus, input[type=time]:focus,
+  textarea:focus, select:focus {
+    border-color: var(--brand);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--brand-border);
+  }
+  textarea { resize: vertical; min-height: 64px; line-height: 1.55; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
+
+  /* Radio pills */
+  .radio-group { display: flex; gap: 7px; flex-wrap: wrap; }
+  .radio-pill {
+    padding: 6px 13px;
+    border: 1px solid var(--border-mid);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .radio-pill.active {
+    background: var(--brand-light);
+    border-color: var(--brand);
+    color: var(--brand-text);
+    font-weight: 500;
+  }
+  .radio-pill input[type=radio] { display: none; }
+
+  /* Influence stars */
+  .inf-row { display: flex; gap: 6px; }
+  .inf-btn {
+    flex: 1;
+    padding: 7px 4px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    background: var(--surface2);
+  }
+  .inf-btn.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: white;
+    font-weight: 600;
+  }
+  .inf-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-hint);
+    margin-top: 5px;
+  }
+
+  /* Action buttons */
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+  .btn-generate {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--brand);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    transition: background 0.15s;
+  }
+  .btn-generate:hover { background: var(--brand-dark); }
+  .btn-generate:active { transform: scale(0.98); }
+  .btn-copy {
+    padding: 12px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-copy:hover { background: var(--surface2); }
+  .btn-copy.copied {
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success);
+  }
+
+  /* Output preview */
+  .preview-section { display: none; }
+  .preview-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .line-dot { width: 16px; height: 16px; background: #06C755; border-radius: 50%; display: inline-block; vertical-align: middle; }
+  .copy-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    font-family: 'Menlo', 'Courier New', monospace;
+    max-height: 320px;
+    overflow-y: auto;
+    word-break: break-all;
+  }
+
+  /* icon svgs inline */
+  .ico { display:inline-block; vertical-align:middle; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">C</div>
+    <div class="header-text">
+      <div class="title">新朋友 C 單</div>
+      <div class="sub">填寫後產生格式，複製貼到 Line</div>
+    </div>
+  </div>
+
+  <!-- Notice -->
+  <div class="notice">
+    ⚠️ 此表單<strong>不可直接發給新朋友</strong>或未上過課的夥伴填寫。<br>
+    請以口頭詢問方式，再協助他們記錄下來。
+  </div>
+
+  <!-- 邀約基本資訊 -->
+  <div class="section">
+    <div class="sec-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      邀約基本資訊
+    </div>
+    <div class="row"><label class="field-label">邀約人</label><input type="text" id="f-inviter" placeholder="填寫姓名" /></div>
+    <div class="row"><label class="field-label">地點</label><input type="text" id="f-location" placeholder="填寫地點" /></div>
+    <div class="two-col">
+      <div class="row"><label class="field-label">日期</label><input type="date" id="f-date" /></div>
+      <div class="row"><label class="field-label">時間</label><input type="time" id="f-time" /></div>
+    </div>
+  </div>
+
+  <!-- 新朋友基本資料 -->
+  <div class="section">
+    <div class="sec-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      新朋友基本資料
+    </div>
+    <div class="row"><label class="field-label">姓名</label><input type="text" id="f-name" placeholder="填寫姓名" /></div>
+    <div class="two-col">
+      <div class="row">
+        <label class="field-label">性別</label>
+        <div class="radio-group" id="rg-gender">
+          <label class="radio-pill" onclick="toggleRadio('rg-gender',this)"><input type="radio" name="gender" value="男" />男</label>
+          <label class="radio-pill" onclick="toggleRadio('rg-gender',this)"><input type="radio" name="gender" value="女" />女</label>
+        </div>
+      </div>
+      <div class="row"><label class="field-label">年齡</label><input type="text" id="f-age" placeholder="歲" /></div>
+    </div>
+    <div class="row"><label class="field-label">與我的關係</label><input type="text" id="f-relation" placeholder="例：朋友、同學、鄰居、客戶" /></div>
+    <div class="row">
+      <label class="field-label">我對他的影響力（1 低 ── 5 高）</label>
+      <div class="inf-row" id="inf-group">
+        <div class="inf-btn" onclick="setInf(1)">1</div>
+        <div class="inf-btn" onclick="setInf(2)">2</div>
+        <div class="inf-btn" onclick="setInf(3)">3</div>
+        <div class="inf-btn" onclick="setInf(4)">4</div>
+        <div class="inf-btn" onclick="setInf(5)">5</div>
+      </div>
+      <div class="inf-labels"><span>影響力低</span><span>影響力高</span></div>
+    </div>
+  </div>
+
+  <!-- 邀約情況 -->
+  <div class="section">
+    <div class="sec-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      邀約情況
+    </div>
+    <div class="row"><label class="field-label">如何邀約 / 來的目的</label><textarea id="f-invite-how" placeholder="例：朋友介紹，想了解健康產品"></textarea></div>
+    <div class="row"><label class="field-label">個性</label><input type="text" id="f-personality" placeholder="例：開朗、謹慎、感性、理性" /></div>
+    <div class="row">
+      <label class="field-label">婚姻狀況</label>
+      <div class="radio-group" id="rg-married">
+        <label class="radio-pill" onclick="toggleRadio('rg-married',this)"><input type="radio" name="married" value="已婚" />已婚</label>
+        <label class="radio-pill" onclick="toggleRadio('rg-married',this)"><input type="radio" name="married" value="未婚" />未婚</label>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="row"><label class="field-label">小孩</label><input type="text" id="f-kids" placeholder="例：無、1個(3歲)" /></div>
+      <div class="row">
+        <label class="field-label">決策者</label>
+        <div class="radio-group" id="rg-decision">
+          <label class="radio-pill" onclick="toggleRadio('rg-decision',this)"><input type="radio" name="decision" value="老公決定" />老公決定</label>
+          <label class="radio-pill" onclick="toggleRadio('rg-decision',this)"><input type="radio" name="decision" value="老婆決定" />老婆決定</label>
+          <label class="radio-pill" onclick="toggleRadio('rg-decision',this)"><input type="radio" name="decision" value="自己決定" />自己決定</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 背景資料 -->
+  <div class="section">
+    <div class="sec-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      背景資料
+    </div>
+    <div class="row"><label class="field-label">職業背景</label><input type="text" id="f-job" placeholder="填寫職業" /></div>
+    <div class="row"><label class="field-label">收入</label><input type="text" id="f-income" placeholder="例：3～5萬 / 月" /></div>
+  </div>
+
+  <!-- 需求分析 -->
+  <div class="section">
+    <div class="sec-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      需求分析
+    </div>
+    <div class="row"><label class="field-label">健康需求？為什麼？</label><textarea id="f-health" placeholder="說明健康方面的需求與背景狀況"></textarea></div>
+    <div class="row"><label class="field-label">賺錢需求？為什麼？</label><textarea id="f-money" placeholder="說明財務方面的需求與動機"></textarea></div>
+  </div>
+
+  <!-- 評估資料 -->
+  <div class="section">
+    <div class="sec-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      評估資料
+    </div>
+    <div class="row"><label class="field-label">用過產品後的想法</label><textarea id="f-product" placeholder="試用心得或第一印象"></textarea></div>
+    <div class="row"><label class="field-label">直銷經驗</label><input type="text" id="f-mlm" placeholder="例：無、有（品牌名稱）" /></div>
+    <div class="row"><label class="field-label">異議問題</label><textarea id="f-objection" placeholder="例：價格太高、時間不夠、家人反對"></textarea></div>
+    <div class="row"><label class="field-label">需要上線協助的地方</label><textarea id="f-support" placeholder="例：產品說明、系統介紹、陪拜訪"></textarea></div>
+    <div class="row"><label class="field-label">其他補充</label><textarea id="f-misc" placeholder="其他值得記錄的資訊"></textarea></div>
+    <div class="row"><label class="field-label">有多少時間</label><input type="text" id="f-time-avail" placeholder="例：每週10小時、下班後2小時" /></div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn-generate" onclick="generateOutput()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      產生 Line 格式
+    </button>
+    <button class="btn-copy" id="copy-btn" onclick="copyOutput()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      複製
+    </button>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview-section" id="preview-wrap">
+    <div class="preview-label">
+      <span class="line-dot"></span> 預覽（可直接複製貼到 Line）
+    </div>
+    <div class="copy-area" id="output-text"></div>
+  </div>
+
+</div>
+
+<script>
+  let infVal = 0;
+
+  function toggleRadio(groupId, el) {
+    document.querySelectorAll('#' + groupId + ' .radio-pill').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    el.classList.add('active');
+  }
+
+  function setInf(n) {
+    infVal = n;
+    document.querySelectorAll('#inf-group .inf-btn').forEach(function(b, i) {
+      b.classList.toggle('active', i < n);
+    });
+  }
+
+  function v(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function radio(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : '';
+  }
+
+  function generateOutput() {
+    var lines = [];
+    lines.push('📋 新朋友 C 單');
+    lines.push('────────────────────');
+
+    lines.push('');
+    lines.push('👤 邀約資訊');
+    lines.push('邀約人：' + (v('f-inviter') || '—'));
+    lines.push('地點：'   + (v('f-location') || '—'));
+    lines.push('日期：'   + (v('f-date') || '—'));
+    lines.push('時間：'   + (v('f-time') || '—'));
+
+    lines.push('');
+    lines.push('📌 新朋友基本資料');
+    lines.push('姓名：'       + (v('f-name') || '—'));
+    lines.push('性別：'       + (radio('gender') || '—'));
+    lines.push('年齡：'       + (v('f-age') || '—'));
+    lines.push('與我的關係：' + (v('f-relation') || '—'));
+    var infStars = infVal
+      ? '★'.repeat(infVal) + '☆'.repeat(5 - infVal) + ' (' + infVal + '/5)'
+      : '—';
+    lines.push('影響力：' + infStars);
+
+    lines.push('');
+    lines.push('💬 邀約情況');
+    lines.push('如何邀約／目的：' + (v('f-invite-how') || '—'));
+    lines.push('個性：' + (v('f-personality') || '—'));
+    var married  = radio('married');
+    var kids     = v('f-kids');
+    var decision = radio('decision');
+    var family   = (married || '—');
+    if (kids) family += '　小孩：' + kids;
+    if (decision) family += '　（' + decision + '）';
+    lines.push('家庭狀況：' + family);
+
+    lines.push('');
+    lines.push('💼 背景資料');
+    lines.push('職業：' + (v('f-job') || '—'));
+    lines.push('收入：' + (v('f-income') || '—'));
+
+    lines.push('');
+    lines.push('❤️ 需求分析');
+    lines.push('健康需求：' + (v('f-health') || '—'));
+    lines.push('賺錢需求：' + (v('f-money') || '—'));
+
+    lines.push('');
+    lines.push('📊 評估資料');
+    lines.push('產品想法：'   + (v('f-product') || '—'));
+    lines.push('直銷經驗：'   + (v('f-mlm') || '—'));
+    lines.push('異議問題：'   + (v('f-objection') || '—'));
+    lines.push('需要協助：'   + (v('f-support') || '—'));
+    lines.push('其他補充：'   + (v('f-misc') || '—'));
+    lines.push('有多少時間：' + (v('f-time-avail') || '—'));
+
+    lines.push('');
+    lines.push('────────────────────');
+
+    var result = lines.join('\n');
+    document.getElementById('output-text').textContent = result;
+    document.getElementById('preview-wrap').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('preview-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+
+  function copyOutput() {
+    var text = document.getElementById('output-text').textContent;
+    if (!text) { generateOutput(); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { showCopied(); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showCopied();
+    }
+  }
+
+  function showCopied() {
+    var btn = document.getElementById('copy-btn');
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 已複製！';
+    setTimeout(function() {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 複製';
+    }, 2500);
+  }
+</script>
+</body>
+</html>
