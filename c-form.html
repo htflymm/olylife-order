@@ -526,11 +526,141 @@
       btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 複製';
     }, 2500);
   }
+
+  /* ── 匯入舊 C 單 ── */
+  function toggleImport() {
+    var box = document.getElementById('import-box');
+    var arrow = document.getElementById('import-arrow');
+    var open = box.style.display !== 'none';
+    box.style.display = open ? 'none' : 'block';
+    arrow.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+
+  function parseOldForm() {
+    var raw = document.getElementById('import-textarea').value;
+    if (!raw.trim()) return;
+
+    var lines = raw.split('\n');
+    var data = {};
+    lines.forEach(function(line) {
+      var sep = line.indexOf('：');
+      if (sep === -1) return;
+      var key = line.substring(0, sep).replace(/^[^\u4e00-\u9fa5a-zA-Z]*/, '').trim();
+      var val = line.substring(sep + 1).trim();
+      if (val === '—') val = '';
+      data[key] = val;
+    });
+
+    function set(id, val) {
+      var el = document.getElementById(id);
+      if (el && val !== undefined) el.value = val;
+    }
+
+    function setRadio(name, groupId, val) {
+      document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
+        r.checked = (r.value === val);
+      });
+      document.querySelectorAll('#' + groupId + ' .radio-pill').forEach(function(pill) {
+        var input = pill.querySelector('input');
+        pill.classList.toggle('active', input && input.value === val);
+      });
+    }
+
+    set('f-inviter',    data['邀約人']);
+    set('f-location',   data['地點']);
+    set('f-date',       data['日期']);
+    set('f-time',       data['時間']);
+    set('f-name',       data['姓名']);
+    set('f-age',        data['年齡']);
+    set('f-relation',   data['與我的關係']);
+    set('f-invite-how', data['如何邀約／目的'] || data['如何邀約/目的']);
+    set('f-personality',data['個性']);
+    set('f-job',        data['職業']);
+    set('f-income',     data['收入']);
+    set('f-health',     data['健康需求']);
+    set('f-money',      data['賺錢需求']);
+    set('f-product',    data['產品想法']);
+    set('f-mlm',        data['直銷經驗']);
+    set('f-objection',  data['異議問題']);
+    set('f-support',    data['需要協助']);
+    set('f-misc',       data['其他補充']);
+    set('f-time-avail', data['有多少時間']);
+
+    if (data['性別']) setRadio('gender', 'rg-gender', data['性別']);
+
+    /* 家庭狀況：未婚　小孩：無　（自己決定） */
+    var family = data['家庭狀況'] || '';
+    var marriedMatch = family.match(/^(已婚|未婚)/);
+    if (marriedMatch) setRadio('married', 'rg-married', marriedMatch[1]);
+    var kidsMatch = family.match(/小孩[：:]\s*([^　\s（(]+)/);
+    if (kidsMatch) set('f-kids', kidsMatch[1]);
+    var decisionMatch = family.match(/（([^）]+)）/);
+    if (decisionMatch) setRadio('decision', 'rg-decision', decisionMatch[1]);
+
+    /* 影響力：★★★☆☆ (3/5) */
+    var infStr = data['影響力'] || '';
+    var infMatch = infStr.match(/\((\d)\/5\)/);
+    if (infMatch) setInf(parseInt(infMatch[1]));
+
+    /* 回饋 */
+    var btn = document.getElementById('import-btn');
+    btn.textContent = '✓ 已匯入！';
+    btn.style.background = 'var(--success-bg)';
+    btn.style.color = 'var(--success)';
+    btn.style.borderColor = 'var(--success-border)';
+    setTimeout(function() {
+      btn.textContent = '匯入並填入表單';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+      document.getElementById('import-textarea').value = '';
+      toggleImport();
+    }, 1800);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 </script>
+
+<!-- 匯入舊 C 單 -->
+<div class="wrap" style="margin-top: 20px;">
+  <button onclick="toggleImport()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; color: var(--text-muted); cursor: pointer; font-family: inherit;">
+    <span style="display:flex; align-items:center; gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      貼上舊 C 單 更新表單
+    </span>
+    <svg id="import-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s;"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+
+  <div id="import-box" style="display:none; margin-top: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px;">
+    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.6;">
+      將之前複製的 C 單格式貼入，系統會自動解析並填回各欄位。
+    </div>
+    <textarea id="import-textarea" style="width:100%; min-height:160px; padding: 10px 12px; font-size: 13px; border: 1px solid var(--border-mid); border-radius: var(--radius); background: var(--surface2); color: var(--text); font-family: inherit; resize: vertical; outline: none; line-height: 1.7;" placeholder="📋 新朋友 C 單
+────────────────────
+👤 邀約資訊
+邀約人：Allen
+..."></textarea>
+    <button id="import-btn" onclick="parseOldForm()" style="margin-top: 10px; width:100%; padding: 10px; background: var(--surface2); border: 1px solid var(--border-mid); border-radius: var(--radius); font-size: 14px; color: var(--text); cursor: pointer; font-family: inherit; transition: all 0.2s;">
+      匯入並填入表單
+    </button>
+  </div>
+</div>
 
 <div class="wrap" style="margin-top: 40px;">
   <div style="border-top: 1px solid var(--border); padding-top: 20px;">
     <div style="font-size: 12px; font-weight: 600; color: var(--text-hint); letter-spacing: 0.08em; margin-bottom: 14px;">版本紀錄</div>
+
+    <div style="margin-bottom: 16px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <span style="font-size: 13px; font-weight: 600; color: var(--text);">v1.2</span>
+        <span style="font-size: 12px; color: var(--text-hint);">2026-05-22</span>
+        <span style="font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #E6F1FB; color: #185FA5; border: 1px solid #378ADD30;">新增</span>
+      </div>
+      <div style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 4px;">
+        <strong style="color: var(--text); font-weight: 500;">匯入舊 C 單功能</strong>
+        ── 頁面下方新增折疊式貼上區塊，可將舊 Line 格式貼入後自動解析回填所有欄位，包含文字欄位、radio pill 狀態、影響力星星、家庭狀況複合格式（婚姻／小孩／決策者）。
+      </div>
+    </div>
 
     <div style="margin-bottom: 16px;">
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
