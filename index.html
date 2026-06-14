@@ -82,6 +82,7 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative; /* 停售角標 position:absolute 的定位基準 */
     }
     .product-card:hover { border-color: var(--green-light); box-shadow: 0 4px 16px rgba(42,138,62,0.12); transform: translateY(-1px); }
     .product-card.has-qty {
