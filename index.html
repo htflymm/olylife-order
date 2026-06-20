@@ -404,6 +404,13 @@
     cardNumber:"", cardName:"", cardExpiry:"", cardCVV:"",
     sameAsPersonal:false,
     shipName:"", shipId:"", shipPhone:"", shipAddress:"", shipZip:"",
+    // 進階：三個單位（球）各自不同的收件資訊
+    perUnitShipping:false,
+    unitShip:{
+      main:  {name:"", id:"", phone:"", zip:"", address:""},
+      left:  {name:"", id:"", phone:"", zip:"", address:""},
+      right: {name:"", id:"", phone:"", zip:"", address:""},
+    },
     ezway:"", remarks:"",
   };
 
@@ -420,6 +427,8 @@
     // Paste-to-fill states for step 1
     const [pasteOpen, setPasteOpen]   = useState(false);
     const [pasteText, setPasteText]   = useState("");
+    // 三單位收件貼上文字（each 球 各自一份）
+    const [unitPasteText, setUnitPasteText] = useState({main:"", left:"", right:""});
 
     const toggleDesc = (id) => setExpandedDesc(prev => {
       const next = new Set(prev);
@@ -447,14 +456,48 @@
         phone:      extract(/▶️手機號碼：(.+)/),
         postalCode: extract(/▶️郵遞區號：(.+)/),
         address:    extract(/▶️地址：(.+)/),
+        // 信用卡資訊（舊訂單若含刷卡段落即可預先擷取）
+        cardNumber: extract(/信用卡號[：:]\s*(.+)/),
+        cardName:   extract(/信用卡(?:英文)?(?:名字|姓名|名)[：:]\s*(.+)/),
+        cardExpiry: extract(/有效期[^：:]*[：:]\s*(.+)/),
+        cardCVV:    extract(/安全碼[^：:]*[：:]\s*(.+)/),
       };
+      const hasCard = parsed.cardNumber || parsed.cardName || parsed.cardExpiry || parsed.cardCVV;
       // Only update fields that were successfully parsed
       if (Object.values(parsed).some(v => v)) {
-        setForm(f => ({...f, ...Object.fromEntries(
-          Object.entries(parsed).filter(([,v]) => v)
-        )}));
+        setForm(f => ({
+          ...f,
+          ...Object.fromEntries(Object.entries(parsed).filter(([,v]) => v)),
+          // 偵測到刷卡資訊就自動切到刷卡，第三頁直接帶出已填欄位（仍可手動改回匯款）
+          ...(hasCard ? {payMethod:"card"} : {}),
+        }));
       }
     };
+
+    // 解析「收件人資訊」文字（給三單位進階收件貼上使用，相容舊訂單與收貨信息格式）
+    const parseRecipient = (text) => {
+      const ex = (re) => { const m = text.match(re); return m ? m[1].trim() : ""; };
+      return {
+        name:    ex(/(?:中文姓名|收件人姓名|姓名)[：:]\s*(.+)/),
+        id:      ex(/(?:身分證字號|身分證號碼|身分證號|身分證)[：:]\s*(.+)/),
+        phone:   ex(/(?:手機號碼|收件人電話|聯絡電話|電話|手機)[：:]\s*(.+)/),
+        zip:     ex(/郵遞區號[：:]\s*(.+)/),
+        address: ex(/(?:收件地址|地址)[：:]\s*(.+)/),
+      };
+    };
+
+    // 將某一球的收件貼上文字解析後填入該球欄位
+    const applyRecipientPaste = (key, text) => {
+      const p = parseRecipient(text);
+      const filled = Object.fromEntries(Object.entries(p).filter(([,v]) => v));
+      if (Object.keys(filled).length) {
+        setForm(f => ({...f, unitShip:{...f.unitShip, [key]:{...f.unitShip[key], ...filled}}}));
+      }
+    };
+
+    // 更新某一球的單一收件欄位
+    const setUnit = (key, field, val) =>
+      setForm(f => ({...f, unitShip:{...f.unitShip, [key]:{...f.unitShip[key], [field]:val}}}));
 
     const set = (k, v) => setForm(f => ({...f, [k]: v}));
 
@@ -535,12 +578,26 @@
       out += "▶️產品選擇（合計 $" + grandTotal.toLocaleString() + " 美金）\n";
       out += posLine + "\n\n";
       out += paySection + "\n\n";
-      out += "▶️收貨信息\n";
-      out += " 姓名：" + sn + "\n";
-      out += " 身分證號：" + si + "\n";
-      out += " 電話：" + sp + "\n";
-      out += " 郵遞區號：" + szp + "\n";
-      out += " 地址：" + sa + "\n\n";
+      if (form.perUnitShipping) {
+        // 進階：每個有選產品的球，各自輸出一段收貨信息；該球未填的欄位沿用個人資料
+        POSITIONS.forEach(p => {
+          if (!Object.keys(form.positions[p.key]).length) return; // 沒選產品的球不輸出
+          const u = form.unitShip[p.key] || {};
+          out += "▶️收貨信息（" + p.label + "）\n";
+          out += " 姓名："     + (u.name    || form.name)       + "\n";
+          out += " 身分證號："  + (u.id      || form.idNumber)   + "\n";
+          out += " 電話："     + (u.phone   || form.phone)      + "\n";
+          out += " 郵遞區號："  + (u.zip     || form.postalCode) + "\n";
+          out += " 地址："     + (u.address || form.address)    + "\n\n";
+        });
+      } else {
+        out += "▶️收貨信息\n";
+        out += " 姓名：" + sn + "\n";
+        out += " 身分證號：" + si + "\n";
+        out += " 電話：" + sp + "\n";
+        out += " 郵遞區號：" + szp + "\n";
+        out += " 地址：" + sa + "\n\n";
+      }
       out += "▶️有無申請EZway：" + (form.ezway || "未填") + "\n";
       out += "(申請EZway資料，務必和上面\n收貨信息相同！）\n";
       if (form.remarks) out += "\n▶️備註：" + form.remarks + "\n";
@@ -554,7 +611,8 @@
       if (step === 1) return form.name && form.idNumber && form.email && form.phone && form.address;
       if (step === 2) return form.payMethod === "transfer"
         || (form.cardNumber && form.cardName && form.cardExpiry && form.cardCVV);
-      if (step === 3) return form.sameAsPersonal
+      if (step === 3) return form.perUnitShipping
+        || form.sameAsPersonal
         || (form.shipName && form.shipId && form.shipPhone && form.shipZip && form.shipAddress);
       return true;
     };
@@ -1135,6 +1193,7 @@
             {/* STEP 3 ── Shipping info */}
             {step === 3 && (
               <div>
+                {!form.perUnitShipping && (<>
                 {/* Same as personal toggle */}
                 <div onClick={() => set("sameAsPersonal", !form.sameAsPersonal)} style={{
                   display:"flex", alignItems:"center", gap:10, cursor:"pointer",
@@ -1175,6 +1234,7 @@
                     ))}
                   </div>
                 )}
+                </>)}
 
                 <div style={{marginBottom:16}}>
                   <label>有無申請 EZway</label>
@@ -1205,6 +1265,72 @@
                     onChange={e => set("remarks", e.target.value)}
                   />
                 </div>
+
+                {/* ── 進階：三單位各自收件資訊（淡色、不明顯，放最下方）── */}
+                <div style={{marginTop:18, borderTop:"1px dashed #e2efe4", paddingTop:10}}>
+                  <button
+                    onClick={() => set("perUnitShipping", !form.perUnitShipping)}
+                    style={{
+                      background:"none", border:"none", cursor:"pointer",
+                      padding:"4px 0", width:"100%", textAlign:"left",
+                      fontSize:"0.68rem", color:"#ccdece",
+                      fontFamily:"'Noto Sans TC',sans-serif",
+                    }}>
+                    {form.perUnitShipping ? "▲ 收起三單位分別收件" : "▼ 進階：三個單位收件人不同時點此分別填寫"}
+                  </button>
+
+                  {form.perUnitShipping && (
+                    <div style={{marginTop:8, display:"flex", flexDirection:"column", gap:16}}>
+                      <p style={{fontSize:"0.7rem", color:"#7ea882", margin:0, lineHeight:1.6}}>
+                        啟用後將忽略上方單一收件資訊，改用以下各球分別填寫；某一球若留空，該球自動沿用個人資料。
+                      </p>
+                      {POSITIONS.filter(p => Object.keys(form.positions[p.key]).length > 0).map(p => (
+                        <div key={p.key} style={{
+                          border:"1px solid #d4e8d6", borderRadius:8,
+                          padding:"12px 14px", background:"rgba(42,138,62,0.025)",
+                        }}>
+                          <div style={{fontWeight:700, color:"#2a8a3e", fontSize:"0.85rem", marginBottom:10}}>
+                            {p.label}　收件資訊
+                          </div>
+                          {/* 該球的貼上解析框 */}
+                          <textarea
+                            rows={3}
+                            placeholder={"貼上「" + p.label + "」收件人資料，系統自動擷取…"}
+                            value={unitPasteText[p.key]}
+                            onChange={e => {
+                              const v = e.target.value;
+                              setUnitPasteText(prev => ({...prev, [p.key]: v}));
+                              applyRecipientPaste(p.key, v);
+                            }}
+                            style={{
+                              fontSize:"12px", lineHeight:1.6, marginBottom:10,
+                              color:"#3d6644", background:"#f0f7f1",
+                              border:"1px dashed #b8d9bb",
+                            }}
+                          />
+                          <div style={{display:"flex", flexDirection:"column", gap:10}}>
+                            {[
+                              {f:"name",    l:"收件人姓名"},
+                              {f:"id",      l:"收件人身分證號"},
+                              {f:"phone",   l:"收件人電話"},
+                              {f:"zip",     l:"收件人郵遞區號", ph:"例：407"},
+                              {f:"address", l:"收件地址"},
+                            ].map(fld => (
+                              <div key={fld.f}>
+                                <label>{fld.l}</label>
+                                <input
+                                  value={form.unitShip[p.key][fld.f]}
+                                  placeholder={fld.ph || ""}
+                                  onChange={e => setUnit(p.key, fld.f, e.target.value)}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
@@ -1222,6 +1348,7 @@
                   setTransferTo("");
                   setPasteText("");
                   setPasteOpen(false);
+                  setUnitPasteText({main:"", left:"", right:""});
                 }} />
               </div>
             )}
@@ -1249,7 +1376,8 @@
           <div style={{fontWeight:700, marginBottom:4, letterSpacing:"0.08em", color:"#b8d9bb"}}>
             VERSION HISTORY
           </div>
-          <div><strong style={{color:"#c8e6cb"}}>v7.0</strong>　SkyLine 與 P90+ 新增說明影片</div>
+          <div><strong style={{color:"#c8e6cb"}}>v7.1</strong>　貼上舊訂單可一併解析信用卡並自動帶入刷卡；收貨頁新增「三單位分別收件」進階選項（各球可貼上自動解析）</div>
+          <div><strong style={{color:"#b8d9bb"}}>v7.0</strong>　SkyLine 與 P90+ 新增說明影片</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.9</strong>　氫吧杯標示停售、禁止加入購物清單；收件人新增郵遞區號欄位</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.8</strong>　產品卡片新增「觀看影片」功能，點擊展開 YouTube 內嵌播放器</div>
           <div><strong style={{color:"#b8d9bb"}}>v6.7</strong>　個人資料頁新增隱藏式貼入舊訂單自動填入功能</div>
